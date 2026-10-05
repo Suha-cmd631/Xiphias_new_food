@@ -1,0 +1,35 @@
+{
+  "name": "xiphias-superfoods",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @xsf/contracts build && pnpm --parallel --filter \"./apps/*\" dev",
+    "dev:web": "pnpm --filter @xsf/web dev",
+    "dev:api": "pnpm --filter @xsf/api dev",
+    "dev:worker": "pnpm --filter @xsf/api dev:worker",
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "format": "prettier --write .",
+    "services:up": "docker compose up -d",
+    "services:down": "docker compose down",
+    "db:generate": "pnpm --filter @xsf/api db:generate",
+    "db:migrate": "pnpm --filter @xsf/api db:migrate",
+    "db:push": "pnpm --filter @xsf/api db:push",
+    "db:seed": "pnpm --filter @xsf/api db:seed",
+    "db:reset": "pnpm --filter @xsf/api db:reset",
+    "db:studio": "pnpm --filter @xsf/api db:studio",
+    "setup": "pnpm install && pnpm services:up && pnpm db:generate && pnpm db:push && pnpm db:seed",
+    "postinstall": "pnpm --filter @xsf/contracts build",
+    "images:fetch": "node apps/web/scripts/fetch-images.mjs"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  }
+}

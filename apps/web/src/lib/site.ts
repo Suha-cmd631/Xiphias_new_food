@@ -1,0 +1,30 @@
+export const SITE = {
+  name: "Xiphias Superfoods",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  description: "Certified organic black rice, white tea, makhana, honey, ghee and spices — sourced directly from farmers. Worldwide delivery.",
+  address: "1st Floor, JK Nirmala Arcade, Plot 780, 80 Feet Rd, 4th Block, Koramangala, Bengaluru 560034",
+  pickup: "Aurbis Prime, No.11 Kaveri Regent Coronet, 80 Feet Road, 3rd Block, Koramangala, Bengaluru 560034",
+  phone: "+91 98869 50101",
+  email: "info@xiphias.in",
+  social: [
+    { label: "Instagram", href: "https://www.instagram.com/superfoods.xiphias" },
+    { label: "Facebook", href: "https://www.facebook.com/superfoodsxiphias" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/xiphiassuperfoods" },
+    { label: "YouTube", href: "https://www.youtube.com/@xiphiassuperfoods" },
+  ],
+  nav: [
+    { href: "/", label: "Home" },
+    { href: "/shop", label: "Shop" },
+    { href: "/about", label: "About" },
+    { href: "/b2b", label: "B2B Solution" },
+    { href: "/blog", label: "Blog" },
+    { href: "/contact", label: "Contact" },
+  ],
+  categories: [
+    { slug: "teas", name: "Teas", image: "/img/white.webp", desc: "White, green, masala, blue pea" },
+    { slug: "grains-rice", name: "Grains & Rice", image: "/img/rice.webp", desc: "Black rice, joha, buckwheat" },
+    { slug: "spices", name: "Spices", image: "/img/pepper.webp", desc: "Pepper, ginger, ginger powder" },
+    { slug: "nuts-snacks", name: "Nuts & Snacks", image: "/img/makhana.webp", desc: "Makhana, almonds" },
+    { slug: "honey-ghee", name: "Honey & Ghee", image: "/img/honey.webp", desc: "Raw honey, Gir cow ghee" },
+  ],
+};

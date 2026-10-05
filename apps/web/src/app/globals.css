@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* ---- Brand tokens (semantic names; light-only brand, see plan/frontend.md) ---- */
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #2a2a2a;
+  --color-ink: #1d1d1d;
+  --color-muted: #6f6f6f;
+  --color-line: #e8e8e8;
+  --color-soft: #f6f6f4;
+  --color-leaf: #8dc63f;
+  --color-leaf-dark: #4a6b1f;
+  --color-leaf-soft: #eef6e3;
+  --color-gold: #c9a227;
+  --color-sand: #f0e9d6;
+  --color-sage: #e6efe6;
+  --color-beige: #efe6d6;
+  --color-teal: #dde9e7;
+  --color-rose: #f0dede;
+  --color-sky: #dfe8ea;
+  --color-danger: #c0392b;
+
+  --font-head: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 18px;
+  --shadow-card: 0 24px 50px -32px rgb(0 0 0 / 0.35);
+  --container-site: 1640px;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground font-body text-[15.5px] leading-relaxed antialiased; }
+  h1, h2, h3, h4 { @apply font-head font-medium tracking-tight text-ink; }
+  img { @apply block max-w-full h-auto; }
+  button { @apply cursor-pointer font-body; }
+  input, select, textarea { @apply font-body; }
+}
+
+@layer components {
+  .site { @apply w-full bg-background; overflow-x: clip; }
+  .wrap { @apply mx-auto w-full max-w-[1640px] px-4 sm:px-8 xl:px-12; }
+  .kick { @apply mb-2.5 block text-[12px] font-semibold uppercase tracking-[0.2em] text-leaf-dark; }
+  .prose-site { @apply text-[16px] leading-[1.75] text-[#444]; }
+  .prose-site h2 { @apply mt-8 mb-3 text-[26px]; }
+  .prose-site p { @apply my-3; }
+  .prose-site ul { @apply my-3 list-disc pl-6; }
+  .prose-site a { @apply text-leaf-dark underline; }
+  .prose-site table { @apply my-4 w-full border-collapse text-[14.5px]; }
+  .prose-site th, .prose-site td { @apply border-b border-line py-2 pr-3 text-left; }
+  .prose-site code { @apply rounded bg-soft px-1 text-[13px]; }
+}
+
+/* ---- Motion: reveal-on-scroll, word rise, hero wipe, header drop (the only custom CSS, per AGENTS.md) ---- */
+.rv { opacity: 1; transform: none; }
+.js .rv.pre:not(.in) { opacity: 0; transform: translateY(24px); }
+.js .rv.pre.from-left:not(.in) { transform: translateX(-40px); }
+.js .rv.pre.from-right:not(.in) { transform: translateX(40px); }
+.js .rv.pre.from-top:not(.in) { transform: translateY(-24px); }
+.js .rv.pre.scale:not(.in) { transform: scale(0.94); }
+.js .rv.in { opacity: 1; transform: none; transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+
+.wr .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.wr .w i { display: inline-block; font-style: normal; transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.js .rv.pre:not(.in) .wr .w i { transform: translateY(110%); }
+
+.rv .kick::before { content: ""; display: inline-block; width: 0; height: 2px; background: var(--color-leaf); vertical-align: middle; margin-right: 0; transition: width 0.6s 0.2s, margin-right 0.6s 0.2s; }
+.rv.in .kick::before { width: 22px; margin-right: 10px; }
+
+.js .pic.rv.pre:not(.in) .imw img { transform: scale(1.14); }
+.imw img { transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.js .rv.pre:not(.in) .pop { opacity: 0; transform: translateY(14px) scale(0.7); }
+.pop { transition: transform 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s 0.2s; }
+
+@keyframes dropin { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+@keyframes herowipe { from { clip-path: inset(0 0 100% 0 round 24px); transform: translateY(-14px); } to { clip-path: inset(0 0 0 0 round 24px); transform: none; } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.045); } }
+@keyframes cardin { from { opacity: 0; transform: translateY(28px) scale(0.96); } to { opacity: 1; transform: none; } }
+.anim-cardin { animation: cardin 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes spinslow { to { transform: scale(1.35) rotate(360deg); } }
+.anim-spin-slow { animation: spinslow 90s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.anim-marquee { animation: marquee 60s linear infinite; }
+.anim-marquee-slow { animation: marquee 70s linear infinite; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slidein { from { transform: translateX(100%); } to { transform: none; } }
+.anim-dropin { animation: dropin 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-herowipe { animation: herowipe 1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-kenburns { animation: kenburns 7s linear both; }
+.anim-fadein { animation: fadein 0.25s ease both; }
+.anim-slidein { animation: slidein 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-t > * { animation: dropin 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-t > :nth-child(1) { animation-delay: 0.15s; } .hero-t > :nth-child(2) { animation-delay: 0.27s; } .hero-t > :nth-child(3) { animation-delay: 0.39s; } .hero-t > :nth-child(4) { animation-delay: 0.51s; }
+@keyframes clipin { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+.anim-clipin { animation: clipin 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-dropin, .anim-herowipe, .anim-kenburns, .anim-slidein, .anim-clipin, .anim-cardin, .anim-spin-slow, .anim-marquee, .anim-marquee-slow, .hero-t > * { animation: none !important; }
+  .js .rv.pre:not(.in) { opacity: 1; transform: none; }
+}
+
+/* range slider */
+input[type="range"].price { -webkit-appearance: none; appearance: none; height: 4px; background: var(--color-line); border-radius: 999px; }
+input[type="range"].price::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--color-ink); border: 3px solid #fff; box-shadow: 0 0 0 1px var(--color-line); }
+details > summary::-webkit-details-marker { display: none; }

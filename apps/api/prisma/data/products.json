@@ -1,0 +1,481 @@
+[
+ {
+  "k": "rice",
+  "slug": "organic-black-rice",
+  "name": "Organic Black Rice",
+  "sub": "Heirloom antioxidant grain",
+  "cat": "Grains & Rice",
+  "origin": "India",
+  "tag": "Bestseller",
+  "was": null,
+  "variants": [
+   [
+    "1 kg",
+    600
+   ]
+  ],
+  "alt": "alt_rice",
+  "blurb": "Black Rice, also known as Emperor's rice, was once reserved for the Emperor and aristocrats. It is rich in anthocyanins which give this rice its unique colour.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#2b2a3a",
+  "price": 600
+ },
+ {
+  "k": "white",
+  "slug": "silver-needle-white-tea",
+  "name": "Silver Needle White Tea",
+  "sub": "Delicate, low caffeine",
+  "cat": "Teas",
+  "origin": "Fujian",
+  "tag": "Premium",
+  "was": null,
+  "variants": [
+   [
+    "50 g",
+    2900
+   ],
+   [
+    "100 g",
+    5800
+   ]
+  ],
+  "alt": "alt_white",
+  "blurb": "Rich in antioxidants, low caffeine, supports skin & heart health. Best brewed at 160–185°F to preserve delicate flavour.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "vegan",
+   "sugar-free"
+  ],
+  "color": "#dfe3cf",
+  "price": 2900
+ },
+ {
+  "k": "masala",
+  "slug": "masala-tea-indian-spiced",
+  "name": "Masala Tea · Indian Spiced",
+  "sub": "Cardamom, cinnamon, clove",
+  "cat": "Teas",
+  "origin": "Assam blend",
+  "tag": "-15%",
+  "was": 340,
+  "variants": [
+   [
+    "100 g",
+    290
+   ],
+   [
+    "200 g",
+    580
+   ]
+  ],
+  "alt": "alt_masala",
+  "blurb": "Traditional spiced tea that adds warmth and supports daily vitality. Cardamom, cinnamon and clove blended with Assam leaf.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "vegan",
+   "sugar-free"
+  ],
+  "color": "#6b3f2a",
+  "price": 290
+ },
+ {
+  "k": "bluepea",
+  "slug": "premium-organic-blue-pea-tea",
+  "name": "Organic Blue Pea Tea",
+  "sub": "Caffeine-free butterfly pea",
+  "cat": "Teas",
+  "origin": "India",
+  "tag": "Caffeine free",
+  "was": null,
+  "variants": [
+   [
+    "100 g",
+    850
+   ],
+   [
+    "200 g",
+    1650
+   ]
+  ],
+  "alt": "alt_bluepea",
+  "blurb": "Naturally caffeine-free herbal tea rich in antioxidants that supports relaxation and everyday wellness.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "caffeine-free",
+   "vegan",
+   "sugar-free"
+  ],
+  "color": "#2d3f9e",
+  "price": 850
+ },
+ {
+  "k": "makhana",
+  "slug": "premium-makhana-fox-nuts",
+  "name": "Premium Makhana",
+  "sub": "Fox nuts · lotus seeds",
+  "cat": "Nuts & Snacks",
+  "origin": "Bihar",
+  "tag": "Protein rich",
+  "was": null,
+  "variants": [
+   [
+    "500 g",
+    1100
+   ],
+   [
+    "1 kg",
+    2200
+   ]
+  ],
+  "alt": null,
+  "blurb": "Light and wholesome snack from the ponds of Bihar that supports balanced nutrition and active lifestyles.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#efe6d6",
+  "price": 1100
+ },
+ {
+  "k": "honey",
+  "slug": "premium-organic-honey",
+  "name": "Premium Organic Honey",
+  "sub": "Raw, unfiltered",
+  "cat": "Honey & Ghee",
+  "origin": "India",
+  "tag": "-20%",
+  "was": 650,
+  "variants": [
+   [
+    "500 ml",
+    520
+   ],
+   [
+    "1 L",
+    1040
+   ]
+  ],
+  "alt": null,
+  "blurb": "Natural sweetener rich in antioxidants that complements everyday wellness routines. Raw and unfiltered.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [],
+  "color": "#c9842a",
+  "price": 520
+ },
+ {
+  "k": "ghee",
+  "slug": "premium-gir-cow-ghee",
+  "name": "Premium Gir Cow Ghee",
+  "sub": "Traditional bilona method",
+  "cat": "Honey & Ghee",
+  "origin": "Gir, Gujarat",
+  "tag": "A2",
+  "was": null,
+  "variants": [
+   [
+    "500 ml",
+    1553
+   ],
+   [
+    "1 L",
+    3106
+   ]
+  ],
+  "alt": null,
+  "blurb": "Traditional clarified butter from indigenous Gir cows, made by the bilona method.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [],
+  "color": "#e3b53c",
+  "price": 1553
+ },
+ {
+  "k": "joha",
+  "slug": "premium-aromatic-joha-rice",
+  "name": "Aromatic Joha Rice",
+  "sub": "Assam's fragrant short grain",
+  "cat": "Grains & Rice",
+  "origin": "Assam",
+  "tag": "-36%",
+  "was": 220,
+  "variants": [
+   [
+    "500 g",
+    140
+   ],
+   [
+    "1 kg",
+    270
+   ]
+  ],
+  "alt": null,
+  "blurb": "Traditional aromatic rice from Assam that brings wholesome nutrition and authentic flavour to everyday meals.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#d9c9a3",
+  "price": 140
+ },
+ {
+  "k": "buckwheat",
+  "slug": "premium-organic-buckwheat",
+  "name": "Buckwheat (Gluten-Free)",
+  "sub": "Whole groats",
+  "cat": "Grains & Rice",
+  "origin": "Himalayan",
+  "tag": "Gluten free",
+  "was": null,
+  "variants": [
+   [
+    "1 kg",
+    850
+   ]
+  ],
+  "alt": null,
+  "blurb": "Naturally gluten-free whole grain that supports digestion and sustained everyday energy.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#b48a5a",
+  "price": 850
+ },
+ {
+  "k": "pepper",
+  "slug": "premium-12mm-bold-black-pepper",
+  "name": "12mm Bold Black Pepper",
+  "sub": "Malabar whole peppercorns",
+  "cat": "Spices",
+  "origin": "Malabar, Kerala",
+  "tag": "Bold 12mm",
+  "was": null,
+  "variants": [
+   [
+    "1 kg",
+    1200
+   ],
+   [
+    "2 kg",
+    2300
+   ]
+  ],
+  "alt": null,
+  "blurb": "Premium whole black pepper from the Malabar coast that complements digestion and adds depth to everyday meals.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "vegan"
+  ],
+  "color": "#2f2a26",
+  "price": 1200
+ },
+ {
+  "k": "green",
+  "slug": "premium-green-tea-leaves",
+  "name": "Premium Green Tea Leaves",
+  "sub": "Loose leaf",
+  "cat": "Teas",
+  "origin": "Assam",
+  "tag": "-14%",
+  "was": 360,
+  "variants": [
+   [
+    "100 g",
+    310
+   ],
+   [
+    "200 g",
+    610
+   ]
+  ],
+  "alt": null,
+  "blurb": "Refreshing loose-leaf tea that supports metabolism and mental alertness.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "vegan",
+   "sugar-free"
+  ],
+  "color": "#5b7a3a",
+  "price": 310
+ },
+ {
+  "k": "almonds",
+  "slug": "premium-handpicked-almonds",
+  "name": "Handpicked Almonds",
+  "sub": "Large kernel",
+  "cat": "Nuts & Snacks",
+  "origin": "India",
+  "tag": "Heart health",
+  "was": null,
+  "variants": [
+   [
+    "500 g",
+    710
+   ],
+   [
+    "1 kg",
+    1400
+   ]
+  ],
+  "alt": null,
+  "blurb": "Nutrient-dense nuts that provide healthy fats and lasting energy for active lifestyles.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#a86a3c",
+  "price": 710
+ },
+ {
+  "k": "stevia",
+  "slug": "premium-organic-stevia-tea",
+  "name": "Organic Stevia Tea",
+  "sub": "Naturally sweet, sugar-free",
+  "cat": "Teas",
+  "origin": "India",
+  "tag": "Sugar free",
+  "was": null,
+  "variants": [
+   [
+    "100 g",
+    950
+   ],
+   [
+    "200 g",
+    1850
+   ]
+  ],
+  "alt": null,
+  "blurb": "Naturally sweet herbal tea that supports mindful, sugar-conscious daily routines.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "caffeine-free",
+   "vegan",
+   "sugar-free"
+  ],
+  "color": "#7fb135",
+  "price": 950
+ },
+ {
+  "k": "ginger",
+  "slug": "premium-dried-whole-ginger",
+  "name": "Premium Dried Whole Ginger",
+  "sub": "Sun-dried root",
+  "cat": "Spices",
+  "origin": "Kerala",
+  "tag": "Warming",
+  "was": null,
+  "variants": [
+   [
+    "500 g",
+    250
+   ],
+   [
+    "1 kg",
+    500
+   ]
+  ],
+  "alt": null,
+  "blurb": "Traditional root spice known for its warming properties and digestive support in everyday wellness routines.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "caffeine-free",
+   "vegan"
+  ],
+  "color": "#c9a46a",
+  "price": 250
+ },
+ {
+  "k": "gingerpowder",
+  "slug": "premium-organic-ginger-powder",
+  "name": "Organic Ginger Powder",
+  "sub": "Finely ground",
+  "cat": "Spices",
+  "origin": "Kerala",
+  "tag": "-44%",
+  "was": 620,
+  "variants": [
+   [
+    "500 g",
+    350
+   ],
+   [
+    "1 kg",
+    700
+   ]
+  ],
+  "alt": null,
+  "blurb": "Convenient everyday spice that supports digestion and complements balanced nutrition.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "caffeine-free",
+   "vegan"
+  ],
+  "color": "#d8b65a",
+  "price": 350
+ },
+ {
+  "k": "korai",
+  "slug": "premium-organic-korai-guri",
+  "name": "Organic Korai Guri",
+  "sub": "Roasted rice powder, Assam",
+  "cat": "Grains & Rice",
+  "origin": "Assam",
+  "tag": "Traditional",
+  "was": null,
+  "variants": [
+   [
+    "2 kg",
+    960
+   ]
+  ],
+  "alt": null,
+  "blurb": "Traditional Assamese roasted rice flour that supports wholesome cooking and balanced everyday meals.",
+  "rating": 5,
+  "reviews": 0,
+  "stock": true,
+  "diet": [
+   "gluten-free",
+   "vegan"
+  ],
+  "color": "#efe9dd",
+  "price": 960
+ }
+]

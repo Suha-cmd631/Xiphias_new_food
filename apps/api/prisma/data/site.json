@@ -1,0 +1,54 @@
+{
+ "categories": [
+  {
+   "name": "Teas",
+   "image": "white",
+   "desc": "White, green, masala, blue pea"
+  },
+  {
+   "name": "Grains & Rice",
+   "image": "rice",
+   "desc": "Black rice, joha, buckwheat"
+  },
+  {
+   "name": "Spices",
+   "image": "pepper",
+   "desc": "Pepper, ginger, ginger powder"
+  },
+  {
+   "name": "Nuts & Snacks",
+   "image": "makhana",
+   "desc": "Makhana, almonds"
+  },
+  {
+   "name": "Honey & Ghee",
+   "image": "honey",
+   "desc": "Raw honey, Gir cow ghee"
+  }
+ ],
+ "reviews": [
+  [
+   "Soniya",
+   "Verified buyer · Bengaluru",
+   "XIPHIAS SuperFoods has truly revolutionized the way I approach my health. The black rice is now a weekly staple."
+  ],
+  [
+   "Ajay",
+   "Verified buyer · UAE",
+   "Natural and organic offerings with a real commitment to quality and purity. Delivery to Dubai was smooth."
+  ],
+  [
+   "Mansi",
+   "Superfood lover",
+   "Made it incredibly convenient for me to lead a healthier lifestyle. The masala tea is the best I've had outside Assam."
+  ],
+  [
+   "Raj Verma",
+   "Healthy living fan",
+   "Exceptional organic catalogue and direct sourcing from farmers. You can taste the difference in the makhana."
+  ]
+ ],
+ "address": "1st Floor, JK Nirmala Arcade, Plot 780, 80 Feet Rd, 4th Block, Koramangala, Bengaluru 560034",
+ "phone": "+91 98869 50101",
+ "email": "info@xiphias.in"
+}
