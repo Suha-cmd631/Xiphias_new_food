@@ -1,0 +1,7 @@
+# Caddy is the front door: it gets a free HTTPS certificate automatically and passes visitors to the website.
+# SITE_ADDRESS comes from .env, e.g. "13-233-10-20.sslip.io" now, "xiphiassuperfoods.com, www.xiphiassuperfoods.com" later.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+	reverse_proxy web:3000
+	header -Server
+}
