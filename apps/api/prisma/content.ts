@@ -4,8 +4,8 @@ export const PAGES = [
     slug: "shipping",
     title: "Shipping Policy",
     bodyHtml: `
-<p>We ship from Bengaluru, India to India, Europe, the United Kingdom, the United States, Canada, the Middle East and most other countries.</p>
-<h2>India</h2><p>Orders are dispatched within 1–2 business days via Shiprocket partners and delivered in 3–6 business days. Standard delivery is free above ₹999; express delivery is available at checkout.</p>
+<p>We ship from Bengaluru, India to India, Europe, the United Kingdom, the United States, the Middle East and most other countries. We do not deliver to Canada yet.</p>
+<h2>India</h2><p>Orders are dispatched within 1–2 business days via Shiprocket partners and delivered in 3–6 business days. Standard delivery is free above ₹750; express delivery is available at checkout.</p>
 <h2>International</h2><p>International orders ship with DHL Express (via Shiprocket X). Typical delivery is 4–9 business days after dispatch. Shipping is calculated at checkout from the destination and parcel weight, and is free above the threshold shown for your region.</p>
 <h2>Duties and taxes</h2><p>Unless the checkout states that prices include duties, international shipments are sent DAP: import duties or VAT, where applicable, are collected by the carrier before delivery. We declare the true value of every parcel and attach the organic and phytosanitary certificates required for food products.</p>
 <h2>Tracking</h2><p>You will receive a tracking link by email (and WhatsApp if opted in) as soon as the parcel is picked up. You can also track from the <a href="/track">Track order</a> page.</p>
@@ -61,7 +61,7 @@ export const PAGES = [
     title: "Frequently asked questions",
     bodyHtml: `
 <h2>Are your products certified organic?</h2><p>Yes — every product is certified organic and traceable to the district it was grown in. Certificates are listed on each product page.</p>
-<h2>Do you ship internationally?</h2><p>Yes. We ship to Europe, the UK, the USA, Canada, the Middle East and most other countries with DHL Express. Prices are shown in your local currency.</p>
+<h2>Do you ship internationally?</h2><p>Yes. We ship to Europe, the UK, the USA, the Middle East and most other countries (not yet to Canada) with DHL Express. Prices are shown in your local currency.</p>
 <h2>How long does delivery take?</h2><p>India: 3–6 business days (1–3 express). International: 4–9 business days after dispatch.</p>
 <h2>Which payment methods do you accept?</h2><p>India: UPI, cards, net-banking and wallets via JioPay. Other countries: cards, Apple Pay, Google Pay and local methods via Stripe.</p>
 <h2>What is your return policy?</h2><p>Unopened products can be returned within 30 days (14-day statutory withdrawal in the EU/UK). Damaged or incorrect items are replaced free of charge.</p>

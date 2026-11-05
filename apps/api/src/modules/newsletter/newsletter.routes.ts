@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { NewsletterSubscribeBody } from "@xsf/contracts";
 import { h } from "../../shared/http.js";
+import { limits } from "../../shared/rate-limit.js";
 import { prisma } from "../../shared/prisma.js";
 import { token } from "../../shared/ids.js";
 import { enqueue } from "../../shared/outbox.js";
@@ -9,7 +10,7 @@ import { env } from "../../config/env.js";
 export const newsletterRouter = Router();
 
 /** Double opt-in (required for EU): pending → confirm link by email → confirmed. */
-newsletterRouter.post("/subscribe", h(async (req, res) => {
+newsletterRouter.post("/subscribe", limits.newsletter(), h(async (req, res) => {
   const b = NewsletterSubscribeBody.parse(req.body);
   const email = b.email.toLowerCase();
   const existing = await prisma.newsletterSubscriber.findUnique({ where: { email } });

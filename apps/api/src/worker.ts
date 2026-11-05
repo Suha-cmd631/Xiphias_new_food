@@ -10,6 +10,7 @@ import { templates } from "./integrations/mailer/templates.js";
 import { shiprocket } from "./integrations/shiprocket/shiprocket.adapter.js";
 import { paymentsService } from "./modules/payments/payments.service.js";
 import { env } from "./config/env.js";
+import type { Gateway } from "@prisma/client";
 
 type Handler = (payload: Record<string, string>) => Promise<void>;
 
@@ -19,6 +20,12 @@ const handlers: Record<string, Handler> = {
   "email.order_confirmation": async ({ orderId }) => { const o = await orderWithLines(orderId!); await mailer.send({ to: o.email, ...templates.orderConfirmation(o) }); },
   "email.admin_new_order": async ({ orderId }) => { const o = await orderWithLines(orderId!); await mailer.send({ to: env.ADMIN_NOTIFY_EMAIL, ...templates.adminNewOrder(o) }); },
   "email.payment_failed": async ({ orderId }) => { const o = await prisma.order.findUniqueOrThrow({ where: { id: orderId! } }); await mailer.send({ to: o.email, ...templates.paymentFailed(o) }); },
+  "email.payment_review": async ({ orderId, reason }) => { const o = await prisma.order.findUniqueOrThrow({ where: { id: orderId! } }); await mailer.send({ to: env.ADMIN_NOTIFY_EMAIL, ...templates.paymentReview(o, reason ?? "review") }); },
+  // Best-effort: a cancelled/expired order must not stay payable at the gateway (Stripe PaymentIntent). Errors retry via the outbox backoff.
+  "payment.cancel": async ({ orderId, gateway, gatewayOrderId }) => {
+    const result = await paymentsService.cancelAtGateway(gateway as Gateway, gatewayOrderId!);
+    logger.info({ orderId, gateway, gatewayOrderId, result }, "gateway payment cancel");
+  },
   "email.lead_notify": async ({ leadId }) => { const l = await prisma.lead.findUniqueOrThrow({ where: { id: leadId! } }); await mailer.send({ to: env.ADMIN_NOTIFY_EMAIL, ...templates.leadNotify(l) }); },
   "email.lead_ack": async ({ leadId }) => { const l = await prisma.lead.findUniqueOrThrow({ where: { id: leadId! } }); await mailer.send({ to: l.email, ...templates.leadAck(l) }); },
   "email.newsletter_confirm": async ({ subscriberId }) => { const s = await prisma.newsletterSubscriber.findUniqueOrThrow({ where: { id: subscriberId! } }); await mailer.send({ to: s.email, ...templates.newsletterConfirm(s) }); },
@@ -42,21 +49,30 @@ const handlers: Record<string, Handler> = {
   },
 };
 
+const MAX_ATTEMPTS = 8;
+/** How long a claimed job may stay "processing" before another pass may take it over (worker crashed / was killed mid-job). */
+const LEASE_MS = 10 * 60_000;
+
 async function processBatch() {
-  const jobs = await prisma.outbox.findMany({ where: { status: { in: ["pending", "failed"] }, nextAttemptAt: { lte: new Date() }, attempts: { lt: 8 } }, orderBy: { createdAt: "asc" }, take: 20 });
+  const now = new Date();
+  // "processing" rows are included once their lease (nextAttemptAt, pushed forward at claim time) has run out:
+  // that is a job whose worker died before finishing. Attempts are counted at claim time, so a job that keeps
+  // killing the worker still stops after MAX_ATTEMPTS.
+  const jobs = await prisma.outbox.findMany({ where: { status: { in: ["pending", "failed", "processing"] }, nextAttemptAt: { lte: now }, attempts: { lt: MAX_ATTEMPTS } }, orderBy: { createdAt: "asc" }, take: 20 });
   for (const job of jobs) {
-    const claimed = await prisma.outbox.updateMany({ where: { id: job.id, status: job.status }, data: { status: "processing" } });
+    const attempts = job.attempts + 1;
+    const claimed = await prisma.outbox.updateMany({ where: { id: job.id, status: job.status, attempts: job.attempts }, data: { status: "processing", attempts, nextAttemptAt: new Date(Date.now() + LEASE_MS) } });
     if (claimed.count === 0) continue;
+    if (job.status === "processing") logger.warn({ id: job.id, type: job.type, attempts }, "outbox job reclaimed after stale lock");
     const handler = handlers[job.type];
     try {
       if (!handler) throw new Error(`no handler for ${job.type}`);
       await handler(job.payload as Record<string, string>);
-      await prisma.outbox.update({ where: { id: job.id }, data: { status: "done", processedAt: new Date(), attempts: { increment: 1 } } });
+      await prisma.outbox.update({ where: { id: job.id }, data: { status: "done", processedAt: new Date() } });
       logger.info({ id: job.id, type: job.type }, "outbox delivered");
     } catch (e) {
-      const attempts = job.attempts + 1;
       const backoff = Math.min(60 * 60, 2 ** attempts * 15); // 30s, 60s, 2m … max 1h
-      await prisma.outbox.update({ where: { id: job.id }, data: { status: "failed", attempts, lastError: String(e).slice(0, 500), nextAttemptAt: new Date(Date.now() + backoff * 1000) } });
+      await prisma.outbox.update({ where: { id: job.id }, data: { status: "failed", lastError: String(e).slice(0, 500), nextAttemptAt: new Date(Date.now() + backoff * 1000) } });
       logger.warn({ id: job.id, type: job.type, attempts, err: String(e) }, "outbox retry scheduled");
     }
   }

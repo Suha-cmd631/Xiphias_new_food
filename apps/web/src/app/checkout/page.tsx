@@ -10,6 +10,10 @@ import { StripePayment } from "@/components/checkout/stripe-payment";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { ErrorState, Notice, Skeleton } from "@/components/ui/feedback";
 import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
+import { keys } from "@/lib/api/queries";
+import type { ApiClientError } from "@/lib/api/client";
+import { CheckoutClosedNotice, isCanada } from "./closed-notice";
 
 type Step = "address" | "shipping" | "payment";
 
@@ -20,18 +24,34 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<Step | null>(null);
   const [notes, setNotes] = useState("");
   const [optIn, setOptIn] = useState(false);
+  const qc = useQueryClient();
 
   if (isLoading || regions.isLoading) return <div className="wrap py-10"><Skeleton className="h-96" /></div>;
   if (isError || !cart || !regions.data) return <div className="wrap py-10"><ErrorState message="Couldn't load checkout." onRetry={() => refetch()} /></div>;
   if (cart.lines.length === 0 && !create.data) return <div className="wrap py-24 text-center"><h1 className="text-[32px]">Your cart is empty</h1><ButtonLink href="/shop" variant="dark" className="mt-5">Back to the shop</ButtonLink></div>;
 
   const region = regions.data.regions.find((r) => r.code === regions.data!.current)!;
+  // Checkout switched off for this region (Canada for now): a calm notice instead of a form that can only fail.
+  if (region.checkoutEnabled === false) {
+    return (
+      <div className="wrap pb-20 pt-8">
+        <h1 className="text-[clamp(30px,4vw,44px)]">Checkout</h1>
+        <CheckoutClosedNotice place={region.name} canada={isCanada([region.code, ...region.countries])} className="mt-6 max-w-2xl" />
+        <ButtonLink href="/shop" variant="dark" className="mt-6">Keep browsing</ButtonLink>
+      </div>
+    );
+  }
+  const createError = create.error as ApiClientError | null;
+  // Destination country closed inside an otherwise open region (the API refuses with REGION_NOT_OPEN).
+  const closedDetails = createError?.code === "REGION_NOT_OPEN" ? (createError.details as { country?: string; region?: string } | undefined) : undefined;
   const current: Step = step ?? (!cart.shippingAddress ? "address" : !cart.shippingOption ? "shipping" : "payment");
   const steps: Step[] = ["address", "shipping", "payment"];
   const idx = steps.indexOf(current);
 
   const placeOrder = () => create.mutate({ notes: notes || undefined, marketingOptIn: optIn }, {
     onSuccess: (r) => { if (r.redirectUrl) window.location.href = r.redirectUrl; },
+    // e.g. a coupon that stopped applying: the API has the up-to-date totals — show them before the shopper retries.
+    onError: () => { void qc.invalidateQueries({ queryKey: keys.cart }); },
   });
 
   return (
@@ -68,7 +88,12 @@ export default function CheckoutPage() {
                   <label className="grid gap-1.5 text-[13.5px] font-semibold">Order notes (optional)<textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className="rounded-xl border-[1.5px] border-line px-4 py-3 font-normal outline-none focus:border-ink" placeholder="Delivery instructions, gift note…" /></label>
                   <label className="flex items-center gap-2.5 text-[14px]"><input type="checkbox" checked={optIn} onChange={(e) => setOptIn(e.target.checked)} className="h-4 w-4 accent-ink" /> Email me recipes and offers (unsubscribe any time)</label>
                   <p className="text-[12.5px] text-muted">By placing the order you accept our <Link href="/policies/terms" className="underline">terms</Link>, <Link href="/policies/returns" className="underline">returns policy</Link> and <Link href="/policies/privacy" className="underline">privacy policy</Link>.</p>
-                  {create.isError && <p className="text-[13.5px] text-danger">{(create.error as Error).message}</p>}
+                  {cart.messages.map((m, i) => <Notice key={i} tone={m.level === "warn" ? "warn" : "info"}>{m.text}</Notice>)}
+                  {createError && (createError.code === "REGION_NOT_OPEN"
+                    ? <CheckoutClosedNotice message={createError.message} canada={isCanada([closedDetails?.country, closedDetails?.region])} />
+                    : createError.code === "PAYMENTS_NOT_CONFIGURED"
+                      ? <Notice tone="warn">{createError.message}</Notice>
+                      : <p className="text-[13.5px] text-danger">{createError.message}</p>)}
                   <Button variant="dark" size="lg" onClick={placeOrder} disabled={create.isPending || !cart.shippingOption}>{create.isPending ? "Preparing payment…" : `Pay ${cart.totals.grandTotal.formatted}`}</Button>
                 </div>
               )}

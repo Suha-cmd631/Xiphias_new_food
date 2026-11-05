@@ -13,6 +13,16 @@ const card = (p: Row): PostCard => ({
   readMinutes: Math.max(2, Math.round(p.wordCount / 220)),
 });
 
+/**
+ * SiteSetting also holds internal rows (order/lead counters `seq:*`, `maintenance`, `coupon_rules`, …).
+ * Only the keys the storefront really reads are public; anything else asked for is silently ignored.
+ */
+export const PUBLIC_SETTING_KEYS = ["announcement", "deal", "reviews", "reviewsVerified", "store_hours"] as const;
+export const publicSettingKeys = (requested: string[]): string[] => {
+  const allowed = new Set<string>(PUBLIC_SETTING_KEYS);
+  return [...new Set(requested.map((k) => k.trim()))].filter((k) => allowed.has(k));
+};
+
 export const contentService = {
   async posts(q: { category?: string; q?: string; page: number; perPage: number }): Promise<PostListResponse> {
     const category = q.category && q.category !== "All" ? q.category : undefined;
@@ -43,7 +53,7 @@ export const contentService = {
     return (await contentRepo.banners(placement)).map((b) => ({ id: b.id, placement: b.placement, title: b.title, subtitle: b.subtitle, image: b.image, ctaLabel: b.ctaLabel, ctaHref: b.ctaHref }));
   },
   async settings(keys: string[]) {
-    const rows = await contentRepo.settings(keys);
+    const rows = await contentRepo.settings(publicSettingKeys(keys));
     return Object.fromEntries(rows.map((r) => [r.key, r.value]));
   },
 };

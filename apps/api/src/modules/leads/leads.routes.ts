@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { B2BQuoteBody, ContactBody } from "@xsf/contracts";
 import { h } from "../../shared/http.js";
+import { limits } from "../../shared/rate-limit.js";
 import { prisma } from "../../shared/prisma.js";
 import { nextLeadReference } from "../../shared/ids.js";
 import { enqueue } from "../../shared/outbox.js";
 import { badRequest } from "../../shared/errors.js";
 
 export const contactRouter = Router();
-contactRouter.post("/", h(async (req, res) => {
+contactRouter.post("/", limits.contact(), h(async (req, res) => {
   const b = ContactBody.parse(req.body);
   if (b.website) throw badRequest("SPAM", "Rejected"); // honeypot
   const reference = await nextLeadReference();
@@ -18,7 +19,7 @@ contactRouter.post("/", h(async (req, res) => {
 }));
 
 export const b2bRouter = Router();
-b2bRouter.post("/quote", h(async (req, res) => {
+b2bRouter.post("/quote", limits.b2bQuote(), h(async (req, res) => {
   const b = B2BQuoteBody.parse(req.body);
   if (b.website) throw badRequest("SPAM", "Rejected");
   const reference = await nextLeadReference();

@@ -15,6 +15,10 @@ export const Region = z.object({
   freeShippingAbove: z.number().nullable(),
   countries: z.array(z.string().length(2)),
   defaultCountry: z.string().length(2),
+  /** false while we cannot take orders for this region (e.g. Canada until import clearance). Prices still display. */
+  checkoutEnabled: z.boolean().optional().default(true),
+  /** Countries inside this region that are closed for checkout (subset of `countries`). */
+  closedCountries: z.array(z.string().length(2)).optional().default([]),
 });
 export type Region = z.infer<typeof Region>;
 

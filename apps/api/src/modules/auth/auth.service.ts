@@ -12,8 +12,18 @@ export const authService = {
     const exists = await prisma.customer.findUnique({ where: { email } });
     if (exists?.passwordHash) throw badRequest("EMAIL_TAKEN", "An account with this email already exists — sign in instead");
     const passwordHash = await argon2.hash(input.password);
+    // A row without a password is a placeholder (e.g. imported / created by staff). We cannot verify that the
+    // person registering owns the mailbox (no email verification yet), so "claiming" it must not hand over anything
+    // that was attached to it: its orders and carts are detached and its profile is reset. The orders stay
+    // reachable the normal guest way (order number + email on /track) and can be re-linked once email
+    // verification exists.
     const customer = exists
-      ? await prisma.customer.update({ where: { email }, data: { passwordHash, firstName: input.firstName, lastName: input.lastName, marketingOptIn: input.marketingOptIn } })
+      ? await prisma.$transaction(async (tx) => {
+          await tx.order.updateMany({ where: { customerId: exists.id }, data: { customerId: null } });
+          await tx.cart.updateMany({ where: { customerId: exists.id }, data: { customerId: null } });
+          await tx.session.deleteMany({ where: { customerId: exists.id } });
+          return tx.customer.update({ where: { id: exists.id }, data: { passwordHash, firstName: input.firstName, lastName: input.lastName, marketingOptIn: input.marketingOptIn, phone: null, emailVerifiedAt: null, defaultRegion: null, deletedAt: null } });
+        })
       : await prisma.customer.create({ data: { email, passwordHash, firstName: input.firstName, lastName: input.lastName, marketingOptIn: input.marketingOptIn } });
     return { customer, session: await this.createSession(customer.id, meta) };
   },

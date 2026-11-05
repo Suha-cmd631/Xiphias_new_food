@@ -3,7 +3,7 @@ import { create } from "zustand";
 import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, Trash2, X } from "lucide-react";
-import { useCart, useRemoveLine, useUpdateLine } from "@/lib/api/queries";
+import { useCart, useRegions, useRemoveLine, useUpdateLine } from "@/lib/api/queries";
 import { ButtonLink } from "@/components/ui/button";
 import { ErrorState, Skeleton } from "@/components/ui/feedback";
 import { useOverlay } from "@/lib/use-overlay";
@@ -15,6 +15,11 @@ export function CartDrawer() {
   const { data: cart, isLoading, isError, refetch } = useCart();
   const update = useUpdateLine();
   const remove = useRemoveLine();
+  // Free-delivery progress: the threshold is the region's `freeShippingAbove` (regions API); regions without one show nothing.
+  const { data: regions } = useRegions();
+  const threshold = (cart && regions?.regions.find((r) => r.code === cart.region)?.freeShippingAbove) || null;
+  const remaining = cart?.totals.freeShippingRemaining ?? null;
+  const progress = threshold ? Math.max(0, Math.min(100, Math.round(((threshold - (remaining?.amount ?? 0)) / threshold) * 100))) : 0;
   useOverlay(isOpen, close);
   if (!isOpen) return null;
   return (
@@ -58,7 +63,16 @@ export function CartDrawer() {
         </div>
         {cart && cart.lines.length > 0 && (
           <footer className="border-t border-line px-6 py-4">
-            {cart.totals.freeShippingRemaining && <p className="mb-2 text-[13px] text-leaf-dark">Add {cart.totals.freeShippingRemaining.formatted} more for free shipping.</p>}
+            {threshold ? (
+              <div className="mb-3.5">
+                <p className="text-[13px] font-medium text-ink" aria-live="polite">{remaining ? <><b className="text-leaf-dark">{remaining.formatted}</b> more for free delivery</> : <span className="text-leaf-dark">You&apos;ve unlocked free delivery</span>}</p>
+                <div role="progressbar" aria-label="Progress towards free delivery" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-line">
+                  <div className="h-full rounded-full bg-leaf transition-[width] duration-500" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            ) : (
+              remaining && <p className="mb-2 text-[13px] text-leaf-dark">{remaining.formatted} more for free delivery</p>
+            )}
             <div className="flex justify-between text-[15px]"><span>Subtotal</span><b>{cart.totals.subtotal.formatted}</b></div>
             {cart.totals.discount.amount > 0 && <div className="flex justify-between text-[14px] text-leaf-dark"><span>Discount ({cart.couponCode})</span><span>−{cart.totals.discount.formatted}</span></div>}
             <p className="mt-1 text-[12.5px] text-muted">Shipping and any duties are calculated at checkout.</p>

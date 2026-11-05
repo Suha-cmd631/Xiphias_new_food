@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { pinoHttp } from "pino-http";
-import { env } from "./config/env.js";
+import { env, trustProxy } from "./config/env.js";
 import { logger } from "./shared/logger.js";
 import { errorHandler, notFoundHandler } from "./shared/errors.js";
 import { regionMiddleware } from "./modules/regions/region.middleware.js";
@@ -21,7 +21,9 @@ import { prisma } from "./shared/prisma.js";
 
 export function buildApp() {
   const app = express();
-  app.set("trust proxy", 1);
+  // Number of reverse proxies in front of the API (TRUST_PROXY). req.ip — used by the rate limiter — is only as
+  // trustworthy as this setting: too low and every visitor shares the proxy's IP, too high and X-Forwarded-For can be spoofed.
+  app.set("trust proxy", trustProxy);
   app.disable("x-powered-by");
   app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
   app.use(cors({ origin: env.WEB_ORIGIN.split(","), credentials: true, exposedHeaders: ["x-region"] }));

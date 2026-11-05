@@ -1,19 +1,20 @@
 import { Router } from "express";
 import { LoginBody, RegisterBody } from "@xsf/contracts";
 import { h, ipOf } from "../../shared/http.js";
+import { limits } from "../../shared/rate-limit.js";
 import { clearCookie, COOKIES, readCookie, setCookie } from "../../shared/cookies.js";
 import { authService } from "./auth.service.js";
 
 export const authRouter = Router();
 
-authRouter.post("/register", h(async (req, res) => {
+authRouter.post("/register", limits.register(), h(async (req, res) => {
   const b = RegisterBody.parse(req.body);
   const { customer, session } = await authService.register(b, { ip: ipOf(req), ua: req.headers["user-agent"] });
   setCookie(res, COOKIES.session, session.token, session.maxAge);
   res.status(201).json(authService.me(customer));
 }));
 
-authRouter.post("/login", h(async (req, res) => {
+authRouter.post("/login", limits.login(), h(async (req, res) => {
   const b = LoginBody.parse(req.body);
   const { customer, session } = await authService.login(b.email, b.password, { ip: ipOf(req), ua: req.headers["user-agent"] });
   setCookie(res, COOKIES.session, session.token, session.maxAge);

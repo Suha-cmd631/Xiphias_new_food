@@ -14,17 +14,17 @@ export function Section({ children, className, tight, id, ariaLabel }: { childre
 
 export function SectionHead({ kick, title, text, more, center, from = "bottom" }: { kick?: string; title: string; text?: string; more?: { href: string; label: string }; center?: boolean; from?: "bottom" | "top" }) {
   return (
-    <Reveal from={from} className={cn("mb-10 flex gap-6", center ? "flex-col items-center text-center" : "items-end justify-between")}>
+    <Reveal from={from} className={cn("mb-9 flex gap-6 sm:mb-12", center ? "flex-col items-center text-center" : "items-end justify-between")}>
       <div>
         {kick && <span className="kick">{kick}</span>}
-        <h2 className="text-[clamp(30px,3.6vw,44px)] leading-[1.1]">
+        <h2 className="text-[clamp(31px,3.7vw,50px)] leading-[1.08]">
           <WordRise text={title} />
         </h2>
-        {text && <p className={cn("mt-2.5 max-w-[56ch] text-[15.5px] text-muted")}>{text}</p>}
+        {text && <p className={cn("mt-3 max-w-[56ch] text-[15.5px] text-muted", center && "mx-auto")}>{text}</p>}
       </div>
       {more && (
-        <Link href={more.href} className="hidden shrink-0 items-center gap-2 text-[14.5px] font-semibold text-ink hover:text-leaf-dark sm:inline-flex">
-          {more.label} <ArrowRight className="h-4 w-4" />
+        <Link href={more.href} className="group/more hidden shrink-0 items-center gap-2 border-b border-gold pb-1 text-[14.5px] font-semibold text-ink transition-colors hover:text-royal sm:inline-flex">
+          {more.label} <ArrowRight className="h-4 w-4 transition-transform group-hover/more:translate-x-1" />
         </Link>
       )}
     </Reveal>
@@ -43,7 +43,7 @@ export function PageHeader({ crumbs, title, text, children }: { crumbs: { href?:
             </span>
           ))}
         </nav>
-        {title && <h1 className="mt-3 text-[clamp(32px,4vw,48px)] leading-[1.1]">{title}</h1>}
+        {title && <h1 className="mt-3 text-[clamp(33px,4.2vw,54px)] leading-[1.08]">{title}</h1>}
         {text && <p className="mt-2 max-w-[60ch] text-muted">{text}</p>}
         {children}
       </div>

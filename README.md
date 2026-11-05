@@ -18,7 +18,7 @@ Optional, in a second terminal: `pnpm dev:worker` — sends the emails (view the
 
 Shortcut for steps 1–4: `pnpm setup`.
 
-The web app reads `apps/web/.env.local` (already created with local defaults). `.env.example` lists every variable with comments.
+The web app reads `apps/web/.env.local`. It is not in the repository; the site runs on built-in defaults without it. To set web options, create the file from the WEB part of `.env.example`, which lists every variable with comments.
 
 ## What's inside
 
@@ -49,10 +49,22 @@ Region = cookie `xsf_region` (detected from the edge geo header on first visit, 
 - `pnpm db:studio` — browse the database
 - `pnpm --filter @xsf/api test` — unit tests (pricing rules)
 - Demo customer: `demo@xiphias.in` / `Demo1234!` · Coupons: `BULKSAVE` (20 % on 3+ packs), `WELCOME10`
-- Blog bodies are placeholders until `scripts/migrate` pulls the full articles from Shopify (needs store API access).
+- Blog: the 79 full articles were copied from the live Shopify blog on 6 Oct 2026 into `apps/api/prisma/data/post-bodies.json` and are loaded by `pnpm db:seed`. Their inline pictures still load from Shopify's servers; move them before the Shopify store is closed.
 
 ## Conventions
 See `AGENTS.md` (same rules as the XIPHIAS CRM repo): Tailwind only, TanStack Query for server state, repositories own Prisma, zod contracts shared, no inline email/HTTP side effects in request handlers (Outbox → worker).
+
+## Changes on 6 Oct 2026 (safety, brand look, US pages)
+After pulling these changes run: `pnpm install` → `pnpm db:generate` → `pnpm db:seed` → `pnpm dev`. No database structure change.
+
+- **Safety**: forged payment confirmations are refused; the mock gateway is off in production unless `ALLOW_MOCK_PAYMENTS=true`; payment confirmation is safe against duplicates; order details need proof (owner, matching email or the buyer's browser); rate limits on login, register, contact, quote, newsletter, tracking, coupon and checkout; emails escape visitor text; WELCOME10 works once per email; order numbers cannot collide. Production needs a `SESSION_SECRET` of 32+ random characters.
+- **Canada is closed for orders** (`CHECKOUT_CLOSED_COUNTRIES=CA`) until a licensed Canadian importer is in place. `/ca` pages collect "tell me when" emails.
+- **Look**: royal blue + gold from the packaging, Fraunces serif headlines, fonts served from the site itself (no Google Fonts), pack shots first on product cards, home page cut to 7 sections. Testimonials stay hidden until `NEXT_PUBLIC_SHOW_TESTIMONIALS=true`.
+- **US**: `/us` hub and 7 search pages with live dollar prices, `/feeds/google-us.xml` for Google Merchant Center, old Shopify links redirected. The word "organic" is kept off the US/Canada pages and the feed until `NEXT_PUBLIC_US_ORGANIC_OK=true` (needs a USDA organic certificate). Product pages themselves still use the stored names.
+- **Selling helpers**: free-delivery progress in the cart, add-to-cart bar on phones, price per 100 g, Google Analytics 4 behind cookie consent (`NEXT_PUBLIC_GA_ID`).
+- India free delivery is ₹750 everywhere (the database said ₹999 while the pages said ₹750).
+
+Still open: admin/order screen, password reset, "shipped" email, real JioPay integration, real prices and tax outside India, review collection, page caching.
 
 ## Roadmap (from plan.md)
 Drop 2: admin + sales tracker/CRM (dashboard, orders desk, customers, B2B pipeline, price-list editor), Shiprocket live rates/AWB, Stripe/JioPay sandbox verification, BullMQ queues, Playwright e2e, Terraform/AWS.

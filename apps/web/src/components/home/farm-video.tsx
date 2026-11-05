@@ -27,18 +27,18 @@ export function FarmVideo() {
   const toggle = () => { const v = ref.current!; if (v.paused) { v.play(); setPlaying(true); } else { v.pause(); setPlaying(false); } };
   return (
     <Section tight ariaLabel="Rooted in nature">
-      <Reveal from="scale" className="relative min-h-[420px] overflow-hidden rounded-card bg-ink text-white md:min-h-[520px]">
-        <video ref={ref} data-src="/img/farm.mp4" poster="/img/poster.webp" muted={muted} loop playsInline preload="none" aria-label="Aerial view of our fields" className="absolute inset-0 h-full w-full object-cover opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
-        <div className="relative flex h-full min-h-[420px] max-w-xl flex-col justify-center p-8 md:min-h-[520px] md:p-14">
-          <small className="kick !text-leaf">From sunrise fields to your plate</small>
-          <h2 className="text-[clamp(34px,4.5vw,56px)] leading-[1.05] text-white">Rooted in Nature</h2>
-          <p className="mt-3 text-[16px] text-white/80">Simple harvests, slow mornings, and timeless grains. Our millets come straight from the land — no shortcuts, just the way it's meant to be.</p>
-          <ButtonLink href="/shop" variant="white" className="mt-6 self-start">Discover the Goodness</ButtonLink>
+      <Reveal from="scale" className="relative min-h-[440px] overflow-hidden rounded-3xl bg-ink text-white md:min-h-[540px]">
+        <video ref={ref} data-src="/img/farm.mp4" poster="/img/poster.webp" muted={muted} loop playsInline preload="none" aria-label="Illustrated farm at sunset" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/35 to-ink/5 md:bg-gradient-to-r md:from-ink/80 md:via-ink/35 md:to-transparent" />
+        <div className="relative flex h-full min-h-[440px] max-w-[620px] flex-col justify-end px-7 pb-20 pt-10 sm:px-12 md:min-h-[540px] md:justify-center md:pb-10 lg:px-16 xl:px-20">
+          <span className="kick !text-gold">Our farm story</span>
+          <h2 className="text-[clamp(34px,4.4vw,60px)] leading-[1.04] text-white">Rooted <em className="font-light">in nature</em></h2>
+          <p className="mt-4 max-w-[42ch] text-[16px] leading-relaxed text-white/85">Simple harvests, slow mornings and timeless grains — straight from the land, with no shortcuts.</p>
+          <ButtonLink href="/about" variant="white" className="mt-7 self-start">Read our story</ButtonLink>
         </div>
         <div className="absolute bottom-5 right-5 flex gap-2">
-          <button onClick={toggle} aria-label={playing ? "Pause video" : "Play video"} className="grid h-10 w-10 place-items-center rounded-full bg-white/20 backdrop-blur hover:bg-white/40">{playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}</button>
-          <button onClick={() => setMuted((m) => !m)} aria-label={muted ? "Unmute video" : "Mute video"} className="grid h-10 w-10 place-items-center rounded-full bg-white/20 backdrop-blur hover:bg-white/40">{muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}</button>
+          <button onClick={toggle} aria-label={playing ? "Pause video" : "Play video"} className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/35">{playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}</button>
+          <button onClick={() => setMuted((m) => !m)} aria-label={muted ? "Unmute video" : "Mute video"} className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition-colors hover:bg-white/35">{muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}</button>
         </div>
       </Reveal>
     </Section>

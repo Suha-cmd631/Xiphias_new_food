@@ -16,8 +16,7 @@ export function parse<T extends ZodTypeAny>(schema: T, data: unknown): z.infer<T
   return schema.parse(data);
 }
 
+/** Client IP as Express resolves it through the configured number of trusted proxies (never the raw, spoofable X-Forwarded-For). */
 export function ipOf(req: Request): string | undefined {
-  const xf = req.headers["x-forwarded-for"];
-  const first = Array.isArray(xf) ? xf[0] : xf?.split(",")[0];
-  return (first ?? req.socket.remoteAddress ?? undefined)?.trim();
+  return (req.ip ?? req.socket.remoteAddress ?? undefined)?.trim();
 }

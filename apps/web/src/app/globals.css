@@ -1,48 +1,72 @@
 @import "tailwindcss";
 
-/* ---- Brand tokens (semantic names; light-only brand, see plan/frontend.md) ---- */
+/* ---- Brand tokens (semantic names; light-only brand, see plan/frontend.md) ----
+   Palette is taken from the packaging: royal blue pouch + gold bird.
+   royal  = the pouch blue, sampled from alt_rice / alt_joha pack shots (#0353AC mid-tone, #023B8A in shadow)
+   ink    = deep navy for headings, body-weight UI and primary buttons (15:1 on white)
+   gold   = the logo gold (#E3B923). Decorative only on light backgrounds (1.9:1) — rules, stars, icons, badges
+            with navy text. For small gold TEXT on white/soft use gold-deep (5.2:1+).
+   leaf*  = legacy accent names used all over the site. They now carry the brand accent
+            (leaf-dark → royal, leaf → gold, leaf-soft → blue tint) so every page re-skins at once.
+   fresh* = the one remaining green, only for "plant / fresh / in season" meaning. */
 @theme {
   --color-background: #ffffff;
-  --color-foreground: #2a2a2a;
-  --color-ink: #1d1d1d;
-  --color-muted: #6f6f6f;
-  --color-line: #e8e8e8;
-  --color-soft: #f6f6f4;
-  --color-leaf: #8dc63f;
-  --color-leaf-dark: #4a6b1f;
-  --color-leaf-soft: #eef6e3;
-  --color-gold: #c9a227;
-  --color-sand: #f0e9d6;
-  --color-sage: #e6efe6;
-  --color-beige: #efe6d6;
-  --color-teal: #dde9e7;
-  --color-rose: #f0dede;
-  --color-sky: #dfe8ea;
+  --color-foreground: #2b3140;
+  --color-ink: #0b2545;
+  --color-muted: #5b6474;
+  --color-line: #e7e3da;
+  --color-soft: #f7f4ee;
+
+  --color-royal: #0353ac;
+  --color-royal-deep: #023b8a;
+  --color-royal-soft: #eef3fb;
+  --color-gold: #e3b923;
+  --color-gold-deep: #85610a;
+  --color-gold-soft: #f6edcf;
+  --color-fresh: #3d6b1f;
+  --color-fresh-soft: #eaf3df;
+  --color-sale: #b93a2a;
+
+  --color-leaf: #e3b923;
+  --color-leaf-dark: #0353ac;
+  --color-leaf-soft: #eef3fb;
+
+  --color-sand: #f4ecd6;
+  --color-sage: #e9efe4;
+  --color-beige: #f1e8d8;
+  --color-teal: #dfe9ee;
+  --color-rose: #f3e1dc;
+  --color-sky: #e3ecf8;
   --color-danger: #c0392b;
 
-  --font-head: "Jost", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-head: var(--font-fraunces), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: var(--font-dm-sans), var(--font-dm-sans-ext), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 18px;
-  --shadow-card: 0 24px 50px -32px rgb(0 0 0 / 0.35);
+  --radius-card: 20px;
+  --shadow-card: 0 28px 60px -34px rgb(11 37 69 / 0.38);
+  --shadow-soft: 0 1px 2px rgb(11 37 69 / 0.04), 0 18px 40px -28px rgb(11 37 69 / 0.22);
   --container-site: 1640px;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground font-body text-[15.5px] leading-relaxed antialiased; }
-  h1, h2, h3, h4 { @apply font-head font-medium tracking-tight text-ink; }
+  /* Serif display: lighter weight and tighter tracking at large sizes, a touch sturdier when small. */
+  h1, h2 { @apply font-head font-normal tracking-[-0.022em] text-ink; }
+  h3, h4 { @apply font-head font-medium tracking-[-0.012em] text-ink; }
   img { @apply block max-w-full h-auto; }
   button { @apply cursor-pointer font-body; }
   input, select, textarea { @apply font-body; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-royal; }
+  ::selection { @apply bg-gold-soft text-ink; }
 }
 
 @layer components {
   .site { @apply w-full bg-background; overflow-x: clip; }
   .wrap { @apply mx-auto w-full max-w-[1640px] px-4 sm:px-8 xl:px-12; }
-  .kick { @apply mb-2.5 block text-[12px] font-semibold uppercase tracking-[0.2em] text-leaf-dark; }
-  .prose-site { @apply text-[16px] leading-[1.75] text-[#444]; }
-  .prose-site h2 { @apply mt-8 mb-3 text-[26px]; }
+  .kick { @apply mb-3 block text-[11.5px] font-semibold uppercase tracking-[0.24em] text-gold-deep; }
+  .prose-site { @apply text-[16px] leading-[1.75] text-foreground; }
+  .prose-site h2 { @apply mt-8 mb-3 text-[28px]; }
   .prose-site p { @apply my-3; }
   .prose-site ul { @apply my-3 list-disc pl-6; }
   .prose-site a { @apply text-leaf-dark underline; }
@@ -64,8 +88,8 @@
 .wr .w i { display: inline-block; font-style: normal; transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .js .rv.pre:not(.in) .wr .w i { transform: translateY(110%); }
 
-.rv .kick::before { content: ""; display: inline-block; width: 0; height: 2px; background: var(--color-leaf); vertical-align: middle; margin-right: 0; transition: width 0.6s 0.2s, margin-right 0.6s 0.2s; }
-.rv.in .kick::before { width: 22px; margin-right: 10px; }
+.rv .kick::before { content: ""; display: inline-block; width: 0; height: 1px; background: var(--color-gold); vertical-align: middle; margin-right: 0; transition: width 0.6s 0.2s, margin-right 0.6s 0.2s; }
+.rv.in .kick::before { width: 28px; margin-right: 12px; }
 
 .js .pic.rv.pre:not(.in) .imw img { transform: scale(1.14); }
 .imw img { transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -91,11 +115,14 @@
 .anim-slidein { animation: slidein 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .hero-t > * { animation: dropin 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .hero-t > :nth-child(1) { animation-delay: 0.15s; } .hero-t > :nth-child(2) { animation-delay: 0.27s; } .hero-t > :nth-child(3) { animation-delay: 0.39s; } .hero-t > :nth-child(4) { animation-delay: 0.51s; }
+@keyframes heroprog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.anim-heroprog { transform-origin: left; animation: heroprog 7.5s linear both; }
 @keyframes clipin { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
 .anim-clipin { animation: clipin 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 @media (prefers-reduced-motion: reduce) {
   .anim-dropin, .anim-herowipe, .anim-kenburns, .anim-slidein, .anim-clipin, .anim-cardin, .anim-spin-slow, .anim-marquee, .anim-marquee-slow, .hero-t > * { animation: none !important; }
+  .anim-heroprog { animation: none !important; transform: none; }
   .js .rv.pre:not(.in) { opacity: 1; transform: none; }
 }
 

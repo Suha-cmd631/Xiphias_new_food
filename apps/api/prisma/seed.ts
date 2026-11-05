@@ -126,12 +126,14 @@ async function main() {
   }
 
   console.log("→ blog posts (79)");
+  const bodies = load<Record<string, string>>("post-bodies.json");
   for (const post of posts) {
-    const bodyHtml = `<p class="lead">${post.e}</p>
-<p>This article is imported from the current site during the blog migration (same URL <code>/blog/${post.s}</code>). Run <code>pnpm --filter @xsf/api migrate:blog</code> with Shopify API access to replace this placeholder with the full ${post.w.toLocaleString()}-word body, images and internal links.</p>`;
+    // Full article bodies were copied from the live Shopify blog on 6 Oct 2026 (data/post-bodies.json, already
+    // cleaned: only plain text tags, links rewritten to the new URLs). A post without a body shows its summary only.
+    const bodyHtml = bodies[post.s] ?? `<p class="lead">${post.e}</p>`;
     await prisma.blogPost.upsert({
       where: { slug: post.s },
-      update: { title: post.t, excerpt: post.e, category: post.c, coverImage: `/img/blog/${post.s}.webp`, wordCount: post.w, publishedAt: new Date(post.d) },
+      update: { title: post.t, excerpt: post.e, bodyHtml, category: post.c, coverImage: `/img/blog/${post.s}.webp`, wordCount: post.w, publishedAt: new Date(post.d) },
       create: {
         slug: post.s, title: post.t, excerpt: post.e, bodyHtml, coverImage: `/img/blog/${post.s}.webp`, category: post.c, wordCount: post.w,
         publishedAt: new Date(post.d), shopifyId: post.v, tags: post.c.toLowerCase().split(" & "), seoTitle: post.t, seoDescription: post.e.slice(0, 155),
@@ -161,13 +163,27 @@ async function main() {
     await prisma.siteSetting.upsert({ where: { key }, update: { value }, create: { key, value } });
   }
 
-  console.log("→ demo customer (demo@xiphias.in / Demo1234!)");
+  // Demo login (demo@xiphias.in / Demo1234! — a publicly documented password): local/dev databases only.
+  // In production it is created only with SEED_DEMO=true; otherwise an existing demo login is disabled.
   const argon2 = await import("argon2");
-  await prisma.customer.upsert({
-    where: { email: "demo@xiphias.in" },
-    update: {},
-    create: { email: "demo@xiphias.in", firstName: "Demo", lastName: "Customer", passwordHash: await argon2.default.hash("Demo1234!"), emailVerifiedAt: new Date(), defaultRegion: "IN" },
-  });
+  const seedDemo = process.env.NODE_ENV !== "production" || /^(1|true|yes)$/i.test(process.env.SEED_DEMO ?? "");
+  if (seedDemo) {
+    console.log("→ demo customer (demo@xiphias.in / Demo1234!)");
+    await prisma.customer.upsert({
+      where: { email: "demo@xiphias.in" },
+      update: {},
+      create: { email: "demo@xiphias.in", firstName: "Demo", lastName: "Customer", passwordHash: await argon2.default.hash("Demo1234!"), emailVerifiedAt: new Date(), defaultRegion: "IN" },
+    });
+  } else {
+    const demo = await prisma.customer.findUnique({ where: { email: "demo@xiphias.in" } });
+    if (demo?.passwordHash && (await argon2.default.verify(demo.passwordHash, "Demo1234!").catch(() => false))) {
+      await prisma.session.deleteMany({ where: { customerId: demo.id } });
+      await prisma.customer.update({ where: { id: demo.id }, data: { passwordHash: null } });
+      console.log("→ demo customer: login DISABLED (production; it still had the public demo password)");
+    } else {
+      console.log("→ demo customer skipped (production; set SEED_DEMO=true to create it)");
+    }
+  }
 
   const counts = { products: await prisma.product.count(), variants: await prisma.variant.count(), prices: await prisma.price.count(), posts: await prisma.blogPost.count(), countries: await prisma.regionCountry.count() };
   console.log("✓ seeded", counts, createHash("md5").update(JSON.stringify(counts)).digest("hex").slice(0, 6));

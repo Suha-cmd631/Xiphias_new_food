@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { parse, serialize } from "cookie";
 import { env, isProd } from "../config/env.js";
 
-export const COOKIES = { region: "xsf_region", cart: "xsf_cart", session: "xsf_session" } as const;
+export const COOKIES = { region: "xsf_region", cart: "xsf_cart", session: "xsf_session", orderAccess: "xsf_order" } as const;
 
 export function readCookie(req: Request, name: string): string | undefined {
   const raw = req.headers.cookie;

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
+import { TOPICS } from "@/lib/market-topics";
 
 const API = process.env.API_INTERNAL_URL ?? "http://localhost:4000";
 
@@ -7,6 +8,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = SITE.url;
   const stat = ["", "/shop", "/about", "/b2b", "/contact", "/blog", "/faq", "/store", "/track", "/policies/shipping", "/policies/returns", "/policies/terms", "/policies/privacy", "/policies/cookies", ...SITE.categories.map((c) => `/shop/${c.slug}`)];
   const out: MetadataRoute.Sitemap = stat.map((p) => ({ url: base + p, changeFrequency: "weekly", priority: p === "" ? 1 : 0.7 }));
+  // US / Canada search landing pages (lib/market-topics.ts): a hub per market plus one page per topic.
+  for (const market of ["us", "ca"] as const) {
+    out.push({ url: `${base}/${market}`, changeFrequency: "weekly", priority: 0.8 });
+    out.push(...TOPICS.map((t) => ({ url: `${base}/${market}/${t.slug}`, changeFrequency: "weekly" as const, priority: market === "us" ? 0.8 : 0.5 })));
+  }
   try {
     const [prods, posts] = await Promise.all([
       fetch(`${API}/api/v1/catalog/products?perPage=48`, { cache: "no-store" }).then((r) => r.json()) as Promise<{ items: { slug: string }[] }>,

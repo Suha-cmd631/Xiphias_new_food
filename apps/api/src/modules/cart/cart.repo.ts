@@ -1,4 +1,5 @@
-import { prisma } from "../../shared/prisma.js";
+import { prisma, type Tx } from "../../shared/prisma.js";
+import { parseCouponRules, type CouponHistory, type CouponRules } from "./pricing.js";
 
 export const cartInclude = (priceListId: string) =>
   ({
@@ -24,6 +25,22 @@ export const cartRepo = {
   },
   coupon(code: string) {
     return prisma.coupon.findFirst({ where: { code: code.toUpperCase(), active: true } });
+  },
+  async couponRules(): Promise<CouponRules> {
+    const row = await prisma.siteSetting.findUnique({ where: { key: "coupon_rules" } });
+    return parseCouponRules(row?.value);
+  },
+  /** Order history of one email (case-insensitive), plus the signed-in customer's orders when there is one. */
+  async couponHistory(code: string, email: string, customerId?: string | null, db: Tx | typeof prisma = prisma): Promise<CouponHistory> {
+    const who = { OR: [{ email: { equals: email.trim(), mode: "insensitive" as const } }, ...(customerId ? [{ customerId }] : [])] };
+    const paidOrders = await db.order.count({ where: { ...who, paidAt: { not: null } } });
+    // "Used" = paid with it, or an order with it is still waiting for payment (stops two parallel checkouts sharing one code).
+    const usesOfThisCoupon = await db.order.count({ where: { AND: [who, { couponCode: code.toUpperCase() }, { OR: [{ paidAt: { not: null } }, { status: "pending", paymentStatus: { in: ["initiated", "pending"] } }] }] } });
+    return { paidOrders, usesOfThisCoupon };
+  },
+  /** Lines whose variant has no price in the cart's price list cannot be sold there — remove them. */
+  removeLines(ids: string[]) {
+    return prisma.cartLine.deleteMany({ where: { id: { in: ids } } });
   },
 };
 export type CartRow = NonNullable<Awaited<ReturnType<typeof cartRepo.byId>>>;

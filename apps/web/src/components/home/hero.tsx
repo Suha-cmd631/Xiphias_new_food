@@ -5,71 +5,105 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, Copy } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { HeroSlide } from "./hero-slides";
 
 /**
- * Quiet editorial hero: warm off-white panel, one headline, one product disc.
- * Real text for SEO, one priority image for LCP, fixed height so nothing shifts.
+ * Editorial hero: warm off-white panel, serif headline, the real pack on the right.
+ * - Every slide's text is in the server HTML; only the first headline is the page <h1>, the rest are paragraphs.
+ * - Slides are stacked in one grid cell, so the panel height never changes between slides (no layout shift).
+ * - Pack shots have a white studio background: `mix-blend-multiply` on the <img> itself lets it melt into the panel.
+ *   Keep transforms / opacity / z-index off the image's ancestors, or the blend is isolated and the white box returns.
  */
-const SLIDES = [
-  { kick: "Grains & Rice · Assam", title: "Organic black rice, the Emperor's grain", text: "Heirloom, antioxidant-rich and naturally gluten-free — sourced directly from the farmers who grow it.", img: "/img/rice.webp", href: "/products/organic-black-rice", cta: "Shop black rice", meta: "1 kg · ₹600" },
-  { kick: "Teas · Silver Needle", title: "White tea picked at dawn, one bud at a time", text: "Delicate, low-caffeine and loaded with antioxidants. Brew at 80 °C; re-steep three times.", img: "/img/white.webp", href: "/products/silver-needle-white-tea", cta: "Shop white tea", meta: "50 g · ₹2,900" },
-  { kick: "Nuts & Snacks · Bihar", title: "Makhana — the light, protein-rich snack", text: "Hand-popped fox nuts from the ponds of Bihar. Roast with a little ghee and sea salt.", img: "/img/makhana.webp", href: "/products/premium-makhana-fox-nuts", cta: "Shop makhana", meta: "500 g · ₹1,100" },
-  { kick: "Honey & Ghee · Raw", title: "Raw honey and slow-churned bilona ghee", text: "Unfiltered honey and A2 Gir cow ghee made the traditional way. Pantry staples, done properly.", img: "/img/honey.webp", href: "/shop/honey-ghee", cta: "Shop honey & ghee", meta: "500 ml · ₹520" },
-];
 const INTERVAL = 7500;
 
-function CouponPill() {
+function Coupon() {
   const [done, setDone] = useState(false);
   const copy = async () => { try { await navigator.clipboard.writeText("WELCOME10"); setDone(true); setTimeout(() => setDone(false), 1800); } catch { /* clipboard blocked: code is visible anyway */ } };
   return (
-    <p className="mt-6 inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 gap-y-1.5 rounded-[22px] border border-dashed border-leaf-dark/40 bg-white/70 py-1.5 pl-4 pr-1.5 text-[13.5px] text-[#444]">
-      <span>New here? <b className="font-semibold text-leaf-dark">10% off</b> your first order with</span>
-      <button onClick={copy} className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1 font-mono text-[12.5px] font-semibold tracking-wider text-white hover:bg-leaf-dark" aria-label="Copy coupon code WELCOME10">
-        WELCOME10 {done ? <Check className="h-3.5 w-3.5 text-leaf" /> : <Copy className="h-3.5 w-3.5" />}
+    <p className="text-[13px] leading-relaxed text-muted">
+      New here? 10% off your first order with{" "}
+      <button onClick={copy} className="inline-flex items-center gap-1.5 border-b border-dashed border-gold-deep/60 font-semibold tracking-[0.08em] text-ink transition-colors hover:text-royal" aria-label="Copy coupon code WELCOME10">
+        WELCOME10 {done ? <Check className="h-3.5 w-3.5 text-fresh" /> : <Copy className="h-3.5 w-3.5 text-gold-deep" />}
       </button>
     </p>
   );
 }
 
-export function Hero() {
+export function Hero({ slides }: { slides: HeroSlide[] }) {
   const [idx, setIdx] = useState(0);
+  const [auto, setAuto] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const n = SLIDES.length;
+  const n = slides.length;
   const go = useCallback((i: number) => setIdx(((i % n) + n) % n), [n]);
   const restart = useCallback(() => {
     if (timer.current) clearInterval(timer.current);
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) timer.current = setInterval(() => setIdx((i) => (i + 1) % n), INTERVAL);
+    if (n > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setAuto(true); timer.current = setInterval(() => setIdx((i) => (i + 1) % n), INTERVAL); }
   }, [n]);
   useEffect(() => { restart(); return () => { if (timer.current) clearInterval(timer.current); }; }, [restart]);
-  const s = SLIDES[idx]!;
+  if (!n) return null;
   return (
-    <section className="pt-6" aria-roledescription="carousel" aria-label="Featured">
+    <section className="pt-4 sm:pt-6" aria-roledescription="carousel" aria-label="Featured">
       <div className="wrap">
-        <div className="anim-herowipe relative grid min-h-[560px] overflow-hidden rounded-3xl bg-[#f6f3ec] md:grid-cols-[1.1fr_0.9fr] lg:min-h-[620px]">
-          {/* text */}
-          <div key={idx} className="hero-t relative z-10 flex flex-col justify-center p-8 sm:p-12 lg:p-16 xl:p-20">
-            <span className="kick">{s.kick}</span>
-            <h1 className="mt-3 max-w-[17ch] text-[clamp(38px,4.4vw,64px)] leading-[1.02] tracking-[-0.01em]">{s.title}</h1>
-            <p className="mt-5 max-w-[44ch] text-[16.5px] leading-relaxed text-[#555]">{s.text}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href={s.href} className={buttonVariants({ variant: "dark", size: "lg" })}>{s.cta}</Link>
-              <Link href="/shop" className={buttonVariants({ variant: "outline", size: "lg" })}>All products</Link>
+        <div className="anim-herowipe relative overflow-hidden rounded-3xl bg-soft lg:grid lg:min-h-[580px] lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] xl:min-h-[620px]">
+          {/* text: all slides share one grid cell */}
+          <div className="flex flex-col justify-center px-6 pt-9 sm:px-12 sm:pt-12 lg:pb-28 lg:pl-16 lg:pr-4 lg:pt-14 xl:pl-20">
+            <div className="grid">
+            {slides.map((s, i) => {
+              const on = i === idx;
+              const Title = i === 0 ? "h1" : "p";
+              return (
+                <div key={s.slug} aria-hidden={!on} inert={!on} aria-roledescription="slide" aria-label={`${i + 1} of ${n}`} className={cn("col-start-1 row-start-1 flex flex-col justify-center", on ? "hero-t" : "invisible")}>
+                  <span className="kick flex items-center gap-3 !mb-0"><i className="h-px w-8 bg-gold" aria-hidden />{s.kick}</span>
+                  <Title className="mt-5 font-head text-[clamp(35px,4.5vw,68px)] font-normal leading-[1.04] tracking-[-0.028em] text-ink">
+                    <span className="block text-balance">{s.lead}</span> <em className="block text-balance font-light text-royal">{s.accent}</em>
+                  </Title>
+                  <p className="mt-5 max-w-[40ch] text-[16.5px] leading-relaxed text-foreground sm:text-[17.5px]">{s.text}</p>
+                  {s.product && (
+                    <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[14px] text-muted">
+                      <b className="text-[22px] font-semibold tabular-nums text-ink">{s.product.price}</b>
+                      {s.product.compareAt && <s className="text-[14.5px]">{s.product.compareAt}</s>}
+                      <span className="flex items-center gap-3"><i className="h-3.5 w-px bg-gold" aria-hidden />{s.product.name}{s.product.pack ? ` · ${s.product.pack}` : ""}</span>
+                    </p>
+                  )}
+                  <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+                    <Link href={s.href} className={buttonVariants({ variant: "dark", size: "lg" })}>{s.cta}</Link>
+                    <Link href="/shop" className="group/all inline-flex items-center gap-2 border-b border-gold pb-1 text-[14.5px] font-semibold text-ink transition-colors hover:text-royal">All 16 products <ArrowRight className="h-4 w-4 transition-transform group-hover/all:translate-x-1" /></Link>
+                  </div>
+                </div>
+              );
+            })}
             </div>
-            <CouponPill />
-            <div className="mt-10 flex items-center gap-3 sm:mt-12">
-              <button onClick={() => { go(idx - 1); restart(); }} aria-label="Previous" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 text-ink transition-colors hover:bg-ink hover:text-white"><ArrowLeft className="h-4.5 w-4.5" /></button>
-              <button onClick={() => { go(idx + 1); restart(); }} aria-label="Next" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 text-ink transition-colors hover:bg-ink hover:text-white"><ArrowRight className="h-4.5 w-4.5" /></button>
-              <span className="ml-3 text-[13px] tabular-nums text-muted">{String(idx + 1).padStart(2, "0")} — {String(n).padStart(2, "0")}</span>
-            </div>
+            <div className="mt-7 max-lg:hidden"><Coupon /></div>
           </div>
-          {/* disc */}
-          <div className="relative min-h-[360px] md:min-h-0">
-            <div className="absolute left-1/2 top-1/2 aspect-square w-[76%] -translate-x-1/2 -translate-y-[55%] overflow-hidden rounded-full shadow-[0_30px_70px_-30px_rgb(0_0_0/.45)] ring-1 ring-black/5 md:w-[84%]">
-              {SLIDES.map((sl, i) => (
-                <Image key={sl.img} src={sl.img} alt={i === idx ? sl.title : ""} fill priority={i === 0} sizes="(max-width: 768px) 80vw, 40vw" quality={88} className={cn("anim-spin-slow scale-[1.35] object-cover transition-opacity duration-[1200ms]", i === idx ? "opacity-100" : "opacity-0")} />
+          {/* pack shot: flush with the panel's right edge so spoons / hands enter from outside the frame */}
+          <div className="relative mt-2 aspect-[1088/960] w-full sm:ml-auto sm:max-w-[620px] lg:mt-0 lg:aspect-auto lg:max-w-none">
+            <i className="absolute left-1/2 top-1/2 aspect-square w-[74%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70" aria-hidden />
+            <i className="absolute left-1/2 top-1/2 aspect-square w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/60" aria-hidden />
+            <div className="absolute inset-0 lg:inset-y-0 lg:left-auto lg:right-0 lg:my-auto lg:aspect-[1088/960] lg:w-[112%] lg:max-h-full">
+              {slides.map((s, i) => (
+                <Image key={s.img} src={s.img} alt={i === idx ? `${s.product?.name ?? s.lead} pack` : ""} fill priority={i === 0} loading={i === 0 ? undefined : "lazy"} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 620px, 52vw" quality={88} className={cn("object-contain object-right mix-blend-multiply mask-l-from-90% mask-t-from-94% mask-b-from-94% transition-opacity duration-700", i === idx ? "opacity-100" : "opacity-0")} />
               ))}
             </div>
-            <p key={`m${idx}`} className="anim-cardin absolute bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-[13px] tracking-[0.04em] text-muted" style={{ animationDelay: "400ms" }}>{s.meta}</p>
+          </div>
+          {/* controls + welcome code */}
+          <div className="flex flex-col gap-4 px-6 pb-7 pt-2 sm:px-12 sm:pb-10 lg:absolute lg:inset-x-0 lg:bottom-0 lg:right-auto lg:px-16 lg:pb-9 xl:px-20">
+            {n > 1 && (
+              <div className="flex items-center gap-4">
+                <button onClick={() => { go(idx - 1); restart(); }} aria-label="Previous slide" className="grid h-10 w-10 place-items-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"><ArrowLeft className="h-4 w-4" /></button>
+                <button onClick={() => { go(idx + 1); restart(); }} aria-label="Next slide" className="grid h-10 w-10 place-items-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"><ArrowRight className="h-4 w-4" /></button>
+                <div className="ml-1 flex items-center gap-1.5">
+                  {slides.map((s, i) => (
+                    <button key={s.slug} onClick={() => { go(i); restart(); }} aria-label={`Show slide ${i + 1}`} aria-current={i === idx} className="group/dot grid h-10 place-items-center">
+                      <span className={cn("block h-0.5 overflow-hidden rounded-full bg-ink/15 transition-all duration-300", i === idx ? "w-9" : "w-4 group-hover/dot:bg-ink/40")}>
+                        {i === idx && <span key={`${idx}-${auto}`} className={cn("block h-full w-full bg-gold-deep", auto && "anim-heroprog")} />}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <span className="text-[12.5px] tabular-nums tracking-[0.08em] text-muted">{String(idx + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}</span>
+              </div>
+            )}
+            <div className="lg:hidden"><Coupon /></div>
           </div>
         </div>
       </div>

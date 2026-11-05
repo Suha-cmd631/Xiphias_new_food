@@ -1,21 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { writeConsent, type Consent } from "@/lib/consent";
+import { useConsent } from "@/lib/use-consent";
+import { useEffect, useState } from "react";
 
-const KEY = "xsf_cookie_consent";
-
-/** Small, non-blocking cookie notice. Remembers the choice per browser for a year. */
+/**
+ * Small, non-blocking cookie notice. Remembers the choice per browser for a year (cookie `xsf_cookie_consent`) and
+ * announces it through lib/consent, so analytics and the phone add-to-cart bar react at once, without a reload.
+ */
 export function CookieBanner() {
-  const [open, setOpen] = useState(false);
-  useEffect(() => {
-    const m = document.cookie.match(/(?:^|; )xsf_cookie_consent=(\w+)/);
-    if (!m) setOpen(true);
-  }, []);
-  const choose = (v: "all" | "essential") => {
-    document.cookie = `${KEY}=${v}; Max-Age=31536000; Path=/; SameSite=Lax`;
-    setOpen(false);
-  };
-  if (!open) return null;
+  const consent = useConsent();
+  // Rendered only after mount: the server cannot know the choice, and this avoids a flash for returning visitors.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const choose = (v: Consent) => writeConsent(v);
+  if (!mounted || consent) return null;
   return (
     <div role="dialog" aria-label="Cookie preferences" className="anim-cardin fixed inset-x-4 bottom-4 z-50 mx-auto max-w-[720px] rounded-2xl border border-line bg-white p-5 shadow-[0_16px_48px_rgba(0,0,0,.14)] sm:flex sm:items-center sm:gap-5">
       <p className="text-[14px] text-[#444]">

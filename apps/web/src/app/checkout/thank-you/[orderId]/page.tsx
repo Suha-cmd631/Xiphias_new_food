@@ -15,7 +15,7 @@ export default function ThankYou({ params }: { params: Promise<{ orderId: string
   const { orderId } = use(params);
   const status = useCheckoutStatus(orderId, true);
   const settled = status.data?.paymentStatus === "paid" || status.data?.paymentStatus === "failed";
-  const order = useQuery({ queryKey: ["order", orderId], queryFn: () => api.get<OrderDetail>(`/orders/${orderId}`), enabled: settled });
+  const order = useQuery({ queryKey: ["order", orderId], queryFn: () => api.get<OrderDetail>(`/orders/${orderId}`), enabled: settled, retry: false });
   const paid = status.data?.paymentStatus === "paid";
   const qc = useQueryClient();
   // The cart changes when payment settles (emptied on success, handed back on failure) — refresh the header's copy.
@@ -28,6 +28,11 @@ export default function ThankYou({ params }: { params: Promise<{ orderId: string
         {paid && <><CheckCircle2 className="mx-auto h-14 w-14 text-leaf" /><h1 className="mt-4 text-[clamp(30px,4vw,44px)]">Thank you — order {status.data!.orderNumber} is confirmed</h1><p className="mt-2 text-muted">A receipt is on its way to your inbox. We'll email tracking the moment it ships.</p></>}
         {status.data?.paymentStatus === "failed" && <><XCircle className="mx-auto h-14 w-14 text-danger" /><h1 className="mt-4 text-[32px]">Payment didn't go through</h1><p className="mt-2 text-muted">Nothing was charged. Your cart has been kept exactly as it was, so you can try again.</p><ButtonLink href="/checkout" variant="dark" className="mt-5">Try payment again</ButtonLink></>}
       </div>
+      {/* Order details are only shown to the browser that placed the order (or its signed-in owner). Anyone else — or the
+          same shopper days later — sees the status above and can look the order up with number + email. */}
+      {settled && order.isError && (
+        <p className="mx-auto mt-8 max-w-2xl text-center text-[14px] text-muted">To see the full order details, use <Link href="/track" className="underline">Track order</Link> with your order number and email.</p>
+      )}
       {order.data && (
         <div className="mx-auto mt-10 max-w-2xl rounded-card border border-line p-6">
           <ul className="divide-y divide-line">{order.data.lines.map((l, i) => <li key={i} className="flex justify-between py-3 text-[15px]"><span>{l.productName} <small className="text-muted">· {l.variantTitle} × {l.qty}</small></span><b>{l.lineTotal.formatted}</b></li>)}</ul>

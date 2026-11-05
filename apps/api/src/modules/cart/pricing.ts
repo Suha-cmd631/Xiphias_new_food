@@ -27,3 +27,29 @@ export function totals(lines: PricedLine[], discount: number, shipping: number, 
   const grandTotal = round2(Math.max(0, subtotal - discount) + shipping + tax);
   return { subtotal, discount: round2(discount), shipping: round2(shipping), tax, grandTotal };
 }
+
+/**
+ * Per-customer coupon rules (pure). The Coupon table has no per-customer columns yet, so the two flags live here:
+ * - first-order coupons (WELCOME10) are refused once that email has a paid order;
+ * - every coupon is single-use per email unless it is explicitly multi-use (BULKSAVE, a standing volume discount).
+ * Override without a deploy via the SiteSetting row `coupon_rules` = { "firstOrderOnly": [...], "multiUse": [...] }.
+ * Drop 2 (admin) should turn these into Coupon columns.
+ */
+export type CouponRules = { firstOrderOnly: string[]; multiUse: string[] };
+export const DEFAULT_COUPON_RULES: CouponRules = { firstOrderOnly: ["WELCOME10"], multiUse: ["BULKSAVE"] };
+
+export function parseCouponRules(value: unknown): CouponRules {
+  const v = (value ?? {}) as { firstOrderOnly?: unknown; multiUse?: unknown };
+  const codes = (x: unknown, fallback: string[]) => (Array.isArray(x) ? x.filter((c): c is string => typeof c === "string").map((c) => c.toUpperCase()) : fallback);
+  return { firstOrderOnly: codes(v.firstOrderOnly, DEFAULT_COUPON_RULES.firstOrderOnly), multiUse: codes(v.multiUse, DEFAULT_COUPON_RULES.multiUse) };
+}
+
+/** What this email has done before: paid orders overall, and orders (paid, or still awaiting payment) that used this coupon. */
+export type CouponHistory = { paidOrders: number; usesOfThisCoupon: number };
+
+export function couponEligibility(code: string, history: CouponHistory, rules: CouponRules = DEFAULT_COUPON_RULES): { ok: boolean; reason?: string } {
+  const c = code.toUpperCase();
+  if (rules.firstOrderOnly.includes(c) && history.paidOrders > 0) return { ok: false, reason: `${c} is for first orders only, and this email has already ordered with us` };
+  if (!rules.multiUse.includes(c) && history.usesOfThisCoupon > 0) return { ok: false, reason: `${c} has already been used with this email` };
+  return { ok: true };
+}

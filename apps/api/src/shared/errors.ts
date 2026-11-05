@@ -16,7 +16,8 @@ export const notFound = (what = "Resource") => new AppError(404, "NOT_FOUND", `$
 export const badRequest = (code: string, message: string, details?: unknown) => new AppError(400, code, message, details);
 export const conflict = (code: string, message: string, details?: unknown) => new AppError(409, code, message, details);
 export const unauthorized = (message = "Sign in required") => new AppError(401, "UNAUTHORIZED", message);
-export const unavailable = (code: string, message: string) => new AppError(503, code, message);
+export const forbidden = (code: string, message: string) => new AppError(403, code, message);
+export const unavailable = (code: string, message: string, details?: unknown) => new AppError(503, code, message, details);
 
 export const notFoundHandler: RequestHandler = (_req, _res, next) => next(notFound("Route"));
 

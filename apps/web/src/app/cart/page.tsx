@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { useApplyCoupon, useCart, useRemoveCoupon, useRemoveLine, useUpdateLine } from "@/lib/api/queries";
+import { useApplyCoupon, useCart, useRegions, useRemoveCoupon, useRemoveLine, useUpdateLine } from "@/lib/api/queries";
+import { CheckoutClosedNotice, isCanada } from "../checkout/closed-notice";
 import { PageHeader } from "@/components/ui/section";
 import { ButtonLink, Button } from "@/components/ui/button";
 import { ErrorState, Skeleton } from "@/components/ui/feedback";
@@ -15,6 +16,10 @@ export default function CartPage() {
   const apply = useApplyCoupon();
   const removeCoupon = useRemoveCoupon();
   const [code, setCode] = useState("");
+  const regions = useRegions();
+  const region = regions.data?.regions.find((r) => r.code === regions.data!.current);
+  // Checkout is switched off for some places (Canada for now): prices stay visible, the order button is replaced by a notice.
+  const closed = region?.checkoutEnabled === false;
   return (
     <>
       <PageHeader crumbs={[{ href: "/", label: "Home" }, { label: "Cart" }]} title="Your cart" />
@@ -65,7 +70,9 @@ export default function CartPage() {
                 <div className="flex justify-between border-t border-line pt-3 text-[18px] font-semibold"><dt>Total</dt><dd>{cart.totals.grandTotal.formatted}</dd></div>
               </dl>
               {cart.totals.freeShippingRemaining && <p className="mt-3 text-[13px] text-leaf-dark">Add {cart.totals.freeShippingRemaining.formatted} more for free shipping.</p>}
-              <ButtonLink href="/checkout" variant="dark" size="lg" className="mt-5 w-full">Proceed to checkout</ButtonLink>
+              {closed && region
+                ? <CheckoutClosedNotice place={region.name} canada={isCanada([region.code, ...region.countries])} className="mt-5" />
+                : <ButtonLink href="/checkout" variant="dark" size="lg" className="mt-5 w-full">Proceed to checkout</ButtonLink>}
               <p className="mt-3 text-center text-[12px] text-muted">Secure checkout · JioPay (India) · Stripe (worldwide)</p>
             </aside>
           </div>

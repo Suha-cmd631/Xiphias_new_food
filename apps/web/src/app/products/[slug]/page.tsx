@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { ProductDetail } from "@xsf/contracts";
+import type { Page, ProductDetail, RegionCode, RegionsResponse } from "@xsf/contracts";
 import { apiGet, ApiError } from "@/lib/api/server";
 import { PageHeader, Section, SectionHead } from "@/components/ui/section";
 import { Gallery } from "@/components/product/gallery";
@@ -9,7 +9,10 @@ import { ProductSections } from "@/components/product/sections";
 import { ProductGrid } from "@/components/shop/product-grid";
 import { QuickView } from "@/components/shop/quick-view";
 import { JsonLd } from "@/components/seo/json-ld";
-import { SITE } from "@/lib/site";
+import { productLd, returnDaysFromPolicy, type ReturnFacts } from "@/components/seo/schemas";
+import { RegionNotice } from "@/components/market/region-notice";
+import { ViewItem } from "@/components/analytics/view-item";
+import { topicForProduct } from "@/lib/market-topics";
 import { Star } from "lucide-react";
 import { brandTitle } from "@/lib/seo";
 
@@ -20,17 +23,42 @@ async function load(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = await load((await params).slug);
   if (!p) return { title: "Not found" };
-  return { title: brandTitle(p.seoTitle ?? p.name), description: p.seoDescription ?? p.description, openGraph: { images: [p.image] }, alternates: { canonical: `/products/${p.slug}` } };
+  // Products that have a US / Canada landing page point to it for those audiences; this page stays the default for everyone else.
+  const topic = topicForProduct(p.slug);
+  const languages = topic ? { "en-US": `/us/${topic.slug}`, "en-CA": `/ca/${topic.slug}`, "x-default": `/products/${p.slug}` } : undefined;
+  return { title: brandTitle(p.seoTitle ?? p.name), description: p.seoDescription ?? p.description, openGraph: { images: [p.image] }, alternates: { canonical: `/products/${p.slug}`, languages } };
 }
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const p = await load((await params).slug);
+const REGION_CODES: readonly RegionCode[] = ["IN", "EU", "UK", "US", "CA", "ME", "ROW"];
+
+/** Return window for structured data: only when the returns policy states a clear number of days, for the countries of the shopper's region. */
+async function returnFacts(): Promise<ReturnFacts | null> {
+  try {
+    const [policy, regions] = await Promise.all([apiGet<Page>("/content/pages/returns"), apiGet<RegionsResponse>("/regions")]);
+    const days = returnDaysFromPolicy(policy.bodyHtml);
+    const countries = regions.regions.find((r) => r.code === regions.current)?.countries ?? [];
+    return days && countries.length > 0 ? { days, countries } : null;
+  } catch {
+    return null; // structured data is optional — never fail the product page over it
+  }
+}
+
+export default async function ProductPage({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ region?: string | string[]; variant?: string | string[] }> }) {
+  const [p, returns, sp] = await Promise.all([load((await params).slug), returnFacts(), searchParams]);
   if (!p) notFound();
-  const v0 = p.variants[0];
+  // ?region=US comes from the /us pages and the Google feed. It never changes the region by itself: it only lets us
+  // show the "switch" notice when the shopper's own region differs. ?variant=<SKU> preselects that pack.
+  const regionParam = typeof sp.region === "string" ? sp.region.toUpperCase() : "";
+  const hinted = REGION_CODES.find((c) => c === regionParam);
+  const initialSku = typeof sp.variant === "string" ? sp.variant : undefined;
+  const shown = p.variants.find((v) => v.sku === initialSku) ?? p.variants[0];
   return (
     <>
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "Product", name: p.name, image: p.images.map((i) => SITE.url + i.url), description: p.description, sku: v0?.sku, brand: { "@type": "Brand", name: "Xiphias Superfoods" }, offers: p.variants.map((v) => ({ "@type": "Offer", price: v.price.amount, priceCurrency: v.price.currency, availability: v.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", url: `${SITE.url}/products/${p.slug}`, sku: v.sku })) }} />
+      {/* Offers are in the currency of the region this request was priced for. No aggregateRating: there is no verified review data. */}
+      <JsonLd data={productLd(p, { returns })} />
+      {shown && <ViewItem id={shown.sku} name={p.name} category={p.category.name} price={shown.price.amount} currency={shown.price.currency} />}
       <PageHeader crumbs={[{ href: "/", label: "Home" }, { href: "/shop", label: "Shop" }, { href: `/shop/${p.category.slug}`, label: p.category.name }, { label: p.name }]} />
+      {hinted && <div className="wrap"><RegionNotice want={hinted} onlyWhenDifferent className="mt-5" /></div>}
       <Section tight>
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
           <Gallery images={p.images} name={p.name} />
@@ -45,7 +73,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             )}
             <p className="mt-4 text-[16px] text-[#444]">{p.description}</p>
             <div className="mt-3 flex flex-wrap gap-2">{p.diet.map((d) => <span key={d} className="rounded-full bg-leaf-soft px-3 py-1 text-[12.5px] font-semibold capitalize text-leaf-dark">{d}</span>)}</div>
-            <BuyBox product={p} />
+            <BuyBox product={p} initialSku={initialSku} />
           </div>
         </div>
       </Section>

@@ -22,4 +22,5 @@ export const money = (amount: number | Prisma.Decimal, currency: string): Money 
 
 /** Minor units for gateways (Stripe wants integer cents; INR paise). */
 export const toMinor = (amount: number, currency: string) => (ZERO_DECIMAL.has(currency) ? Math.round(amount) : Math.round(amount * 100));
+export const fromMinor = (minor: number, currency: string) => (ZERO_DECIMAL.has(currency.toUpperCase()) ? minor : round2(minor / 100));
 export const dec = (x: number) => new Prisma.Decimal(round2(x).toFixed(2));

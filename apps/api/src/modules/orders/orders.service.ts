@@ -29,10 +29,17 @@ const detail = (o: Row): OrderDetail => ({
 });
 
 export const ordersService = {
-  /** Guest access to one order: id + matching email (thank-you page, tracking). */
-  async byIdForEmail(id: string, email: string | undefined) {
+  /**
+   * One order by id. The id alone is NOT enough (it travels in URLs): the caller must prove a link to the order —
+   * signed-in owner, the order-access cookie set at checkout for this browser, or the order's email address.
+   * Every failure is the same 404 so ids cannot be probed.
+   */
+  async byIdWithProof(id: string, proof: { customerId?: string | null; hasGrant: boolean; email?: string }) {
     const o = await ordersRepo.detail({ id });
-    if (!o || (email && o.email.toLowerCase() !== email.toLowerCase())) throw notFound("Order");
+    if (!o) throw notFound("Order");
+    const owner = proof.customerId != null && o.customerId === proof.customerId;
+    const emailOk = proof.email != null && proof.email.trim() !== "" && o.email.toLowerCase() === proof.email.trim().toLowerCase();
+    if (!owner && !proof.hasGrant && !emailOk) throw notFound("Order");
     return detail(o);
   },
   async track(number: string, email: string) {

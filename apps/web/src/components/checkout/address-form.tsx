@@ -31,7 +31,7 @@ export function AddressForm({ cart, regions, onDone }: { cart: Cart; regions: Re
       <Label>City<Input {...register("address.city")} /><FieldError>{errors.address?.city?.message}</FieldError></Label>
       <Label>State / province<Input {...register("address.state")} /></Label>
       <Label>Postal code<Input {...register("address.postalCode")} /><FieldError>{errors.address?.postalCode?.message}</FieldError></Label>
-      <Label>Country<Select {...register("address.countryCode")}>{region.countries.map((c) => <option key={c} value={c}>{NAMES[c] ?? c}</option>)}</Select><span className="text-[12px] font-normal text-muted">Shipping somewhere else? Change the region in the header.</span></Label>
+      <Label>Country<Select {...register("address.countryCode")}>{region.countries.filter((c) => !(region.closedCountries ?? []).includes(c)).map((c) => <option key={c} value={c}>{NAMES[c] ?? c}</option>)}</Select><span className="text-[12px] font-normal text-muted">Shipping somewhere else? Change the region in the header.</span></Label>
       <Label className="sm:col-span-2">Phone (courier contact)<Input {...register("address.phone")} /><FieldError>{errors.address?.phone?.message}</FieldError></Label>
       {err && <p className="sm:col-span-2 text-[13.5px] text-danger">{err.message}</p>}
       <div className="sm:col-span-2"><Button type="submit" variant="dark" size="lg" disabled={set.isPending}>{set.isPending ? "Saving…" : "Continue to shipping"}</Button></div>

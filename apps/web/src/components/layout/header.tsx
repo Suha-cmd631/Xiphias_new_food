@@ -31,7 +31,7 @@ export function Header() {
         </div>
       </div>
       <div className="anim-dropin relative z-10 hidden border-y border-line md:block [animation-delay:160ms]">
-        <div className="wrap flex items-center py-2">
+        <div className="wrap flex items-center py-1.5">
           <Nav />
           <div className="ml-auto flex items-center gap-3">
             <StorePill />
