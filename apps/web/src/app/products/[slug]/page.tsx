@@ -9,7 +9,11 @@ import { ProductSections } from "@/components/product/sections";
 import { ProductGrid } from "@/components/shop/product-grid";
 import { QuickView } from "@/components/shop/quick-view";
 import { JsonLd } from "@/components/seo/json-ld";
-import { productLd, returnDaysFromPolicy, type ReturnFacts } from "@/components/seo/schemas";
+import { breadcrumbLd, faqLd, productLd, returnDaysFromPolicy, type ReturnFacts } from "@/components/seo/schemas";
+import { Faq } from "@/components/ui/faq";
+import { guidesForProduct } from "@/lib/learn";
+import Link from "next/link";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { RegionNotice } from "@/components/market/region-notice";
 import { ViewItem } from "@/components/analytics/view-item";
 import { topicForProduct } from "@/lib/market-topics";
@@ -52,10 +56,13 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
   const hinted = REGION_CODES.find((c) => c === regionParam);
   const initialSku = typeof sp.variant === "string" ? sp.variant : undefined;
   const shown = p.variants.find((v) => v.sku === initialSku) ?? p.variants[0];
+  const guides = guidesForProduct(p.slug);
   return (
     <>
       {/* Offers are in the currency of the region this request was priced for. No aggregateRating: there is no verified review data. */}
       <JsonLd data={productLd(p, { returns })} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Shop", path: "/shop" }, { name: p.category.name, path: `/shop/${p.category.slug}` }, { name: p.name, path: `/products/${p.slug}` }])} />
+      {p.faqs.length > 0 && <JsonLd data={faqLd(p.faqs)} />}
       {shown && <ViewItem id={shown.sku} name={p.name} category={p.category.name} price={shown.price.amount} currency={shown.price.currency} />}
       <PageHeader crumbs={[{ href: "/", label: "Home" }, { href: "/shop", label: "Shop" }, { href: `/shop/${p.category.slug}`, label: p.category.name }, { label: p.name }]} />
       {hinted && <div className="wrap"><RegionNotice want={hinted} onlyWhenDifferent className="mt-5" /></div>}
@@ -63,16 +70,17 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
           <Gallery images={p.images} name={p.name} />
           <div className="hero-t">
-            <span className="kick">{p.category.name}{p.origin ? ` · ${p.origin}` : ""}</span>
-            <h1 className="text-[clamp(32px,4vw,48px)] leading-[1.08]">{p.name}</h1>
+            <span className="kick kick-line">{p.category.name}{p.origin ? ` · ${p.origin}` : ""}</span>
+            <h1 className="text-[clamp(34px,4.2vw,54px)] leading-[1.05]">{p.name}</h1>
+            {p.subtitle && <p className="mt-2 text-[15px] font-medium text-gold-deep">{p.subtitle}</p>}
             {p.reviewCount > 0 && (
               <div className="mt-3 flex items-center gap-2 text-gold" aria-label={`Rated ${p.rating} out of 5`}>
                 {[0, 1, 2, 3, 4].map((i) => <Star key={i} className={i < Math.round(p.rating) ? "h-4 w-4 fill-current" : "h-4 w-4"} />)}
                 <span className="text-[13px] text-muted">{p.rating} · {p.reviewCount} reviews</span>
               </div>
             )}
-            <p className="mt-4 text-[16px] text-[#444]">{p.description}</p>
-            <div className="mt-3 flex flex-wrap gap-2">{p.diet.map((d) => <span key={d} className="rounded-full bg-leaf-soft px-3 py-1 text-[12.5px] font-semibold capitalize text-leaf-dark">{d}</span>)}</div>
+            <p className="mt-4 max-w-[60ch] text-[16.5px] leading-relaxed text-foreground">{p.description}</p>
+            <div className="mt-3 flex flex-wrap gap-2">{p.diet.map((d) => <span key={d} className="rounded-full border border-line bg-paper px-3 py-1 text-[12.5px] font-semibold capitalize text-royal-deep">{d}</span>)}</div>
             <BuyBox product={p} initialSku={initialSku} />
           </div>
         </div>
@@ -80,7 +88,7 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
       <Section tight>
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <ProductSections sections={p.bodySections} />
-          <aside className="grid content-start gap-4 rounded-card bg-soft p-6 text-[14.5px]">
+          <aside className="grid h-fit content-start gap-4 rounded-[22px] border border-line bg-paper p-6 text-[14.5px] lg:sticky lg:top-40">
             <h3 className="text-[20px]">Good to know</h3>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
               <dt className="text-muted">Origin</dt><dd>{p.origin ?? "India"}</dd>
@@ -88,10 +96,23 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
               <dt className="text-muted">HS code</dt><dd>{p.hsCode ?? "—"}</dd>
               <dt className="text-muted">Pack sizes</dt><dd>{p.variants.map((v) => v.title).join(", ")}</dd>
             </dl>
-            <p className="text-[13px] text-muted">Certificates (organic, FSSAI, lab report per lot) travel with the export documents and are available on request.</p>
+            <p className="text-[13px] text-muted">Certificates (FSSAI and the lab report for your lot) travel with the export documents and are available on request.</p>
+            {guides.map((g) => (
+              <Link key={g.slug} href={`/learn/${g.slug}`} className="group mt-1 flex items-center gap-3 rounded-2xl bg-cream p-4 transition-colors hover:bg-gold-soft">
+                <BookOpen className="h-5 w-5 shrink-0 text-royal" />
+                <span className="flex-1 text-[14px] leading-snug"><span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-deep">Guide</span>{g.h1}</span>
+                <ArrowRight className="h-4 w-4 text-royal transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            ))}
           </aside>
         </div>
       </Section>
+      {p.faqs.length > 0 && (
+        <Section tight ariaLabel="Questions">
+          <SectionHead kick="Questions" title={`${p.name}: common questions`} center />
+          <Faq items={p.faqs} />
+        </Section>
+      )}
       <Section className="pt-0">
         <SectionHead kick="Related" title="You may also like" more={{ href: "/shop", label: "All products" }} />
         <ProductGrid items={p.related} />

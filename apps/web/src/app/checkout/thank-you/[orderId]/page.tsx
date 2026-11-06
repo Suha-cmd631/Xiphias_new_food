@@ -42,7 +42,7 @@ export default function ThankYou({ params }: { params: Promise<{ orderId: string
             <div className="flex justify-between"><dt>Shipping ({order.data.shippingMethod?.name})</dt><dd>{order.data.shipping.formatted}</dd></div>
             <div className="flex justify-between text-[17px] font-semibold"><dt>{paid ? "Total paid" : "Order total"}</dt><dd>{order.data.grandTotal.formatted}</dd></div>
           </dl>
-          <p className="mt-4 text-[14px] text-[#444]">Ships to {order.data.shippingAddress.firstName} {order.data.shippingAddress.lastName}, {order.data.shippingAddress.line1}, {order.data.shippingAddress.city} {order.data.shippingAddress.postalCode}, {order.data.shippingAddress.countryCode}.</p>
+          <p className="mt-4 text-[14px] text-foreground/85">Ships to {order.data.shippingAddress.firstName} {order.data.shippingAddress.lastName}, {order.data.shippingAddress.line1}, {order.data.shippingAddress.city} {order.data.shippingAddress.postalCode}, {order.data.shippingAddress.countryCode}.</p>
           {paid && <div className="mt-5 flex flex-wrap gap-3"><ButtonLink href="/track" variant="dark">Track order</ButtonLink><ButtonLink href="/shop">Continue shopping</ButtonLink><Link href="/account/register" className="self-center text-[14px] underline">Create an account to see orders</Link></div>}
         </div>
       )}

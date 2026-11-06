@@ -29,7 +29,7 @@ export function QuickView() {
             <div>
               <span className="kick">{q.data.category.name}</span>
               <h2 className="text-[28px] leading-tight">{q.data.name}</h2>
-              <p className="mt-2 text-[14.5px] text-[#444]">{q.data.description}</p>
+              <p className="mt-2 text-[14.5px] text-foreground/85">{q.data.description}</p>
               <BuyBox product={q.data} compact onAdded={close} />
               <Link href={`/products/${q.data.slug}`} onClick={close} className="mt-4 inline-block text-[14px] font-semibold text-leaf-dark underline">Full details →</Link>
             </div>

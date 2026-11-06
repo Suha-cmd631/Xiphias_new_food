@@ -47,11 +47,21 @@ export function cardDto(p: ProductRow, region: RegionCtx): ProductCard {
   };
 }
 
+type Section = { heading: string; html: string; faq?: { q: string; a: string }[] };
+/** bodySections stores the FAQ list as one entry with `faq`; the page gets sections and FAQs separately. */
+function splitSections(raw: unknown) {
+  const all = (Array.isArray(raw) ? raw : []) as Section[];
+  return {
+    bodySections: all.filter((s) => !s.faq).map((s) => ({ heading: s.heading, html: s.html })),
+    faqs: all.flatMap((s) => s.faq ?? []),
+  };
+}
+
 export function detailDto(p: ProductRow, region: RegionCtx, related: ProductRow[]): ProductDetail {
   return {
     ...cardDto(p, region),
     description: p.description,
-    bodySections: (p.bodySections as { heading: string; html: string }[]) ?? [],
+    ...splitSections(p.bodySections),
     images: p.images.map((i) => ({ url: i.url, alt: i.alt || p.name })),
     variants: p.variants.map((v) => variantDto(v, region.currency)).filter((v): v is VariantPrice => !!v),
     shelfLifeDays: p.shelfLifeDays,

@@ -12,6 +12,12 @@ const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: proc
 const here = dirname(fileURLToPath(import.meta.url));
 const load = <T>(f: string): T => JSON.parse(readFileSync(join(here, "data", f), "utf8")) as T;
 
+/** Written product copy (Nov 2026): SEO title/description, lead paragraph, sections, FAQs, image alt text. Keyed by slug. */
+type ProductCopy = { name: string; subtitle: string; seoTitle: string; seoDescription: string; description: string; sections: { heading: string; html: string }[]; faqs: { q: string; a: string }[]; alts: string[] };
+const COPY = load<Record<string, ProductCopy>>("product-content.json");
+/** FAQs ride along in bodySections as one entry with a `faq` list; the API splits them back out. */
+const copySections = (c: ProductCopy) => [...c.sections, { heading: "Questions", html: "", faq: c.faqs }];
+
 type SeedProduct = {
   k: string; slug: string; name: string; sub: string; cat: string; origin: string; tag: string | null; was: number | null;
   variants: [string, number][]; alt: string | null; blurb: string; diet: string[]; color: string; price: number;
@@ -84,18 +90,27 @@ async function main() {
   console.log("→ products, variants, prices, inventory");
   for (const [i, p] of products.entries()) {
     const badge = p.tag && !p.tag.startsWith("-") ? p.tag : null;
+    const copy = COPY[p.slug];
+    const copyFields = copy
+      ? { name: copy.name, subtitle: copy.subtitle, description: copy.description, bodySections: copySections(copy), seoTitle: copy.seoTitle, seoDescription: copy.seoDescription }
+      : {};
     const prod = await prisma.product.upsert({
       where: { slug: p.slug },
-      update: {},
+      update: copyFields,
       create: {
         slug: p.slug, name: p.name, subtitle: p.sub, description: p.blurb, bodySections: PRODUCT_SECTIONS(p.name, p.blurb, p.cat, p.origin),
         categoryId: catIds.get(p.cat)!, originDistrict: p.origin, hsCode: HS[p.cat] ?? null, shelfLifeDays: p.cat === "Honey & Ghee" ? 365 : 270,
         tags: [p.cat.toLowerCase(), ...p.diet], diet: p.diet, badge, isBestseller: p.tag === "Bestseller" || ["rice", "white", "makhana", "masala"].includes(p.k),
         isNew: ["korai", "gingerpowder"].includes(p.k), sortOrder: i,
         seoTitle: `${p.name} | Buy Online | Xiphias Superfoods`, seoDescription: p.blurb.slice(0, 155),
-        images: { create: [{ url: `/img/${p.k}.webp`, alt: p.name, sortOrder: 0 }, ...(p.alt ? [{ url: `/img/${p.alt}.webp`, alt: `${p.name} – detail`, sortOrder: 1 }] : [])] },
+        ...copyFields,
+        images: { create: [{ url: `/img/${p.k}.webp`, alt: copy?.name ?? p.name, sortOrder: 0 }, ...(p.alt ? [{ url: `/img/${p.alt}.webp`, alt: `${copy?.name ?? p.name} – detail`, sortOrder: 1 }] : [])] },
       },
     });
+    if (copy) {
+      // Descriptive alt text for the main photo and the pack shot (sortOrder 0 and 1).
+      for (const [i, alt] of copy.alts.entries()) await prisma.productImage.updateMany({ where: { productId: prod.id, sortOrder: i }, data: { alt } });
+    }
     for (const [vi, [title, inr]] of p.variants.entries()) {
       const sku = `XS-${p.k.toUpperCase()}-${title.replace(/\s+/g, "").toUpperCase()}`;
       const variant = await prisma.variant.upsert({

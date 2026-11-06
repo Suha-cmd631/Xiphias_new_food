@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { TOPICS } from "@/lib/market-topics";
+import { GUIDES } from "@/lib/learn";
 
 const API = process.env.API_INTERNAL_URL ?? "http://localhost:4000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = SITE.url;
-  const stat = ["", "/shop", "/about", "/b2b", "/contact", "/blog", "/faq", "/store", "/track", "/policies/shipping", "/policies/returns", "/policies/terms", "/policies/privacy", "/policies/cookies", ...SITE.categories.map((c) => `/shop/${c.slug}`)];
+  const stat = ["", "/shop", "/about", "/b2b", "/contact", "/blog", "/faq", "/store", "/track", "/learn", ...GUIDES.map((g) => `/learn/${g.slug}`), "/policies/shipping", "/policies/returns", "/policies/terms", "/policies/privacy", "/policies/cookies", ...SITE.categories.map((c) => `/shop/${c.slug}`)];
   const out: MetadataRoute.Sitemap = stat.map((p) => ({ url: base + p, changeFrequency: "weekly", priority: p === "" ? 1 : 0.7 }));
   // US / Canada search landing pages (lib/market-topics.ts): a hub per market plus one page per topic.
   for (const market of ["us", "ca"] as const) {

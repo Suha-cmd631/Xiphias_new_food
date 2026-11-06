@@ -29,7 +29,7 @@ export function SearchBox() {
 
   return (
     <form ref={box} role="search" onSubmit={submit} className="relative">
-      <div className="flex h-12 items-center rounded-full border-[1.5px] border-line bg-white pl-4 pr-1.5 focus-within:border-ink">
+      <div className="flex h-11 items-center rounded-full border border-line bg-paper pl-4 pr-1.5 focus-within:border-ink">
         <Search className="h-4.5 w-4.5 shrink-0 text-ink" aria-hidden />
         <input
           value={q}
@@ -41,7 +41,7 @@ export function SearchBox() {
           autoComplete="off"
           className="h-full min-w-0 flex-1 bg-transparent px-3 text-[15px] outline-none placeholder:text-muted"
         />
-        <button type="submit" className="h-9 rounded-full bg-ink px-4 text-[13.5px] font-semibold text-white hover:bg-leaf-dark">Search</button>
+        <button type="submit" className="h-9 rounded-full bg-royal px-4 text-[13.5px] font-semibold text-white hover:bg-royal-deep">Search</button>
       </div>
       {open && q.trim().length >= 2 && (
         <div className="anim-fadein absolute inset-x-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl border border-line bg-white shadow-card">

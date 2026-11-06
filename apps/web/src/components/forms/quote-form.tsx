@@ -9,7 +9,7 @@ import { Input, Label, Select, Textarea, FieldError } from "@/components/ui/inpu
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/feedback";
 
-const PRODUCTS = ["Organic Black Rice", "Premium Makhana", "Silver Needle White Tea", "Masala Tea", "Green Tea", "Blue Pea Tea", "Joha Rice", "Buckwheat", "Black Pepper", "Ginger / Ginger Powder", "Raw Honey", "Gir Cow Ghee"];
+const PRODUCTS = ["Black Rice", "Makhana", "Silver Needle White Tea", "Masala Tea", "Green Tea", "Blue Pea Tea", "Joha Rice", "Buckwheat", "Black Pepper", "Ginger / Ginger Powder", "Raw Honey", "Gir Cow Ghee"];
 const Form = B2BQuoteBody.extend({ products: z.array(z.string()).min(1, "Pick at least one product") });
 type In = z.input<typeof Form>;
 

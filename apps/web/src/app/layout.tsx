@@ -44,7 +44,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: "Xiphias Superfoods – Premium Organic Teas, Spices & Superfoods", template: "%s | Xiphias Superfoods" },
+  title: { default: "Xiphias Superfoods: Single-Origin Indian Teas & Superfoods", template: "%s | Xiphias Superfoods" },
   description: SITE.description,
   openGraph: { type: "website", siteName: SITE.name, images: ["/img/banner_offer.webp"] },
   robots: { index: true, follow: true },

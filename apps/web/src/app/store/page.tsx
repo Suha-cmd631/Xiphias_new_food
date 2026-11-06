@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/ui/section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Our store – Koramangala, Bengaluru", alternates: { canonical: "/store" } };
+export const metadata: Metadata = { title: "Our Store in Koramangala, Bengaluru", description: "Visit the Xiphias Superfoods store in Koramangala, Bengaluru, to taste our teas and pick up online orders. Opening hours, address and directions.", alternates: { canonical: "/store" } };
 
 export default async function StorePage() {
   const p = await apiGet<Page>("/content/pages/store");

@@ -43,7 +43,7 @@ export function ProductCard({ p, index = 0, variantId }: { p: Card; index?: numb
   const action = "grid h-10 w-10 place-items-center rounded-full bg-white text-ink shadow-soft ring-1 ring-ink/5 transition-colors hover:bg-ink hover:text-white";
   return (
     <Reveal as="article" delay={(index % 4) * 60} className="group relative">
-      <div className="relative aspect-square overflow-hidden rounded-card bg-soft">
+      <div className="relative aspect-square overflow-hidden rounded-[22px] border border-line bg-cream">
         <Link href={`/products/${p.slug}`} aria-label={p.name} className="absolute inset-0">
           {/* blend sits on the <img> itself so the white studio background takes the tile colour */}
           <Image src={img.main} alt={p.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px" className={cn("object-cover transition-all duration-700", img.blend && "mix-blend-multiply", img.hover ? "group-hover:opacity-0" : "group-hover:scale-[1.03]")} />
@@ -65,16 +65,17 @@ export function ProductCard({ p, index = 0, variantId }: { p: Card; index?: numb
         </div>
       </div>
       <div className="mt-4 grid gap-1">
+        {p.origin && <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-deep">{p.origin}</span>}
         {p.reviewCount > 0 && (
           <div className="flex items-center gap-1 text-gold" aria-label={`${p.rating} out of 5`}>
             {[0, 1, 2, 3, 4].map((i) => <Star key={i} className={cn("h-3.5 w-3.5", i < Math.round(p.rating) ? "fill-current" : "")} />)}
             <span className="ml-1 text-[12px] text-muted">({p.reviewCount})</span>
           </div>
         )}
-        <h3 className="text-[18.5px] leading-snug sm:text-[20px]"><Link href={`/products/${p.slug}`} className="transition-colors hover:text-royal">{p.name}</Link></h3>
+        <h3 className="text-[18.5px] font-normal leading-snug sm:text-[21px]"><Link href={`/products/${p.slug}`} className="transition-colors hover:text-royal">{p.name}</Link></h3>
         <span className="text-[13px] text-muted">{p.subtitle}</span>
         <div className="mt-0.5 flex items-baseline gap-2">
-          <b className="text-[16.5px] font-semibold tabular-nums text-ink">{p.fromPrice.formatted}</b>
+          <b className="text-[16.5px] font-semibold tabular-nums text-royal">{p.fromPrice.formatted}</b>
           {p.compareAt && <s className="text-[13.5px] text-muted">{p.compareAt.formatted}</s>}
         </div>
         {!p.availableInRegion && <small className="text-[12px] text-danger">Not shipped to your region</small>}

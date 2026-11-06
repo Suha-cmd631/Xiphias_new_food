@@ -52,6 +52,8 @@ export type ProductCard = z.infer<typeof ProductCard>;
 export const ProductDetail = ProductCard.extend({
   description: z.string(),
   bodySections: z.array(z.object({ heading: z.string(), html: z.string() })),
+  /** Product questions and answers (also emitted as FAQPage structured data). */
+  faqs: z.array(z.object({ q: z.string(), a: z.string() })),
   images: z.array(z.object({ url: z.string(), alt: z.string() })),
   variants: z.array(VariantPrice),
   shelfLifeDays: z.number().int().nullable(),

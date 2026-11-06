@@ -12,7 +12,7 @@ export function WishlistButton() {
   useEffect(() => setReady(true), []);
   const filled = ready && count > 0;
   return (
-    <Link href="/wishlist" aria-label={filled ? `Wishlist, ${count} saved` : "Wishlist"} className="grid h-12 w-12 place-items-center rounded-full border-[1.5px] border-line text-ink transition-colors hover:border-ink">
+    <Link href="/wishlist" aria-label={filled ? `Wishlist, ${count} saved` : "Wishlist"} className="grid h-11 w-11 place-items-center rounded-full border border-line bg-paper text-ink transition-colors hover:border-ink">
       <Heart className={cn("h-5 w-5 transition-colors", filled && "fill-danger text-danger")} />
     </Link>
   );

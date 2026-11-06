@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Xiphias Superfoods",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  description: "Certified organic black rice, white tea, makhana, honey, ghee and spices — sourced directly from farmers. Worldwide delivery.",
+  description: "Rare single-origin superfoods: black rice, makhana, Gir cow ghee, raw honey, Malabar spices and Silver Needle white tea. Lab-tested, shipped from India.",
   address: "1st Floor, JK Nirmala Arcade, Plot 780, 80 Feet Rd, 4th Block, Koramangala, Bengaluru 560034",
   pickup: "Aurbis Prime, No.11 Kaveri Regent Coronet, 80 Feet Road, 3rd Block, Koramangala, Bengaluru 560034",
   phone: "+91 98869 50101",
@@ -12,11 +12,23 @@ export const SITE = {
     { label: "LinkedIn", href: "https://www.linkedin.com/company/xiphiassuperfoods" },
     { label: "YouTube", href: "https://www.youtube.com/@xiphiassuperfoods" },
   ],
+  /** Header menu: the shelves people shop by, then the guides and the wholesale desk. */
+  mainNav: [
+    { href: "/shop", label: "Shop all" },
+    { href: "/shop/teas", label: "Teas" },
+    { href: "/shop/grains-rice", label: "Grains & Rice" },
+    { href: "/shop/spices", label: "Spices" },
+    { href: "/shop/nuts-snacks", label: "Nuts & Snacks" },
+    { href: "/shop/honey-ghee", label: "Honey & Ghee" },
+    { href: "/learn", label: "Learn" },
+    { href: "/b2b", label: "Wholesale" },
+  ],
   nav: [
     { href: "/", label: "Home" },
     { href: "/shop", label: "Shop" },
     { href: "/about", label: "About" },
-    { href: "/b2b", label: "B2B Solution" },
+    { href: "/b2b", label: "Wholesale" },
+    { href: "/learn", label: "Learn" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ],

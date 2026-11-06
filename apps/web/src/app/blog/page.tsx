@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { brandTitle } from "@/lib/seo";
 import type { PostListResponse } from "@xsf/contracts";
 import { apiGet } from "@/lib/api/server";
 import { BlogHero } from "@/components/blog/blog-hero";
@@ -11,7 +12,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { SP } from "@/lib/shop-params";
 
-export const metadata: Metadata = { title: "Superfood Guides, Recipes & Sourcing Stories", description: "79 articles on black rice, white tea, makhana, ghee, honey and more from Xiphias Superfoods.", alternates: { canonical: "/blog" } };
+export const metadata: Metadata = { title: brandTitle("Superfood Journal: Recipes, Guides & Sourcing Stories"), description: "Recipes, cooking guides and sourcing stories from Xiphias Superfoods: black rice, white tea, makhana, Gir cow ghee, raw honey, spices and more.", alternates: { canonical: "/blog" } };
 
 const str = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
 

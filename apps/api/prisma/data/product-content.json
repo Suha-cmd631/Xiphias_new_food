@@ -1,0 +1,718 @@
+{
+  "organic-black-rice": {
+    "name": "Black Rice (Forbidden Rice)",
+    "subtitle": "Heirloom whole-grain rice · 1 kg",
+    "seoTitle": "Black Rice (Forbidden Rice), Heirloom Whole Grain · 1 kg",
+    "seoDescription": "Heirloom Indian black rice with a nutty taste and chewy bite. Cooks in 30–35 minutes after soaking. Shipped from Bengaluru to the USA and worldwide.",
+    "description": "An heirloom whole-grain rice with its dark bran left on, so every grain cooks up deep purple, nutty and pleasantly chewy. Once known as 'forbidden' or emperor's rice, it is now an easy way to add colour and texture to bowls, salads and puddings.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Black rice is a true rice (<em>Oryza sativa</em>) whose bran layer is rich in natural dark pigments called anthocyanins, the same family of pigments found in blueberries. Because it is sold as a whole grain, with only the outer husk removed, it keeps its colour, fibre and bite.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Nutty and lightly sweet, with a firm, chewy texture. Grains stay separate when cooked, so it holds up well in salads and grain bowls. The cooking water and the rice itself turn a deep violet.</p>"
+      },
+      {
+        "heading": "How to cook it",
+        "html": "<ol><li>Rinse 1 cup of rice two or three times.</li><li>Soak for 4 hours or overnight, then drain.</li><li>Simmer with 2 cups of water and a pinch of salt, covered, on low heat for 30–35 minutes.</li><li>Rest for 10 minutes with the lid on, then fluff.</li></ol><p>Instant Pot: unsoaked rice at 1 : 1¾ water, 22 minutes high pressure, 10 minutes natural release. Full method in our <a href=\"/learn/how-to-cook-black-rice\">black rice guide</a>.</p>"
+      },
+      {
+        "heading": "Ways to use it",
+        "html": "<ul><li>Grain bowls with roasted vegetables and a sesame dressing</li><li>Cold salads with mango, cucumber and lime</li><li>Black rice pudding with coconut milk, jaggery and cardamom</li><li>Mixed half-and-half with white rice for colour</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep in an airtight container in a cool, dry cupboard. Cooked rice keeps 3–4 days in the fridge.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How long does black rice take to cook?",
+        "a": "About 30–35 minutes after a 4-hour soak, or around 45 minutes unsoaked. In an Instant Pot, 22 minutes at high pressure plus a 10-minute natural release."
+      },
+      {
+        "q": "Why does black rice turn the water purple?",
+        "a": "Its bran contains natural pigments (anthocyanins) that dissolve into the cooking water. It is normal and does not stain pans."
+      },
+      {
+        "q": "Is black rice the same as wild rice?",
+        "a": "No. Wild rice comes from a different aquatic grass. Black rice is a true rice with a dark bran layer."
+      }
+    ],
+    "alts": [
+      "Uncooked black rice in a wooden bowl with a wooden spoon",
+      "Xiphias Black Rice 1 kg pouch beside a bowl of black rice"
+    ]
+  },
+  "silver-needle-white-tea": {
+    "name": "Silver Needle White Tea",
+    "subtitle": "Hand-picked unopened buds",
+    "seoTitle": "Silver Needle White Tea, Loose Leaf Buds · 50 g & 100 g",
+    "seoDescription": "Silver Needle white tea from Fujian: hand-picked silver buds with a soft, honeyed taste. Brew at 167–185 °F for 3–5 minutes. Ships to the USA and worldwide.",
+    "description": "The most delicate of all teas: only the unopened, silver-haired buds of the tea plant, picked by hand in early spring and dried slowly. The cup is pale gold, soft and naturally sweet, with notes of honey, hay and white flowers, and it re-steeps beautifully.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Silver Needle (Bai Hao Yin Zhen) is the top grade of white tea, traditionally from Fujian. It is made from buds alone, with no leaves, which are withered and dried rather than rolled or roasted. That minimal handling is what keeps the flavour so gentle.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Light, smooth and sweet, with no bitterness when brewed correctly. Expect honey, fresh hay and a faint floral finish. The second infusion is often fuller than the first.</p>"
+      },
+      {
+        "heading": "How to brew",
+        "html": "<ul><li><strong>Tea:</strong> 2–3 g per 8 oz cup (about 2 heaped teaspoons of buds)</li><li><strong>Water:</strong> 167–185 °F (75–85 °C), never boiling</li><li><strong>Time:</strong> 3–5 minutes</li><li><strong>Re-steep:</strong> 2–3 times, adding a minute each time</li></ul><p>Cold brew: 5 g in 1 litre of cold water, 8–12 hours in the fridge. See our <a href=\"/learn/how-to-brew-white-tea\">white tea brewing guide</a>.</p>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep sealed in an airtight, opaque container away from heat, light and strong smells such as spices or coffee.</p>"
+      },
+      {
+        "heading": "Origin",
+        "html": "<p>Grown and processed in Fujian, the traditional home of Silver Needle white tea.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does Silver Needle white tea contain caffeine?",
+        "a": "Yes, like all teas made from the tea plant. The amount in your cup depends on how much tea you use, the water temperature and the steeping time."
+      },
+      {
+        "q": "What temperature should I brew white tea at?",
+        "a": "167–185 °F (75–85 °C). If you have no thermometer, let boiled water stand for 3–4 minutes before pouring."
+      },
+      {
+        "q": "How many cups does 50 g make?",
+        "a": "About 17–25 cups at 2–3 g per cup, and more when you re-steep the buds."
+      }
+    ],
+    "alts": [
+      "Silver Needle white tea buds in a wooden bowl beside a cup of pale golden tea",
+      "Xiphias Silver Needle White Tea pouch with loose buds and a glass of tea"
+    ]
+  },
+  "masala-tea-indian-spiced": {
+    "name": "Masala Chai Tea",
+    "subtitle": "Assam black tea with cardamom, cinnamon & clove",
+    "seoTitle": "Masala Chai Loose Leaf Tea, Assam + Whole Spices · 100 g",
+    "seoDescription": "Authentic masala chai blend: strong Assam black tea with cardamom, cinnamon and clove. Simmer with milk for real Indian chai in 10 minutes. Ships worldwide.",
+    "description": "The chai served in Indian homes and roadside stalls: strong, malty Assam black tea blended with cardamom, cinnamon and clove. Simmer it with milk and a little sugar for a creamy, warming cup, with no extra spices needed.",
+    "sections": [
+      {
+        "heading": "What's in it",
+        "html": "<p>Assam CTC black tea, cardamom, cinnamon and clove. Nothing else: no flavourings, no sugar.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Bold and malty from the Assam leaf, sweet-spicy from the cardamom and cinnamon, with a warm clove finish. It is made to stand up to milk.</p>"
+      },
+      {
+        "heading": "How to make chai",
+        "html": "<ol><li>Bring ½ cup of water to a boil and add 2 teaspoons of masala tea.</li><li>Simmer for 2 minutes.</li><li>Add ½ cup of milk and sugar to taste, bring to a boil, then let it rise and settle twice over 3–4 minutes.</li><li>Strain and serve.</li></ol><p>Full recipe, four-cup quantities and a dairy-free version in our <a href=\"/learn/masala-chai-recipe\">masala chai recipe</a>.</p>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep the pouch tightly closed in a cool, dry place to hold on to the spice aroma.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does masala chai contain caffeine?",
+        "a": "Yes. It is made with Assam black tea, so it has about as much caffeine as a cup of black tea."
+      },
+      {
+        "q": "Can I brew it like a tea bag instead of simmering?",
+        "a": "Yes: steep 2 teaspoons in boiling water for 4–5 minutes and add hot milk. Simmering on the stove gives a fuller, creamier cup."
+      },
+      {
+        "q": "Does it contain sugar?",
+        "a": "No. Sweeten to taste when you make it."
+      }
+    ],
+    "alts": [
+      "Masala chai loose tea with cinnamon sticks, cardamom and cloves",
+      "Xiphias Masala Tea pouch beside a cup of milky chai"
+    ]
+  },
+  "premium-organic-blue-pea-tea": {
+    "name": "Butterfly Pea Flower Tea",
+    "subtitle": "Caffeine-free butterfly pea flowers",
+    "seoTitle": "Butterfly Pea Flower Tea, Dried Blue Flowers · 100 g",
+    "seoDescription": "Whole dried butterfly pea flowers for a caffeine-free, deep blue herbal tea that turns purple with lemon. Great hot, iced or as a latte. Ships worldwide.",
+    "description": "Whole dried butterfly pea flowers that brew into a vivid sapphire-blue herbal tea, naturally caffeine-free, with a mild, woody taste. Add a squeeze of lemon and watch it turn violet.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>The flowers of the butterfly pea vine (<em>Clitoria ternatea</em>), grown in India, sun-dried whole. They contain no tea leaves, so the drink is a herbal infusion with no caffeine.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Mild, earthy and slightly woody. On its own it is gentle; most people add honey, lemon, ginger or lemongrass.</p>"
+      },
+      {
+        "heading": "How to brew",
+        "html": "<ul><li><strong>Flowers:</strong> 5–6 per cup (about 1 teaspoon)</li><li><strong>Water:</strong> just off the boil, 195–212 °F (90–100 °C)</li><li><strong>Time:</strong> 5 minutes, until deep blue</li></ul><p>Iced lemonade and blue latte recipes in our <a href=\"/learn/butterfly-pea-flower-tea\">butterfly pea tea guide</a>.</p>"
+      },
+      {
+        "heading": "Why it changes colour",
+        "html": "<p>The flowers' natural pigments react to acidity: lemon or lime turns the tea from blue to purple and pink. Nothing is added to create the effect.</p>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep sealed and away from sunlight, which fades the colour.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Is butterfly pea tea caffeine-free?",
+        "a": "Yes. It is made only from dried flowers, not from the tea plant."
+      },
+      {
+        "q": "Why did my blue tea turn purple?",
+        "a": "Something acidic, usually lemon or lime, was added. The flower's pigments change colour with acidity."
+      },
+      {
+        "q": "Can everyone drink it?",
+        "a": "It is widely enjoyed as a herbal tea. If you are pregnant, breastfeeding or on medication, check with your doctor before adding a new herbal tea."
+      }
+    ],
+    "alts": [
+      "Dried butterfly pea flowers beside a cup of deep blue tea",
+      "Xiphias Blue Pea Tea pouch with dried flowers and a glass of blue tea"
+    ]
+  },
+  "premium-makhana-fox-nuts": {
+    "name": "Makhana (Fox Nuts)",
+    "subtitle": "Fox nuts from the ponds of Bihar",
+    "seoTitle": "Makhana (Fox Nuts / Lotus Seeds) from Bihar · 500 g & 1 kg",
+    "seoDescription": "Large, white makhana (fox nuts) hand-popped in Bihar. Roast in 5 minutes for a light, crunchy snack, or use in kheer and curries. Ships to the USA & worldwide.",
+    "description": "Large, white, hand-popped makhana from the ponds of Bihar. Light, airy and mildly nutty, they roast in five minutes into a crunchy snack that takes any seasoning, and they are just as good simmered into kheer or curries.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Makhana, also called fox nuts or phool makhana, are the seeds of the prickly water lily (<em>Euryale ferox</em>). They are harvested from shallow ponds, sun-dried, then roasted and popped by hand. Most of India's makhana comes from the Mithila region of Bihar, where ours is sourced.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Mild and slightly nutty, with a light, airy crunch once roasted. They absorb flavour readily, which is why they work for both savoury and sweet seasonings.</p>"
+      },
+      {
+        "heading": "How to roast",
+        "html": "<ol><li>Warm 1 teaspoon of ghee or oil in a wide pan on low heat.</li><li>Add 2 cups of makhana and stir often for 5–8 minutes.</li><li>When one crushes with a crisp snap, take off the heat and season.</li></ol><p>Seasoning ideas and recipes in our <a href=\"/learn/what-is-makhana\">makhana guide</a>.</p>"
+      },
+      {
+        "heading": "Ways to use it",
+        "html": "<ul><li>Roasted with salt, pepper and turmeric as a snack</li><li>Makhana kheer, simmered in milk with cardamom</li><li>Added to curries, where they soak up the sauce</li><li>Ground into a coarse coating for vegetables or paneer</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Store airtight; humidity softens makhana quickly. Re-crisp soft makhana in a dry pan for 2–3 minutes.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are makhana ready to eat?",
+        "a": "Yes, they are already popped. A quick roast in a pan makes them much crunchier."
+      },
+      {
+        "q": "Are fox nuts the same as lotus seeds?",
+        "a": "They are often sold under both names, but makhana comes from the prickly water lily (Euryale ferox), not the sacred lotus."
+      },
+      {
+        "q": "How do I keep makhana crunchy?",
+        "a": "Keep them in an airtight jar away from humidity, and dry-roast for 2–3 minutes if they soften."
+      }
+    ],
+    "alts": [
+      "Large white makhana fox nuts in a wooden bowl",
+      "Xiphias Premium Makhana pouch with fox nuts"
+    ]
+  },
+  "premium-organic-honey": {
+    "name": "Raw Indian Honey",
+    "subtitle": "Raw, unfiltered Indian honey",
+    "seoTitle": "Raw Unfiltered Honey from India · 500 ml & 1 L",
+    "seoDescription": "Raw, unfiltered Indian honey, never heated, with a rich floral taste. May crystallise naturally. For tea, toast, yogurt and baking. Ships worldwide.",
+    "description": "Raw, unfiltered honey from Indian beekeepers, jarred without heating or fine filtering so it keeps its full aroma and natural texture. Rich and floral, it is made for spooning into tea, over yogurt or onto warm toast.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Honey collected from Indian apiaries and strained only coarsely to remove wax, then jarred without being heated. Because it is not pasteurised or ultra-filtered, it keeps more of its natural aroma, and it can crystallise over time.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Rich, floral and rounded, with a gentle caramel depth. The flavour can vary slightly from harvest to harvest with the flowers the bees visit.</p>"
+      },
+      {
+        "heading": "Ways to use it",
+        "html": "<ul><li>Stirred into white tea, green tea or chai once it has cooled slightly</li><li>Over yogurt, porridge or fruit</li><li>In salad dressings and marinades</li><li>As a sweetener in baking (use about ¾ the amount of sugar)</li></ul>"
+      },
+      {
+        "heading": "If it crystallises",
+        "html": "<p>Crystallisation is natural for raw honey and is not spoilage. Stand the closed jar in warm (not boiling) water and stir until it turns liquid again.</p>"
+      },
+      {
+        "heading": "Storage & safety",
+        "html": "<p>Keep tightly closed at room temperature, away from sunlight; no fridge needed. Use a dry spoon. Do not give honey to babies under 12 months old.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Why has my honey turned solid?",
+        "a": "Raw honey crystallises naturally over time, especially in cool weather. Warm the closed jar in warm water and stir to make it liquid again."
+      },
+      {
+        "q": "Is this honey heated or pasteurised?",
+        "a": "No. It is coarsely strained and jarred without heating."
+      },
+      {
+        "q": "Does honey go bad?",
+        "a": "Kept sealed and dry, honey keeps for a very long time. Use it within the best-before date on the jar."
+      }
+    ],
+    "alts": [
+      "Golden raw honey being drizzled into a wooden bowl",
+      "Xiphias Premium Honey jar with a honey dipper"
+    ]
+  },
+  "premium-gir-cow-ghee": {
+    "name": "Gir Cow Bilona Ghee",
+    "subtitle": "A2 Gir cow ghee, bilona method",
+    "seoTitle": "A2 Gir Cow Ghee, Traditional Bilona Method · 500 ml & 1 L",
+    "seoDescription": "A2 ghee from indigenous Gir cows in Gujarat, made by the bilona method from cultured butter. Nutty aroma, high smoke point. Ships to the USA and worldwide.",
+    "description": "Golden ghee from the milk of Gir cows, an indigenous breed from Gujarat, made the traditional bilona way: milk is set into curd, hand-churned into butter, and slowly simmered into ghee. Deep, nutty and grainy, it is the ghee Indian kitchens are built on.",
+    "sections": [
+      {
+        "heading": "How it is made",
+        "html": "<ol><li>Gir cow milk is boiled, cooled and set overnight into curd.</li><li>The curd is churned with a wooden bilona until the butter separates.</li><li>The butter is simmered slowly until the water cooks off and the milk solids turn golden.</li><li>The ghee is filtered and jarred.</li></ol><p>Learn more in our <a href=\"/learn/gir-cow-ghee-guide\">ghee guide</a>.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Rich, nutty and lightly caramelised, with the slightly grainy texture traditional ghee is known for. It may be liquid in summer and solid in winter; both are normal.</p>"
+      },
+      {
+        "heading": "How to use it",
+        "html": "<ul><li>Tadka: temper cumin, mustard seeds and curry leaves for dal</li><li>Sautéing and roasting at medium-high heat</li><li>Roasting makhana or nuts</li><li>A spoonful over hot rice, rotis or khichdi</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep the jar closed in a cool cupboard away from sunlight and always use a clean, dry spoon. No fridge needed.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What does A2 mean?",
+        "a": "It refers to the type of beta-casein protein in the milk. Milk from Gir and other indigenous Indian breeds is commonly sold as A2. Ghee itself is almost pure fat, with only traces of milk protein."
+      },
+      {
+        "q": "Does ghee need refrigeration?",
+        "a": "No. Kept sealed and free of moisture, it stays good at room temperature until its best-before date."
+      },
+      {
+        "q": "Why is my ghee grainy?",
+        "a": "A grainy set is typical of slow-cooked, traditional ghee. It does not affect quality."
+      }
+    ],
+    "alts": [
+      "Glass jar of golden Gir cow ghee",
+      "Xiphias Pure Gir Cow Ghee jar with a spoon of ghee"
+    ]
+  },
+  "premium-aromatic-joha-rice": {
+    "name": "Aromatic Joha Rice",
+    "subtitle": "Assam's fragrant short-grain rice",
+    "seoTitle": "Joha Rice, Aromatic Short-Grain Rice from Assam · 500 g",
+    "seoDescription": "Joha rice from Assam: a small-grain, naturally fragrant rice with a soft texture. Cook in 15 minutes for pulao, kheer or everyday meals. Ships worldwide.",
+    "description": "Joha is Assam's prized aromatic rice: small, slender grains that cook soft and fluffy with a sweet, buttery fragrance that fills the kitchen. It is the rice Assamese families save for pulao, payash and festive meals.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>A traditional short-grain, scented rice variety grown in the Brahmaputra valley of Assam. The grains are much smaller than basmati and naturally aromatic.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Soft, slightly sticky and sweetly fragrant, with a delicate flavour that pairs well with ghee and whole spices.</p>"
+      },
+      {
+        "heading": "How to cook it",
+        "html": "<ol><li>Rinse 1 cup of rice until the water runs clear and soak for 20 minutes.</li><li>Simmer with 1½ cups of water and a pinch of salt, covered, on low heat for 12–15 minutes.</li><li>Rest for 5 minutes, then fluff gently.</li></ol>"
+      },
+      {
+        "heading": "Ways to use it",
+        "html": "<ul><li>Pulao and biryani-style rice with whole spices</li><li>Payash or kheer, simmered in milk with jaggery</li><li>Everyday steamed rice with dal and ghee</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Store airtight in a cool, dry place to keep the aroma.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How is Joha different from basmati?",
+        "a": "Joha grains are much smaller and shorter, cook softer and have a sweeter, buttery aroma, while basmati is long and stays separate."
+      },
+      {
+        "q": "Do I need to soak Joha rice?",
+        "a": "A 20-minute soak helps the grains cook evenly in about 12–15 minutes."
+      },
+      {
+        "q": "Is Joha rice gluten-free?",
+        "a": "Rice is naturally gluten-free. Check the pack for packing-facility allergen information if you need to be strict."
+      }
+    ],
+    "alts": [
+      "Aromatic Joha rice in a bowl with a wooden spoon",
+      "Xiphias Joha Rice pouch beside a bowl of rice"
+    ]
+  },
+  "premium-organic-buckwheat": {
+    "name": "Buckwheat Groats",
+    "subtitle": "Whole buckwheat groats (kuttu)",
+    "seoTitle": "Buckwheat Groats (Kuttu), Whole & Gluten-Free · 1 kg",
+    "seoDescription": "Whole Himalayan buckwheat groats, naturally gluten-free. Cook like rice in 15 minutes for bowls, porridge or salads, or grind into kuttu flour. Ships worldwide.",
+    "description": "Whole, hulled buckwheat groats from the Himalayan foothills. Despite the name, buckwheat is not wheat at all but the seed of a flowering plant, so it is naturally gluten-free. It cooks in 15 minutes into a nutty, tender grain for bowls, porridge and salads.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Buckwheat (<em>Fagopyrum esculentum</em>), known in India as kuttu, is a pseudo-cereal: a seed that is cooked and eaten like a grain. It is traditionally eaten during fasts in north India.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Earthy and nutty, with a soft, slightly chewy bite. Toasting the dry groats first deepens the flavour.</p>"
+      },
+      {
+        "heading": "How to cook it",
+        "html": "<ol><li>Rinse 1 cup of groats. For a nuttier taste, dry-toast them for 3–4 minutes.</li><li>Add 1¾ cups of water and a pinch of salt and bring to a boil.</li><li>Cover and simmer for 12–15 minutes until tender, then rest for 5 minutes.</li></ol>"
+      },
+      {
+        "heading": "Ways to use it",
+        "html": "<ul><li>Warm breakfast porridge with milk, banana and honey</li><li>Grain bowls and cold salads</li><li>Ground into flour for kuttu rotis and pancakes</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep airtight in a cool, dry cupboard.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does buckwheat contain gluten?",
+        "a": "No. Buckwheat is a seed, not a type of wheat, and is naturally gluten-free. Check the pack for packing-facility allergen information if you need to be strict."
+      },
+      {
+        "q": "Do I need to soak buckwheat?",
+        "a": "No. Rinse it and cook for 12–15 minutes."
+      },
+      {
+        "q": "What is kuttu?",
+        "a": "Kuttu is the Hindi name for buckwheat; kuttu ka atta is buckwheat flour."
+      }
+    ],
+    "alts": [
+      "Whole buckwheat groats in a wooden bowl",
+      "Xiphias Buckwheat pouch with groats"
+    ]
+  },
+  "premium-12mm-bold-black-pepper": {
+    "name": "12mm Bold Black Pepper",
+    "subtitle": "Bold Malabar peppercorns",
+    "seoTitle": "Malabar Black Peppercorns, Bold Whole Pepper · 1 kg",
+    "seoDescription": "Bold whole black peppercorns from the Malabar coast of Kerala, sun-dried for a hot, citrusy, woody bite. Grind fresh for the best flavour. Ships worldwide.",
+    "description": "Bold, size-graded black peppercorns from the Malabar coast of Kerala, where pepper has been traded for thousands of years. Sun-dried on the farm, they grind into a bright, hot pepper with citrus and pine notes that pre-ground pepper loses.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>The dried berries of the pepper vine (<em>Piper nigrum</em>), picked green and sun-dried until black and wrinkled. Larger, bolder berries are graded out for their fuller aroma.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Pungent and warm, with citrus, pine and woody notes. Grinding just before use keeps the aroma at its best.</p>"
+      },
+      {
+        "heading": "How to use it",
+        "html": "<ul><li>In a pepper mill at the table</li><li>Cracked over eggs, salads, pasta and grilled meat or paneer</li><li>Whole in curries, biryanis and stock</li><li>Toasted briefly before grinding for a deeper flavour</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep whole peppercorns in an airtight jar away from heat and light. Whole pepper keeps its aroma far longer than ground.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Why buy whole peppercorns instead of ground pepper?",
+        "a": "The aroma lives in volatile oils that fade quickly once pepper is ground. Grinding fresh gives a much brighter, hotter taste."
+      },
+      {
+        "q": "Where is Malabar pepper grown?",
+        "a": "On the Malabar coast of Kerala in south-west India, one of the oldest pepper-growing regions in the world."
+      },
+      {
+        "q": "Is 1 kg a lot?",
+        "a": "It is a kitchen or café quantity. Stored whole in an airtight jar, peppercorns keep their flavour well for many months."
+      }
+    ],
+    "alts": [
+      "Whole black peppercorns in a wooden bowl",
+      "Xiphias Black Pepper pouch with peppercorns"
+    ]
+  },
+  "premium-green-tea-leaves": {
+    "name": "Whole-Leaf Green Tea",
+    "subtitle": "Loose-leaf green tea from Assam",
+    "seoTitle": "Loose Leaf Green Tea from Assam, India · 100 g & 200 g",
+    "seoDescription": "Whole-leaf Assam green tea with a fresh, grassy taste and a clean finish. Brew at 170–175 °F for 2–3 minutes, hot or iced. Ships to the USA and worldwide.",
+    "description": "Whole-leaf green tea from Assam, steamed and dried soon after picking to keep its fresh, grassy character. Brewed cooler and shorter than black tea, it gives a clear, bright cup with a clean finish.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Leaves of the tea plant that are heated soon after plucking to stop oxidation, then rolled and dried. That is what keeps green tea green, in colour and in flavour.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Fresh and grassy, with a light vegetal sweetness. Brewed too hot or too long, any green tea turns bitter, so temperature matters.</p>"
+      },
+      {
+        "heading": "How to brew",
+        "html": "<ul><li><strong>Tea:</strong> 2 g (1 teaspoon) per 8 oz cup</li><li><strong>Water:</strong> 170–175 °F (77–80 °C)</li><li><strong>Time:</strong> 2–3 minutes</li><li><strong>Re-steep:</strong> once or twice</li></ul><p>Iced: brew double strength and pour over ice.</p>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep sealed, cool and away from light and strong smells.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does green tea have caffeine?",
+        "a": "Yes. It comes from the tea plant, so it contains caffeine, usually less than a cup of coffee."
+      },
+      {
+        "q": "Why does my green tea taste bitter?",
+        "a": "The water is probably too hot or the steep too long. Use water at 170–175 °F and steep for 2–3 minutes."
+      },
+      {
+        "q": "Can I add honey or lemon?",
+        "a": "Yes, both work well. Add honey once the tea has cooled slightly."
+      }
+    ],
+    "alts": [
+      "Loose green tea leaves in a bowl beside a cup of green tea",
+      "Xiphias Green Tea pouch with loose leaves"
+    ]
+  },
+  "premium-handpicked-almonds": {
+    "name": "Hand-Picked Almonds",
+    "subtitle": "Large, hand-sorted kernels",
+    "seoTitle": "Handpicked Whole Almonds, Large Kernels · 500 g & 1 kg",
+    "seoDescription": "Large, hand-sorted whole almonds with a sweet, buttery crunch. Snack on them, soak them overnight, or bake and blend. Shipped worldwide from Bengaluru.",
+    "description": "Large, whole almond kernels sorted by hand for size and colour, with a sweet, buttery crunch. Eat them as they are, soak them overnight the way Indian households do, or roast them for baking and nut butter.",
+    "sections": [
+      {
+        "heading": "What they are",
+        "html": "<p>Raw, whole almond kernels in their brown skins, hand-sorted to remove broken and undersized nuts, and shipped from Bengaluru.</p>"
+      },
+      {
+        "heading": "Taste & texture",
+        "html": "<p>Sweet, mild and buttery, with a firm crunch. Soaked almonds turn softer and milder, and their skins slip off easily.</p>"
+      },
+      {
+        "heading": "Ways to use them",
+        "html": "<ul><li>Soaked overnight and peeled, as a morning snack</li><li>Roasted at 350 °F (175 °C) for 8–10 minutes for salads and trail mix</li><li>Blended into almond milk or almond butter</li><li>Sliced into kheer, halwa and baking</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep in an airtight container somewhere cool and dark; in hot weather, store them in the fridge to keep them fresh.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Should I soak almonds?",
+        "a": "It is a matter of taste. Soaking overnight makes them softer and easier to peel; many people in India eat them that way."
+      },
+      {
+        "q": "Are these almonds raw?",
+        "a": "Yes, they are raw, whole kernels. Roast them yourself for a deeper flavour."
+      },
+      {
+        "q": "How do I keep almonds fresh?",
+        "a": "Store them airtight, cool and dark. Refrigerate in hot, humid weather."
+      }
+    ],
+    "alts": [
+      "Whole almonds in a wooden bowl",
+      "Xiphias Handpicked Almonds pouch with almonds"
+    ]
+  },
+  "premium-organic-stevia-tea": {
+    "name": "Stevia Leaf Tea",
+    "subtitle": "Naturally sweet dried stevia leaves",
+    "seoTitle": "Stevia Leaf Tea, Naturally Sweet & Caffeine-Free · 100 g",
+    "seoDescription": "Dried stevia leaves for a naturally sweet, caffeine-free herbal tea, or to sweeten other teas without sugar. A few leaves go a long way. Ships worldwide.",
+    "description": "Dried leaves of the stevia plant, naturally many times sweeter than sugar. Brew them on their own for a sweet, caffeine-free herbal tea, or add a pinch to green tea, chai or iced drinks to sweeten them without sugar.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>The whole dried leaves of <em>Stevia rebaudiana</em>, a herb whose leaves taste sweet naturally. This is the leaf itself, not a refined stevia powder or extract.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Distinctly sweet with a light herbal, liquorice-like note. Start with a small amount; it is easy to over-sweeten.</p>"
+      },
+      {
+        "heading": "How to use it",
+        "html": "<ul><li><strong>As a tea:</strong> ½ teaspoon of leaves per cup, boiling water, 5 minutes</li><li><strong>To sweeten other teas:</strong> add a pinch of leaves with your green tea or chai while it brews</li><li><strong>Iced:</strong> steep a stronger batch, cool and mix with lemon and mint</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep sealed in a cool, dry place away from light.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does stevia tea have caffeine?",
+        "a": "No. Stevia is a herb, not the tea plant, so the infusion is caffeine-free."
+      },
+      {
+        "q": "How much should I use?",
+        "a": "Start with half a teaspoon of leaves per cup and adjust. The leaves are very sweet."
+      },
+      {
+        "q": "Does it contain sugar?",
+        "a": "No. The sweetness comes naturally from the leaf; no sugar is added."
+      }
+    ],
+    "alts": [
+      "Dried stevia leaves in a bowl beside a cup of herbal tea",
+      "Xiphias Stevia Tea pouch with dried leaves"
+    ]
+  },
+  "premium-dried-whole-ginger": {
+    "name": "Dried Whole Ginger (Sonth)",
+    "subtitle": "Sun-dried ginger root (sonth)",
+    "seoTitle": "Dried Whole Ginger Root (Sonth) from Kerala · 500 g",
+    "seoDescription": "Sun-dried whole ginger root (sonth) from Kerala with a warm, sharp heat. Grate into chai, curries and baking, or grind into fresh ginger powder. Ships worldwide",
+    "description": "Whole ginger root from Kerala, peeled and sun-dried until hard. Dried ginger, called sonth in Hindi, has a deeper, sharper warmth than fresh ginger and keeps for months. Crush or grate it into chai, curries, spice blends and baking.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Fresh ginger (<em>Zingiber officinale</em>) rhizomes, cleaned and dried in the sun. Drying concentrates the flavour and makes the root shelf-stable.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Hot, peppery and warming, with less of the juicy brightness of fresh ginger and more depth.</p>"
+      },
+      {
+        "heading": "How to use it",
+        "html": "<ul><li>Crush a small piece into simmering chai</li><li>Add whole to curries, stews and stock, removing it before serving</li><li>Grind in a spice grinder for fresh ginger powder for baking and spice rubs</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep airtight in a cool, dry place. Whole dried ginger keeps its flavour much longer than powder.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How do I substitute dried ginger for fresh?",
+        "a": "Use much less: about ¼ teaspoon of ground dried ginger replaces roughly 1 tablespoon of grated fresh ginger."
+      },
+      {
+        "q": "How do I grind it?",
+        "a": "Break the root into small pieces and grind in a spice or coffee grinder until fine."
+      },
+      {
+        "q": "What is sonth?",
+        "a": "Sonth (or saunth) is the Hindi name for dried ginger."
+      }
+    ],
+    "alts": [
+      "Sun-dried whole ginger roots in a wooden bowl",
+      "Xiphias Dried Whole Ginger pouch"
+    ]
+  },
+  "premium-organic-ginger-powder": {
+    "name": "Ginger Powder",
+    "subtitle": "Finely ground dried ginger",
+    "seoTitle": "Ground Ginger Powder from Kerala, Pure Dried Ginger · 500 g",
+    "seoDescription": "Finely ground dried ginger from Kerala: pure ginger, nothing added. Warm and pungent for chai, baking, curries and spice rubs. Ships worldwide.",
+    "description": "Pure dried Kerala ginger, finely ground with nothing added. It brings warm, pungent heat to chai, gingerbread, curries, marinades and spice rubs, and it dissolves easily into drinks and batters.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Sun-dried ginger root ground into a fine powder. One ingredient, no fillers or anti-caking agents.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Warm, sharp and slightly sweet. Ground ginger is stronger than fresh, so a little goes a long way.</p>"
+      },
+      {
+        "heading": "How to use it",
+        "html": "<ul><li>A pinch in chai or hot milk with honey</li><li>Baking: gingerbread, cookies and cakes</li><li>Curries, dals and soups</li><li>Spice rubs and marinades with garlic, pepper and chilli</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep tightly sealed in a cool, dark place; ground spices lose aroma when exposed to air and light.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How much ground ginger equals fresh ginger?",
+        "a": "About ¼ teaspoon of ground ginger for 1 tablespoon of grated fresh ginger."
+      },
+      {
+        "q": "Does it contain anything other than ginger?",
+        "a": "No. It is 100% dried ginger, finely ground."
+      },
+      {
+        "q": "How long does it stay fresh?",
+        "a": "Kept sealed, cool and dark, it holds its aroma well until the best-before date on the pack."
+      }
+    ],
+    "alts": [
+      "Fine ground ginger powder in a bowl with fresh ginger pieces",
+      "Xiphias Ginger Powder pouch"
+    ]
+  },
+  "premium-organic-korai-guri": {
+    "name": "Korai Guri (Roasted Rice Powder)",
+    "subtitle": "Assamese roasted rice powder",
+    "seoTitle": "Korai Guri, Assamese Roasted Rice Powder · 2 kg",
+    "seoDescription": "Korai guri: traditional Assamese roasted rice powder, eaten with milk, curd and jaggery for a quick breakfast. Ready to eat, no cooking needed. Ships worldwide.",
+    "description": "Korai guri is a traditional Assamese staple: rice that is roasted until golden and ground into a fragrant powder. It is ready to eat; stir it into milk, curd or water with jaggery or banana for a quick breakfast in the Assamese jolpan tradition.",
+    "sections": [
+      {
+        "heading": "What it is",
+        "html": "<p>Rice roasted in a dry pan until toasty and fragrant (korai), then ground into a powder (guri). Because it is already roasted, it needs no cooking.</p>"
+      },
+      {
+        "heading": "Taste",
+        "html": "<p>Toasty and nutty, like puffed rice, with a fine, slightly coarse texture that thickens as it absorbs liquid.</p>"
+      },
+      {
+        "heading": "How to eat it",
+        "html": "<ul><li><strong>Jolpan breakfast:</strong> 3–4 tablespoons in a bowl with warm milk or curd, jaggery and sliced banana</li><li><strong>Quick drink:</strong> whisked into cold milk with a little sugar or honey</li><li><strong>Ladoo:</strong> mixed with melted jaggery and ghee and rolled into balls</li></ul>"
+      },
+      {
+        "heading": "Storage",
+        "html": "<p>Keep airtight in a cool, dry place so it stays crisp and fragrant.</p>"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does korai guri need cooking?",
+        "a": "No. The rice is roasted before grinding, so it is ready to eat with milk, curd or water."
+      },
+      {
+        "q": "What is jolpan?",
+        "a": "Jolpan is the traditional Assamese light breakfast or snack of rice preparations, such as korai guri, eaten with curd, milk and jaggery."
+      },
+      {
+        "q": "Is it gluten-free?",
+        "a": "It is made from rice, which is naturally gluten-free. Check the pack for packing-facility allergen information if you need to be strict."
+      }
+    ],
+    "alts": [
+      "Korai guri roasted rice powder in a wooden bowl",
+      "Xiphias Korai Guri pouch"
+    ]
+  }
+}

@@ -16,7 +16,7 @@ export function SectionHead({ kick, title, text, more, center, from = "bottom" }
   return (
     <Reveal from={from} className={cn("mb-9 flex gap-6 sm:mb-12", center ? "flex-col items-center text-center" : "items-end justify-between")}>
       <div>
-        {kick && <span className="kick">{kick}</span>}
+        {kick && <span className={cn("kick kick-line", center && "justify-center")}>{kick}</span>}
         <h2 className="text-[clamp(31px,3.7vw,50px)] leading-[1.08]">
           <WordRise text={title} />
         </h2>
@@ -35,16 +35,16 @@ export function PageHeader({ crumbs, title, text, children }: { crumbs: { href?:
   return (
     <section className="pt-7">
       <div className="wrap">
-        <nav aria-label="Breadcrumb" className="text-[12.5px] text-muted">
+        <nav aria-label="Breadcrumb" className="text-[12.5px] tracking-[0.02em] text-muted">
           {crumbs.map((c, i) => (
             <span key={i}>
-              {i > 0 && <span className="mx-2">/</span>}
-              {c.href ? <Link href={c.href} className="hover:text-ink">{c.label}</Link> : <b className="text-ink">{c.label}</b>}
+              {i > 0 && <span className="mx-2 text-gold-deep">/</span>}
+              {c.href ? <Link href={c.href} className="hover:text-royal">{c.label}</Link> : <b className="font-semibold text-royal-deep">{c.label}</b>}
             </span>
           ))}
         </nav>
-        {title && <h1 className="mt-3 text-[clamp(33px,4.2vw,54px)] leading-[1.08]">{title}</h1>}
-        {text && <p className="mt-2 max-w-[60ch] text-muted">{text}</p>}
+        {title && <h1 className="mt-4 max-w-[22ch] text-[clamp(34px,4.4vw,58px)] leading-[1.05]">{title}</h1>}
+        {text && <p className="mt-3 max-w-[68ch] text-[16.5px] leading-relaxed text-foreground/80">{text}</p>}
         {children}
       </div>
     </section>

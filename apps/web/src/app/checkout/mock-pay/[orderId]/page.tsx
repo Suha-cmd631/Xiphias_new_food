@@ -15,7 +15,7 @@ export default function MockPay({ params }: { params: Promise<{ orderId: string 
       <div className="w-full max-w-md rounded-card border-2 border-dashed border-gold bg-sand/50 p-8 text-center">
         <span className="kick">Mock payment gateway</span>
         <h1 className="text-[28px]">Simulate the payment</h1>
-        <p className="mt-2 text-[14.5px] text-[#444]">This page replaces JioPay (India) or Stripe (abroad) until their sandbox keys are added to <code>apps/api/.env</code>. Order <code>{orderId.slice(-6)}</code>.</p>
+        <p className="mt-2 text-[14.5px] text-foreground/85">This page replaces JioPay (India) or Stripe (abroad) until their sandbox keys are added to <code>apps/api/.env</code>. Order <code>{orderId.slice(-6)}</code>.</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
           <Button variant="leaf" size="lg" disabled={pay.isPending} onClick={() => go("success")}>Pay (success)</Button>
           <Button variant="outline" size="lg" disabled={pay.isPending} onClick={() => go("failure")}>Decline</Button>

@@ -10,18 +10,19 @@ import { RegionPicker } from "./region-picker";
 import { StorePill } from "./store-pill";
 import { MobileMenu } from "./mobile-menu";
 
+/** Ivory header: logo, search and account tools on top; the shelf menu underneath on desktop. */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white md:border-b-0">
+    <header className="sticky top-0 z-40 border-b border-line bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/90">
       <div className="anim-dropin relative z-20 [animation-delay:80ms]">
-        <div className="wrap flex flex-wrap items-center gap-x-3 gap-y-3 py-3 sm:flex-nowrap sm:gap-7 sm:py-4">
+        <div className="wrap flex flex-wrap items-center gap-x-3 gap-y-3 py-3 sm:flex-nowrap sm:gap-6">
           <Link href="/" aria-label="Xiphias Superfoods home" className="shrink-0">
-            <Image src="/img/logo_big.webp" alt="Xiphias Superfoods" width={112} height={98} className="h-[64px] w-auto sm:h-[72px]" priority />
+            <Image src="/img/logo_big.webp" alt="Xiphias Superfoods" width={112} height={98} className="h-[56px] w-auto sm:h-[64px]" priority />
           </Link>
-          <div className="order-last w-full min-w-0 basis-full sm:order-none sm:w-auto sm:basis-auto sm:flex-1">
+          <div className="order-last w-full min-w-0 basis-full sm:order-none sm:w-auto sm:max-w-[640px] sm:basis-auto sm:flex-1">
             <SearchBox />
           </div>
-          <div className="ml-auto flex items-center gap-1.5 sm:gap-3">
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2.5">
             <RegionPicker />
             <span className="hidden sm:block"><AccountButton /></span>
             <WishlistButton />
@@ -30,8 +31,8 @@ export function Header() {
           </div>
         </div>
       </div>
-      <div className="anim-dropin relative z-10 hidden border-y border-line md:block [animation-delay:160ms]">
-        <div className="wrap flex items-center py-1.5">
+      <div className="anim-dropin relative z-10 hidden border-t border-line md:block [animation-delay:160ms]">
+        <div className="wrap flex items-center">
           <Nav />
           <div className="ml-auto flex items-center gap-3">
             <StorePill />

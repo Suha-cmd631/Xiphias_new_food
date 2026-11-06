@@ -23,17 +23,17 @@ export function MobileMenu() {
       <button onClick={() => setOpen(true)} aria-label="Menu" aria-expanded={open} className="grid h-12 w-10 place-items-center"><Menu className="h-6.5 w-6.5" /></button>
       {open && mounted && createPortal(
         <div className="anim-fadein fixed inset-0 z-[80] bg-black/40" onClick={close} role="dialog" aria-modal="true" aria-label="Menu">
-          <nav className="anim-slidein ml-auto flex h-full w-[82%] max-w-sm flex-col overflow-y-auto bg-white p-6" onClick={(e) => e.stopPropagation()}>
+          <nav className="anim-slidein ml-auto flex h-full w-[82%] max-w-sm flex-col overflow-y-auto bg-background p-6" onClick={(e) => e.stopPropagation()}>
             <button onClick={close} aria-label="Close menu" className="self-end p-1"><X className="h-6 w-6" /></button>
-            <ul className="mt-4 grid gap-1 text-[20px] font-medium text-ink">
-              {SITE.nav.map((i) => (
+            <ul className="mt-4 grid gap-1 font-head text-[21px] text-royal-deep">
+              {SITE.mainNav.map((i) => (
                 <li key={i.href}><Link href={i.href} onClick={close} className="block border-b border-line py-3">{i.label}</Link></li>
               ))}
             </ul>
             <div className="mt-6">
-              <span className="kick">Shelves</span>
+              <span className="kick">More</span>
               <ul className="grid gap-2.5 text-[15.5px]">
-                {SITE.categories.map((c) => <li key={c.slug}><Link href={`/shop/${c.slug}`} onClick={close}>{c.name}</Link></li>)}
+                {[{ href: "/about", label: "Our story" }, { href: "/blog", label: "Journal" }, { href: "/faq", label: "FAQ" }, { href: "/contact", label: "Contact" }].map((l) => <li key={l.href}><Link href={l.href} onClick={close}>{l.label}</Link></li>)}
               </ul>
             </div>
             <div className="mt-6">

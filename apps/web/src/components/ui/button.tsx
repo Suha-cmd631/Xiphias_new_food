@@ -9,12 +9,13 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         outline: "border border-ink/35 text-ink hover:border-ink hover:bg-ink hover:text-white",
-        dark: "bg-ink text-white shadow-soft hover:bg-royal",
+        dark: "bg-royal text-white shadow-soft hover:bg-royal-deep",
+        navy: "bg-ink text-white shadow-soft hover:bg-royal",
         // "leaf" is the legacy name of the accent button: gold with navy text (8.2:1).
         leaf: "bg-gold text-ink hover:bg-ink hover:text-white",
         gold: "bg-gold text-ink hover:bg-white",
         ghost: "text-ink hover:bg-soft",
-        white: "bg-white text-ink shadow-card hover:bg-gold",
+        white: "bg-paper text-ink shadow-card hover:bg-gold",
       },
       size: { sm: "h-9 px-4 text-[13.5px]", md: "h-11 px-6 text-[14.5px]", lg: "h-13 px-8 text-[15.5px]", icon: "h-10 w-10" },
     },

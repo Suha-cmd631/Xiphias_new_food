@@ -14,7 +14,7 @@ export function RegionPicker() {
   const current = data?.regions.find((r) => r.code === data.current);
   return (
     <div className="relative">
-      <button onClick={() => setOpen((o) => !o)} aria-haspopup="listbox" aria-expanded={open} className="inline-flex h-12 items-center gap-2 rounded-full border-[1.5px] border-line px-3 text-[14px] font-medium text-ink hover:border-ink sm:px-4">
+      <button onClick={() => setOpen((o) => !o)} aria-haspopup="listbox" aria-expanded={open} className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-paper px-3 text-[14px] font-medium text-ink hover:border-ink sm:px-4">
         <Globe className="h-4.5 w-4.5" />
         <span>{current ? `${FLAG[current.code]} ${current.currency}` : "…"}</span>
       </button>

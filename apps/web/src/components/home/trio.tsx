@@ -22,7 +22,7 @@ export function Trio() {
             <div className="grid flex-1 content-start gap-3 p-8 pt-9">
               <span className="kick">{c.kick}</span>
               <h3 className="text-[28px] leading-tight">{c.title}</h3>
-              <p className="text-[15px] text-[#444]">{c.text}</p>
+              <p className="text-[15px] text-foreground/85">{c.text}</p>
               <Link href={c.href} className={buttonVariants({ variant: "outline", size: "md", className: "mt-2 justify-self-start" })}>{c.cta}</Link>
             </div>
           </Reveal>

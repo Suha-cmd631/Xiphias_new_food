@@ -81,9 +81,9 @@ export function BuyBox({ product, compact, onAdded, initialSku }: { product: Pro
       {add.isError && <p className="mt-2 text-[13px] text-danger">{(add.error as Error).message}</p>}
       {v.inStock && v.available <= 5 && <p className="mt-2 text-[13px] font-semibold text-[#c0392b]">Only {v.available} left</p>}
       {!compact && (
-        <ul className="mt-6 grid gap-2.5 text-[14px] text-[#444]">
+        <ul className="mt-6 grid gap-2.5 text-[14px] text-foreground/85">
           <li className="flex items-center gap-2.5"><Truck className="h-4.5 w-4.5 text-leaf-dark" /> Ships in 1–2 days from Bengaluru · free delivery in India over ₹750</li>
-          <li className="flex items-center gap-2.5"><ShieldCheck className="h-4.5 w-4.5 text-leaf-dark" /> Certified organic · lab-tested per lot · 30-day returns on unopened packs</li>
+          <li className="flex items-center gap-2.5"><ShieldCheck className="h-4.5 w-4.5 text-gold-deep" /> Lab-tested per lot · FSSAI licensed · 30-day returns on unopened packs</li>
           <li className="flex items-center gap-2.5"><Leaf className="h-4.5 w-4.5 text-leaf-dark" /> {product.origin ? `Sourced from ${product.origin}` : "Farm-direct sourcing"} · {product.shelfLifeDays ? `${Math.round(product.shelfLifeDays / 30)}-month shelf life` : ""}</li>
         </ul>
       )}

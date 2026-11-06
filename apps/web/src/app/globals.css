@@ -10,33 +10,36 @@
             (leaf-dark → royal, leaf → gold, leaf-soft → blue tint) so every page re-skins at once.
    fresh* = the one remaining green, only for "plant / fresh / in season" meaning. */
 @theme {
-  --color-background: #ffffff;
+  /* Ivory page, cream panels, warm hairlines (Nov 2026 redesign: royal blue + gold on ivory). */
+  --color-background: #faf6ee;
+  --color-paper: #fffdf8;
+  --color-cream: #f2ead9;
   --color-foreground: #2b3140;
   --color-ink: #0b2545;
   --color-muted: #5b6474;
-  --color-line: #e7e3da;
-  --color-soft: #f7f4ee;
+  --color-line: #e5dccb;
+  --color-soft: #f2ead9;
 
   --color-royal: #0353ac;
   --color-royal-deep: #023b8a;
   --color-royal-soft: #eef3fb;
-  --color-gold: #e3b923;
+  --color-gold: #d9ad2b;
   --color-gold-deep: #85610a;
   --color-gold-soft: #f6edcf;
   --color-fresh: #3d6b1f;
   --color-fresh-soft: #eaf3df;
   --color-sale: #b93a2a;
 
-  --color-leaf: #e3b923;
+  --color-leaf: #d9ad2b;
   --color-leaf-dark: #0353ac;
   --color-leaf-soft: #eef3fb;
 
-  --color-sand: #f4ecd6;
-  --color-sage: #e9efe4;
-  --color-beige: #f1e8d8;
-  --color-teal: #dfe9ee;
-  --color-rose: #f3e1dc;
-  --color-sky: #e3ecf8;
+  --color-sand: #f2ead9;
+  --color-sage: #f2ead9;
+  --color-beige: #f2ead9;
+  --color-teal: #eef3fb;
+  --color-rose: #f6edcf;
+  --color-sky: #eef3fb;
   --color-danger: #c0392b;
 
   --font-head: var(--font-fraunces), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
@@ -52,8 +55,8 @@
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground font-body text-[15.5px] leading-relaxed antialiased; }
   /* Serif display: lighter weight and tighter tracking at large sizes, a touch sturdier when small. */
-  h1, h2 { @apply font-head font-normal tracking-[-0.022em] text-ink; }
-  h3, h4 { @apply font-head font-medium tracking-[-0.012em] text-ink; }
+  h1, h2 { @apply font-head font-light tracking-[-0.024em] text-royal-deep; }
+  h3, h4 { @apply font-head font-normal tracking-[-0.012em] text-ink; }
   img { @apply block max-w-full h-auto; }
   button { @apply cursor-pointer font-body; }
   input, select, textarea { @apply font-body; }
@@ -64,7 +67,8 @@
 @layer components {
   .site { @apply w-full bg-background; overflow-x: clip; }
   .wrap { @apply mx-auto w-full max-w-[1640px] px-4 sm:px-8 xl:px-12; }
-  .kick { @apply mb-3 block text-[11.5px] font-semibold uppercase tracking-[0.24em] text-gold-deep; }
+  .kick { @apply mb-3 flex items-center gap-3 text-[11.5px] font-semibold uppercase tracking-[0.24em] text-gold-deep; }
+  .kick-line::before { content: ""; @apply h-px w-7 shrink-0 bg-gold; }
   .prose-site { @apply text-[16px] leading-[1.75] text-foreground; }
   .prose-site h2 { @apply mt-8 mb-3 text-[28px]; }
   .prose-site p { @apply my-3; }

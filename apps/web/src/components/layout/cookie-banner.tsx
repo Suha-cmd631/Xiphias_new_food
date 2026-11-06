@@ -17,7 +17,7 @@ export function CookieBanner() {
   if (!mounted || consent) return null;
   return (
     <div role="dialog" aria-label="Cookie preferences" className="anim-cardin fixed inset-x-4 bottom-4 z-50 mx-auto max-w-[720px] rounded-2xl border border-line bg-white p-5 shadow-[0_16px_48px_rgba(0,0,0,.14)] sm:flex sm:items-center sm:gap-5">
-      <p className="text-[14px] text-[#444]">
+      <p className="text-[14px] text-foreground/85">
         We use cookies to keep your cart, remember your region and understand what people enjoy. Read our{" "}
         <Link href="/policies/cookies" className="font-semibold text-leaf-dark underline">cookie policy</Link>.
       </p>

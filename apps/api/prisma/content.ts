@@ -60,12 +60,15 @@ export const PAGES = [
     slug: "faq",
     title: "Frequently asked questions",
     bodyHtml: `
-<h2>Are your products certified organic?</h2><p>Yes — every product is certified organic and traceable to the district it was grown in. Certificates are listed on each product page.</p>
+<h2>Where do your products come from?</h2><p>Every product comes from a named growing region: makhana from Bihar, black and Joha rice from northeast India, ghee from Gir cows in Gujarat, pepper and ginger from Kerala, and Silver Needle white tea from Fujian, its traditional home. The origin is shown on each product page.</p>
+<h2>How do you check quality?</h2><p>We buy directly from growers and farmer groups and lab-test every lot. We are FSSAI licensed. Contact us with your order number if you would like the lab report for your lot.</p>
 <h2>Do you ship internationally?</h2><p>Yes. We ship to Europe, the UK, the USA, the Middle East and most other countries (not yet to Canada) with DHL Express. Prices are shown in your local currency.</p>
 <h2>How long does delivery take?</h2><p>India: 3–6 business days (1–3 express). International: 4–9 business days after dispatch.</p>
 <h2>Which payment methods do you accept?</h2><p>India: UPI, cards, net-banking and wallets via JioPay. Other countries: cards, Apple Pay, Google Pay and local methods via Stripe.</p>
 <h2>What is your return policy?</h2><p>Unopened products can be returned within 30 days (14-day statutory withdrawal in the EU/UK). Damaged or incorrect items are replaced free of charge.</p>
-<h2>Do you supply businesses?</h2><p>Yes — bulk supply, private label and export. See <a href="/b2b">B2B Solution</a> or request a quote.</p>`,
+<h2>How should I store your teas, grains and spices?</h2><p>Keep packs sealed, away from heat, light, moisture and strong smells. Ghee and honey keep at room temperature; always use a clean, dry spoon. Each product page has its own storage notes.</p>
+<h2>Do you have brewing and cooking guides?</h2><p>Yes. Our <a href="/learn">Learn section</a> has step-by-step guides for white tea, black rice, makhana, masala chai, butterfly pea tea and Gir cow ghee.</p>
+<h2>Do you supply businesses?</h2><p>Yes: bulk supply, private label and export. See our <a href="/b2b">wholesale page</a> or request a quote.</p>`,
   },
   {
     slug: "store",
