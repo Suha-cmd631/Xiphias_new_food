@@ -1,0 +1,575 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Xiphias Sales Tracker</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: fixed left rail of sections, one working screen at a time on the right; summary first, table second. */
+:root{
+  --bg:#f5f6f2; --surface:#ffffff; --sunk:#eef0ea; --ink:#1a1e19; --ink2:#4f564d; --muted:#7d8479; --line:#e1e5dc;
+  --accent:#3d7a22; --accent-soft:#e6f0dc; --on-accent:#ffffff; --gold:#a8790a;
+  --up:#006300; --down:#b42323;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --shadow:0 12px 40px rgba(20,30,15,.14);
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#101310; --surface:#1a1e19; --sunk:#222721; --ink:#f0f3ec; --ink2:#c1c7ba; --muted:#8a9185; --line:#2c322b;
+  --accent:#86c456; --accent-soft:#25341d; --on-accent:#0f1a09; --gold:#d9a93a;
+  --up:#3fbf3f; --down:#f07a7a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --shadow:0 12px 40px rgba(0,0,0,.5); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#101310; --surface:#1a1e19; --sunk:#222721; --ink:#f0f3ec; --ink2:#c1c7ba; --muted:#8a9185; --line:#2c322b;
+  --accent:#86c456; --accent-soft:#25341d; --on-accent:#0f1a09; --gold:#d9a93a;
+  --up:#3fbf3f; --down:#f07a7a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --shadow:0 12px 40px rgba(0,0,0,.5); color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--font);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+h1{font-size:24px;line-height:1.2;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:15px;font-weight:600}
+.app{display:grid;grid-template-columns:228px minmax(0,1fr);min-height:100%}
+.rail{background:var(--surface);border-right:1px solid var(--line);padding:20px 12px;display:flex;flex-direction:column;gap:18px;position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow:auto}
+.brand{padding:0 8px;display:grid;gap:2px}
+.brand b{font-size:15px;letter-spacing:.06em;color:var(--gold)}
+.brand span{font-size:12px;color:var(--muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--ink2);text-decoration:none;font-weight:500;white-space:nowrap}
+.nav a svg{width:17px;height:17px;flex:none}
+.nav a:hover{background:var(--sunk);color:var(--ink)}
+.nav a[aria-current="page"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.nav a[aria-current="page"] svg{color:var(--accent)}
+.rail .note{margin-top:auto;font-size:12px;color:var(--muted);padding:10px;border:1px dashed var(--line);border-radius:8px}
+.main{min-width:0;padding-inline:28px;padding-block:22px 48px;display:flex;flex-direction:column;gap:18px;max-width:1380px;width:100%}
+.head{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;justify-content:space-between}
+.head p{color:var(--ink2);margin-top:3px;max-width:65ch}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sample{display:flex;gap:8px;align-items:center;background:var(--sunk);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--ink2)}
+.sample b{color:var(--ink)}
+select,.btn,.chip,input[type=search]{height:36px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:0 12px}
+.btn{font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.btn:hover,.chip:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-weight:500;color:var(--ink2);border-radius:999px;padding:0 14px}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.panel>header{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.panel>header small,.sub{color:var(--muted);font-size:12.5px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
+.grid2e{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.kpi{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 -1px -1px 0;display:grid;gap:4px}
+.kpi span{font-size:12.5px;color:var(--ink2)}
+.kpi b{font-size:24px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.delta{font-size:12.5px;font-weight:600}
+.delta.up{color:var(--up)} .delta.down{color:var(--down)} .delta i{font-style:normal;color:var(--muted);font-weight:400}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2)}
+.legend i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
+.legend i.prev{border-top:2px dotted var(--muted)}
+.legend i.sq{width:10px;height:10px;border:0;border-radius:3px}
+.chart{position:relative;width:100%}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart text{font:11.5px var(--font);fill:var(--muted)}
+.hb{display:grid;gap:10px}
+.hb .row{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13px}
+.hb .row>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)}
+.hb .track{height:12px;position:relative}
+.hb .bar{height:12px;background:var(--accent);border-radius:0 4px 4px 0;min-width:2px}
+.hb b{font-weight:600}
+.stack{display:flex;gap:2px;height:22px}
+.stack div{border-radius:4px;min-width:3px}
+.mix{display:grid;gap:8px;margin-top:14px;font-size:13px}
+.mix div{display:flex;justify-content:space-between;gap:12px}
+.mix span{color:var(--ink2);display:flex;align-items:center;gap:8px}
+.feed{display:grid}
+.feed li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:baseline}
+.feed li:first-child{border-top:0}
+ul{list-style:none;margin:0;padding:0}
+.feed time{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:500;color:var(--ink2);white-space:nowrap;background:var(--surface)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.pill.good::before{background:var(--good)} .pill.warn::before{background:var(--warn)} .pill.serious::before{background:var(--serious)} .pill.crit::before{background:var(--crit)} .pill.info::before{background:var(--s1)}
+.task{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line);align-items:flex-start}
+.task:first-child{border-top:0}
+.task input{margin-top:3px;accent-color:var(--accent)}
+.task input:checked+span{color:var(--muted);text-decoration:line-through}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+th,td{padding:10px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{font-size:12px;font-weight:600;color:var(--ink2);background:var(--sunk);position:sticky;top:0}
+th button{all:unset;cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+th button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1}
+th:first-child{background:var(--sunk);z-index:2}
+td.l,th.l{text-align:left}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--sunk)}
+tr.var td{color:var(--ink2);background:var(--bg)}
+tr.var td:first-child{padding-left:38px;background:var(--bg)}
+tfoot td{font-weight:700;border-bottom:0;background:var(--sunk)}
+tfoot td:first-child{background:var(--sunk)}
+.exp{all:unset;cursor:pointer;display:inline-grid;place-items:center;width:20px;height:20px;margin-right:6px;border-radius:4px;color:var(--muted)}
+.exp:hover{background:var(--sunk)}
+.name{font-weight:600}
+.board{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+.col{flex:0 0 232px;background:var(--sunk);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.col>header{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;padding:2px 4px;color:var(--ink2)}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+.card:hover{border-color:var(--muted)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card b{font-size:13.5px;font-weight:600}
+.card small{color:var(--muted);font-size:12px}
+.card .row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink2)}
+.late{color:var(--down);font-weight:600}
+.overlay{position:fixed;inset:0;background:rgba(10,15,8,.42);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);z-index:21;box-shadow:var(--shadow);padding:calc(20px + env(safe-area-inset-top,0px)) 22px calc(20px + env(safe-area-inset-bottom,0px));overflow:auto;display:flex;flex-direction:column;gap:16px}
+.drawer header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.drawer h2{font-size:18px}
+.x{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:8px;font-size:20px;color:var(--ink2)}
+.x:hover{background:var(--sunk)}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 16px;font-size:13.5px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;text-align:right}
+.sec{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:10px}
+.sec h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tl li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:5px 0;font-size:13.5px}
+.tl time{color:var(--muted);font-size:12.5px;min-width:86px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stats div{background:var(--sunk);border-radius:8px;padding:10px;display:grid}
+.stats span{font-size:12px;color:var(--muted)} .stats b{font-size:16px}
+#tip{position:fixed;z-index:30;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:8px;padding:7px 10px;font-size:12.5px;line-height:1.45;max-width:240px;box-shadow:var(--shadow)}
+#tip b{font-weight:600}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:13.5px;max-width:calc(100% - 32px);text-align:center}
+@media (max-width:1100px){ .grid2,.grid2e{grid-template-columns:minmax(0,1fr)} .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;flex-direction:column;gap:10px;padding:12px 16px;border-right:0;border-bottom:1px solid var(--line)}
+  .rail .note{display:none}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:2px}
+  .main{padding-inline:16px;padding-block:16px 40px}
+  h1{font-size:21px}
+  .hb .row{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}
+  .hb .row>span:first-child{grid-column:1/-1;white-space:normal}
+  .kpi b{font-size:20px}
+}
+@media (prefers-reduced-motion:no-preference){ .drawer{animation:in .22s ease-out} @keyframes in{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}} }
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand"><b>XIPHIAS</b><span>Superfoods · Admin</span></div>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <p class="note">Preview with sample numbers. The real one reads live orders from the website's database.</p>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div id="tip" hidden></div>
+<div id="toast" hidden role="status"></div>
+<div id="drawerHost"></div>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function mulberry(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const rand = mulberry(20261005);
+const pick = (a) => a[Math.floor(rand() * a.length)];
+
+/* ---------- sample data: one year of unit sales for the real catalogue ---------- */
+const P = [
+  ["Organic Black Rice", "Grains & Rice", 11, [["1 kg", 600], ["5 kg", 2700]]],
+  ["Silver Needle White Tea", "Teas", 2.2, [["50 g", 2900], ["100 g", 5500]]],
+  ["Masala Tea · Indian Spiced", "Teas", 7, [["100 g", 290], ["250 g", 650]]],
+  ["Organic Blue Pea Tea", "Teas", 3.5, [["50 g", 850], ["100 g", 1550]]],
+  ["Premium Makhana", "Nuts & Snacks", 6, [["250 g", 1100], ["500 g", 2050]]],
+  ["Premium Organic Honey", "Honey & Ghee", 8, [["250 g", 520], ["500 g", 960]]],
+  ["Pure Gir Cow Ghee", "Honey & Ghee", 3, [["500 ml", 1553], ["1 L", 2950]]],
+  ["Aromatic Joha Rice", "Grains & Rice", 9, [["1 kg", 140], ["5 kg", 650]]],
+  ["Organic Buckwheat", "Grains & Rice", 4, [["500 g", 320], ["1 kg", 600]]],
+  ["Bold Black Pepper 12 mm", "Spices", 4.5, [["100 g", 380], ["250 g", 880]]],
+  ["Green Tea Leaves", "Teas", 5, [["100 g", 450], ["250 g", 1050]]],
+  ["Handpicked Almonds", "Nuts & Snacks", 3.2, [["250 g", 640], ["500 g", 1220]]],
+  ["Organic Stevia Tea", "Teas", 1.8, [["50 g", 480], ["100 g", 900]]],
+  ["Dried Whole Ginger", "Spices", 2.4, [["100 g", 260], ["250 g", 600]]],
+  ["Organic Ginger Powder", "Spices", 3.6, [["100 g", 240], ["250 g", 560]]],
+  ["Organic Korai Guri", "Grains & Rice", 1.5, [["500 g", 420], ["1 kg", 800]]],
+].map(([name, cat, base, v]) => ({ name, cat, base, v }));
+const REG = ["India", "Europe", "USA", "UK", "Middle East", "Rest of world"];
+const CUR = [["INR", 1, "₹"], ["EUR", 98, "€"], ["USD", 88, "$"], ["GBP", 114, "£"], ["AED", 24, "AED "], ["USD", 88, "$"]];
+const INTL = 1.6; // draft international price list = India price × 1.6
+
+const DAY = 864e5, START = Date.UTC(2025, 10, 1), TODAY = Date.UTC(2026, 9, 5);
+const N = Math.round((TODAY - START) / DAY) + 1;
+const dateOf = (i) => new Date(START + i * DAY);
+const CELL = P.map(() => new Array(N));
+const DN = REG.map(() => new Float64Array(N)), DU = REG.map(() => new Float64Array(N));
+const WK = [1.15, 0.95, 0.95, 1, 1.05, 1.2, 1.25];
+for (let d = 0; d < N; d++) {
+  const t = d / (N - 1), inShare = 0.64 - 0.14 * t, rest = [0.3, 0.27, 0.17, 0.16, 0.1];
+  const cum = [inShare]; rest.forEach((s) => cum.push(cum[cum.length - 1] + s * (1 - inShare)));
+  for (let p = 0; p < P.length; p++) {
+    const mean = P[p].base * (0.55 + 0.5 * t) * WK[dateOf(d).getUTCDay()];
+    const n = Math.round(mean * (0.55 + 0.9 * rand()));
+    const c = { n: new Uint16Array(12), x: new Uint8Array(12), dr: 0.04 + 0.08 * rand() };
+    for (let k = 0; k < n; k++) {
+      const u = rand(); let r = cum.findIndex((v) => u < v); if (r < 0) r = 5;
+      const v = rand() < 0.3 ? 1 : 0, back = rand() < 0.018;
+      c.n[r * 2 + v]++; if (back) c.x[r * 2 + v]++;
+      const price = P[p].v[v][1] * (r ? INTL : 1);
+      DN[r][d] += price * (1 - c.dr) * (back ? 0 : 1); DU[r][d] += 1;
+    }
+    CELL[p][d] = c;
+  }
+}
+function agg(from, to, region) {
+  return P.map((prod, p) => {
+    const o = { u: [0, 0], ret: [0, 0], g: [0, 0], gross: 0, disc: 0, refund: 0 };
+    for (let d = Math.max(0, from); d <= to; d++) {
+      const c = CELL[p][d];
+      for (let r = 0; r < 6; r++) {
+        if (region >= 0 && r !== region) continue;
+        for (let v = 0; v < 2; v++) {
+          const n = c.n[r * 2 + v]; if (!n) continue;
+          const price = prod.v[v][1] * (r ? INTL : 1), x = c.x[r * 2 + v];
+          o.u[v] += n; o.ret[v] += x; o.g[v] += n * price; o.gross += n * price; o.disc += n * price * c.dr; o.refund += x * price * (1 - c.dr);
+        }
+      }
+    }
+    o.units = o.u[0] + o.u[1]; o.returns = o.ret[0] + o.ret[1]; o.net = o.gross - o.disc - o.refund; o.orders = Math.ceil(o.units / 1.5);
+    return o;
+  });
+}
+const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+const daySeries = (arr, from, to, region) => { const out = []; for (let d = from; d <= to; d++) { let s = 0; for (let r = 0; r < 6; r++) if (region < 0 || r === region) s += arr[r][d]; out.push(s); } return out; };
+const MONTHS = []; for (let d = 0; d < N; d++) { const dt = dateOf(d), key = dt.getUTCFullYear() * 12 + dt.getUTCMonth(); let m = MONTHS[MONTHS.length - 1]; if (!m || m.key !== key) { m = { key, from: d, to: d, label: dt.toLocaleString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" }), short: dt.toLocaleString("en-GB", { month: "short", timeZone: "UTC" }) }; MONTHS.push(m); } m.to = d; }
+MONTHS[MONTHS.length - 1].partial = true;
+const STOCK = P.map((p) => { const a = Math.round(p.base * (14 + 60 * rand())); return [Math.round(a * 0.65), Math.round(a * 0.35)]; });
+STOCK[2] = [38, 0]; STOCK[9] = [22, 9];
+
+/* ---------- formatting ---------- */
+const inr = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+const num = new Intl.NumberFormat("en-IN");
+const money = (v) => inr.format(Math.round(v));
+const short = (v) => v >= 1e7 ? "₹" + (v / 1e7).toFixed(2) + " Cr" : v >= 1e5 ? "₹" + (v / 1e5).toFixed(v >= 1e6 ? 1 : 2) + " L" : v >= 1e3 ? "₹" + Math.round(v / 1e3) + "k" : "₹" + Math.round(v);
+const pct = (v) => (v * 100).toFixed(1) + "%";
+const dShort = (i) => dateOf(i).toLocaleString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+function delta(cur, prev, goodUp = true, label = "vs previous") {
+  if (!prev) return `<span class="delta"><i>no earlier data</i></span>`;
+  const ch = (cur - prev) / prev, up = ch >= 0, good = up === goodUp;
+  return `<span class="delta ${good ? "up" : "down"}">${up ? "▲" : "▼"} ${Math.abs(ch * 100).toFixed(1)}% <i>${label}</i></span>`;
+}
+
+/* ---------- tooltip + toast ---------- */
+const tip = $("#tip");
+function showTip(html, x, y) { tip.innerHTML = html; tip.hidden = false; const w = tip.offsetWidth, h = tip.offsetHeight; tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, x + 14)) + "px"; tip.style.top = Math.max(8, y - h - 12) + "px"; }
+const hideTip = () => { tip.hidden = true; };
+let toastT; function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200); }
+const PREVIEW = "Preview only — this button works in the real tracker.";
+
+/* ---------- charts ---------- */
+function niceTop(max) { const raw = max / 4 || 1, p = 10 ** Math.floor(Math.log10(raw)), n = raw / p, step = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; return { step, top: Math.ceil(max / step) * step || step }; }
+function lineChart(el, cur, prev, from) {
+  const W = Math.max(280, el.clientWidth), H = 250, L = 52, R = 14, T = 12, B = 26, n = cur.length;
+  const { step, top } = niceTop(Math.max(...cur, ...prev));
+  const x = (i) => L + (n === 1 ? 0 : (i * (W - L - R)) / (n - 1)), y = (v) => T + (1 - v / top) * (H - T - B);
+  const path = (a) => a.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("");
+  let g = ""; for (let v = 0; v <= top + 1; v += step) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${short(v)}</text>`;
+  const every = Math.ceil(n / (W < 520 ? 4 : 7)); let xl = "";
+  for (let i = 0; i < n; i += every) xl += `<text x="${x(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : "middle"}">${dShort(from + i)}</text>`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Net sales per day, this period against the previous one">${g}${xl}
+    <path d="${path(cur)}L${x(n - 1)} ${y(0)}L${x(0)} ${y(0)}Z" fill="var(--accent)" opacity=".1"/>
+    <path d="${path(prev)}" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="2 4" stroke-linecap="round"/>
+    <path d="${path(cur)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="${x(n - 1)}" cy="${y(cur[n - 1])}" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+    <g id="ch" hidden><line y1="${T}" y2="${H - B}" stroke="var(--muted)"/><circle r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></g>
+    <rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/></svg>`;
+  const svg = $("svg", el), ch = $("#ch", svg);
+  const move = (e) => { const b = svg.getBoundingClientRect(), px = ((e.clientX - b.left) / b.width) * W, i = Math.max(0, Math.min(n - 1, Math.round(((px - L) / (W - L - R)) * (n - 1))));
+    ch.removeAttribute("hidden"); $("line", ch).setAttribute("x1", x(i)); $("line", ch).setAttribute("x2", x(i)); $("circle", ch).setAttribute("cx", x(i)); $("circle", ch).setAttribute("cy", y(cur[i]));
+    showTip(`<b>${dShort(from + i)}</b><br>Net sales ${money(cur[i])}<br>Previous period ${money(prev[i])}`, e.clientX, e.clientY); };
+  svg.addEventListener("pointermove", move); svg.addEventListener("pointerdown", move);
+  svg.addEventListener("pointerleave", () => { ch.setAttribute("hidden", ""); hideTip(); });
+}
+function monthBars(el, vals, units, sel, onPick) {
+  const W = Math.max(280, el.clientWidth), H = 220, L = 52, R = 6, T = 10, B = 26, n = vals.length;
+  const { step, top } = niceTop(Math.max(...vals)), bw = (W - L - R) / n, y = (v) => T + (1 - v / top) * (H - T - B);
+  let g = ""; for (let v = 0; v <= top + 1; v += step) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${short(v)}</text>`;
+  let bars = "";
+  vals.forEach((v, i) => { const w = Math.min(34, bw - 2), bx = L + i * bw + (bw - w) / 2, by = y(v), h = H - B - by, r = Math.min(4, h);
+    bars += `<path data-i="${i}" d="M${bx} ${H - B}V${by + r}q0 ${-r} ${r} ${-r}h${w - 2 * r}q${r} 0 ${r} ${r}V${H - B}Z" fill="var(--accent)" opacity="${i === sel ? 1 : 0.38}" style="cursor:pointer"/>
+    <text x="${bx + w / 2}" y="${H - 7}" text-anchor="middle" ${i === sel ? 'style="fill:var(--ink);font-weight:600"' : ""}>${(W < 520 && i % 2) ? "" : MONTHS[i].short}</text>`; });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Net sales by month">${g}${bars}</svg>`;
+  $$("path[data-i]", el).forEach((b) => { const i = +b.dataset.i;
+    b.addEventListener("pointermove", (e) => showTip(`<b>${MONTHS[i].label}${MONTHS[i].partial ? " (so far)" : ""}</b><br>Net sales ${money(vals[i])}<br>${num.format(units[i])} units`, e.clientX, e.clientY));
+    b.addEventListener("pointerleave", hideTip); b.addEventListener("click", () => onPick(i)); });
+}
+const hbars = (rows, fmt) => { const max = Math.max(...rows.map((r) => r[1]), 1); return `<div class="hb">${rows.map(([l, v]) => `<div class="row"><span title="${esc(l)}">${esc(l)}</span><div class="track"><div class="bar" style="width:${(v / max) * 100}%"></div></div><b>${fmt(v)}</b></div>`).join("")}</div>`; };
+
+/* ---------- supporting sample records ---------- */
+const PEOPLE = [["Ananya Rao", "Bengaluru", 0], ["Vikram Shetty", "Mumbai", 0], ["Meera Pillai", "Kochi", 0], ["Rohan Deshmukh", "Pune", 0], ["Ishita Banerjee", "Kolkata", 0], ["Karthik Iyer", "Chennai", 0], ["Sana Qureshi", "Hyderabad", 0], ["Devika Menon", "Delhi", 0], ["Arjun Bhatia", "Jaipur", 0], ["Nisha Kapoor", "Gurugram", 0],
+  ["Lena Hoffmann", "Berlin", 1], ["Pieter de Vries", "Amsterdam", 1], ["Camille Laurent", "Lyon", 1], ["Grace Whitfield", "Austin", 2], ["Daniel Okafor", "Chicago", 2], ["Priya Natarajan", "San Jose", 2], ["Oliver Bennett", "Manchester", 3], ["Hannah Clarke", "London", 3], ["Fatima Al Mansoori", "Dubai", 4], ["Omar Haddad", "Abu Dhabi", 4], ["Yuki Tanabe", "Singapore", 5], ["Chloe Martin", "Toronto", 5]];
+const SEGS = ["Champions", "Loyal", "New", "At risk", "Lost"], SEGC = { Champions: "good", Loyal: "info", New: "", "At risk": "warn", Lost: "crit" };
+const CUST = PEOPLE.map(([name, city, r], i) => { const orders = 1 + Math.floor(rand() * rand() * 14), last = Math.floor(rand() * rand() * 160), aov = (900 + rand() * 2600) * (r ? INTL : 1);
+  const seg = orders === 1 && last < 40 ? "New" : last > 110 ? "Lost" : last > 55 ? "At risk" : orders >= 6 ? "Champions" : "Loyal";
+  return { id: i, name, city, r, orders, last, ltv: orders * aov, aov, seg, email: name.toLowerCase().replace(/[^a-z]+/g, ".") + "@example.com", optin: rand() < 0.7 }; });
+const PAY = { Paid: "good", "Awaiting payment": "warn", "COD pending": "warn", Failed: "crit", Refunded: "serious" };
+const FUL = { Unfulfilled: "warn", Packed: "info", Shipped: "info", Delivered: "good", "Return requested": "serious", "—": "" };
+const ORDERS = []; { let no = 1842; for (let i = 0; i < 38; i++) { const c = pick(CUST), k = 1 + Math.floor(rand() * 3), lines = [];
+  for (let j = 0; j < k; j++) { const p = pick(P), v = rand() < 0.3 ? 1 : 0; lines.push({ name: p.name, pack: p.v[v][0], qty: 1 + Math.floor(rand() * rand() * 3), price: p.v[v][1] * (c.r ? INTL : 1) }); }
+  const total = sum(lines, (l) => l.qty * l.price), ago = Math.floor(i * 3.6 + rand() * 3), u = rand();
+  let pay = u < 0.78 ? "Paid" : u < 0.86 ? (c.r ? "Awaiting payment" : "COD pending") : u < 0.93 ? "Failed" : "Refunded";
+  let ful = pay === "Failed" || pay === "Awaiting payment" ? "—" : pay === "Refunded" ? "Return requested" : ago < 14 ? "Unfulfilled" : ago < 30 ? "Packed" : ago < 80 ? "Shipped" : "Delivered";
+  ORDERS.push({ no: "XS-2026-00" + (no - i), c, lines, total, ago, pay, ful, courier: ful === "Unfulfilled" || ful === "—" ? "—" : c.r ? "DHL Express" : "Shiprocket · Delhivery", method: c.r ? "Stripe · card" : pay === "COD pending" ? "Cash on delivery" : pick(["UPI", "UPI", "Card", "Net banking"]) }); } }
+const agoTxt = (h) => h < 1 ? "just now" : h < 24 ? h + " h ago" : Math.floor(h / 24) + " d ago";
+const fx = (o) => { const [code, rate, sym] = CUR[o.c.r]; return code === "INR" ? money(o.total) : `${sym}${(o.total / rate).toFixed(2)}`; };
+const STAGES = ["New", "Contacted", "Qualified", "Sample sent", "Quote sent", "Negotiation", "Won"];
+const LEADS = [
+  ["Nordhaven Naturkost", "Germany", "Export", "Black rice, makhana", "800 kg / month", 640000, 0, 2, "Catalogue download"],
+  ["Sattva Cafés", "Bengaluru, India", "Bulk", "Masala tea, honey", "120 kg / month", 96000, 0, 0, "B2B form"],
+  ["Al Noor Gourmet Trading", "UAE", "Export", "Honey, ghee, joha rice", "1.2 t / month", 910000, 1, 3, "B2B form"],
+  ["Maple & Grain Co.", "Canada", "Private label", "Buckwheat, black rice", "500 kg / month", 420000, 1, 1, "Contact form"],
+  ["Purely Wholefoods", "United Kingdom", "Export", "White tea, blue pea tea", "60 kg / month", 380000, 2, 4, "B2B form"],
+  ["Ananda Wellness Resorts", "Kerala, India", "Bulk", "Green tea, stevia tea", "40 kg / month", 74000, 2, 6, "Referral"],
+  ["Tea Atelier Lumière", "France", "Private label", "Silver needle white tea", "25 kg / month", 520000, 3, 5, "B2B form"],
+  ["Golden Sheaf Foods", "USA", "Export", "Makhana, almonds", "900 kg / month", 1180000, 4, 7, "Trade fair"],
+  ["Fresh Route Hotels", "Delhi, India", "Bulk", "Joha rice, pepper, ginger", "600 kg / month", 215000, 4, 2, "B2B form"],
+  ["Kiso Health Stores", "Japan", "Export", "Black rice, korai guri", "300 kg / month", 310000, 5, 9, "Catalogue download"],
+  ["Oasis Organic Market", "Saudi Arabia", "Export", "Honey, makhana", "700 kg / month", 760000, 5, 4, "B2B form"],
+  ["Green Basket Organics", "Mumbai, India", "Bulk", "Black rice, buckwheat", "1 t / month", 540000, 6, 1, "Referral"],
+].map(([co, country, need, products, vol, value, stage, days, source], id) => ({ id, co, country, need, products, vol, value, stage, days, source, owner: ["Suhani", "Adyant", "Sales desk"][id % 3] }));
+
+/* ---------- screens ---------- */
+const state = { period: 30, region: -1, month: MONTHS.length - 2, sregion: -1, cat: "", sort: "net", dir: -1, open: new Set(), oview: "All", cseg: "All", low: false, q: "" };
+const regionSelect = (id, val) => `<label class="sub" for="${id}" style="position:absolute;left:-9999px">Region</label><select id="${id}"><option value="-1">All regions</option>${REG.map((r, i) => `<option value="${i}" ${val === i ? "selected" : ""}>${r}</option>`).join("")}</select>`;
+const sampleBar = `<div class="sample"><b>Sample data</b> Numbers and names are made up so you can see how each screen will look and work.</div>`;
+
+function dashboard(main) {
+  const d = state.period, to = N - 1, from = to - d + 1, pf = from - d, pt = from - 1;
+  const cur = agg(from, to, state.region), prev = agg(pf, pt, state.region);
+  const tot = (a) => ({ net: sum(a, (x) => x.net), units: sum(a, (x) => x.units), refund: sum(a, (x) => x.refund), gross: sum(a, (x) => x.gross) });
+  const c = tot(cur), p = tot(prev); c.orders = Math.round(c.units / 2.3); p.orders = Math.round(p.units / 2.3);
+  const kp = [
+    ["Net sales", short(c.net), delta(c.net, p.net)], ["Orders", num.format(c.orders), delta(c.orders, p.orders)],
+    ["Average order value", money(c.net / c.orders), delta(c.net / c.orders, p.net / p.orders)], ["Units sold", num.format(c.units), delta(c.units, p.units)],
+    ["New customers", num.format(Math.round(c.orders * 0.57)), delta(c.orders * 0.57, p.orders * 0.55)], ["Returning customer rate", pct(0.43), delta(0.43, 0.4)],
+    ["Refunds", short(c.refund), delta(c.refund, p.refund, false)], ["Conversion rate", "2.3%", delta(2.3, 2.1)],
+  ];
+  const regs = REG.map((r, i) => [r, sum(daySeries(DN, from, to, i), (x) => x)]).sort((a, b) => b[1] - a[1]);
+  const top = cur.map((x, i) => [P[i].name, x.net]).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const inShare = sum(daySeries(DN, from, to, 0), (x) => x) / sum(daySeries(DN, from, to, -1), (x) => x);
+  const mix = state.region > 0 ? [["Stripe · international cards", 1]] : state.region === 0 ? [["UPI", 0.56], ["Cards (India)", 0.22], ["Net banking & wallets", 0.09], ["Cash on delivery", 0.13]]
+    : [["UPI", 0.56 * inShare], ["Cards (India)", 0.22 * inShare], ["Net banking & wallets", 0.09 * inShare], ["Cash on delivery", 0.13 * inShare], ["Stripe · international cards", 1 - inShare]];
+  const col = (l) => ({ UPI: "--s1", "Cards (India)": "--s2", "Net banking & wallets": "--s3", "Cash on delivery": "--s4", "Stripe · international cards": "--s5" }[l]);
+  const low = invRows().filter((r) => r.status !== "OK").sort((a, b) => a.cover - b.cover).slice(0, 2);
+  const feed = [
+    ...ORDERS.slice(0, 3).map((o) => [`<span class="pill good">Order</span>`, `<b>${o.no}</b> · ${esc(o.c.name)}, ${esc(o.c.city)} · ${fx(o)}`, o.ago]),
+    [`<span class="pill info">B2B lead</span>`, `<b>${esc(LEADS[1].co)}</b> asked for a quote · ${esc(LEADS[1].products)}`, 5],
+    ...low.map((r) => [`<span class="pill warn">Low stock</span>`, `<b>${esc(r.name)} ${r.pack}</b> · ${r.avail ? r.avail + " left, about " + r.cover + " days" : "out of stock"}`, 7]),
+    ...ORDERS.filter((o) => o.pay === "Failed").slice(0, 1).map((o) => [`<span class="pill crit">Payment failed</span>`, `<b>${o.no}</b> · ${esc(o.c.name)} · ${fx(o)}`, o.ago]),
+  ].sort((a, b) => a[2] - b[2]);
+  main.innerHTML = `
+    <div class="head"><div><h1>Dashboard</h1><p>How the shop is doing, with everything shown in rupees.</p></div>
+      <div class="tools"><div class="chips" role="group" aria-label="Period">${[7, 30, 90].map((n) => `<button class="chip" data-period="${n}" aria-pressed="${d === n}">Last ${n} days</button>`).join("")}</div>${regionSelect("dregion", state.region)}</div></div>
+    ${sampleBar}
+    <section class="kpis" aria-label="Key numbers">${kp.map(([l, v, dl]) => `<div class="kpi"><span>${l}</span><b>${v}</b>${dl}</div>`).join("")}</section>
+    <div class="grid2">
+      <section class="panel"><header><h2>Net sales per day</h2><div class="legend"><span><i></i>Last ${d} days</span><span><i class="prev"></i>${d} days before</span></div></header><div class="chart" id="line"></div></section>
+      <section class="panel"><header><h2>Sales by region</h2><small>net sales</small></header>${hbars(regs, short)}</section>
+    </div>
+    <div class="grid2e">
+      <section class="panel"><header><h2>Top products</h2><small>net sales</small></header>${hbars(top, short)}</section>
+      <section class="panel"><header><h2>How customers paid</h2><small>share of sales value</small></header>
+        <div class="stack" role="img" aria-label="Payment methods as a share of sales value">${mix.map(([l, v]) => `<div style="flex:${v};background:var(${col(l)})" data-tip="${esc(l)} · ${pct(v)}"></div>`).join("")}</div>
+        <div class="mix">${mix.map(([l, v]) => `<div><span><i class="sq" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(${col(l)})"></i>${l}</span><b>${pct(v)}</b></div>`).join("")}</div></section>
+    </div>
+    <div class="grid2">
+      <section class="panel"><header><h2>Happening now</h2><small>newest first</small></header><ul class="feed">${feed.map(([pl, t, a]) => `<li>${pl}<span>${t}</span><time>${agoTxt(a)}</time></li>`).join("")}</ul></section>
+      <section class="panel"><header><h2>My tasks today</h2><small>4 due</small></header>
+        ${["Call Al Noor Gourmet Trading about the honey quote", "Approve return for " + ORDERS.find((o) => o.pay === "Refunded").no, "Reorder Masala Tea 250 g — out of stock", "Send samples to Tea Atelier Lumière"].map((t, i) => `<label class="task"><input type="checkbox" id="task${i}"><span>${esc(t)}</span></label>`).join("")}</section>
+    </div>`;
+  lineChart($("#line"), daySeries(DN, from, to, state.region), daySeries(DN, pf, pt, state.region), from);
+  $$("[data-period]").forEach((b) => b.onclick = () => { state.period = +b.dataset.period; render(); });
+  $("#dregion").onchange = (e) => { state.region = +e.target.value; render(); };
+  $$("[data-tip]").forEach((s) => { s.addEventListener("pointermove", (e) => showTip(s.dataset.tip, e.clientX, e.clientY)); s.addEventListener("pointerleave", hideTip); });
+}
+
+function sales(main) {
+  const m = MONTHS[state.month], len = m.to - m.from, pm = MONTHS[state.month - 1];
+  const cur = agg(m.from, m.to, state.sregion), prev = pm ? agg(pm.from, m.partial ? pm.from + len : pm.to, state.sregion) : null;
+  const last30 = agg(N - 30, N - 1, -1);
+  const cats = [...new Set(P.map((p) => p.cat))];
+  let rows = P.map((p, i) => ({ i, p, ...cur[i], prevNet: prev ? prev[i].net : 0, stock: STOCK[i][0] + STOCK[i][1], cover: Math.round((STOCK[i][0] + STOCK[i][1]) / (last30[i].units / 30)) })).filter((r) => !state.cat || r.p.cat === state.cat);
+  const totalNet = sum(rows, (r) => r.net) || 1;
+  rows.forEach((r) => { r.share = r.net / totalNet; r.asp = r.units ? (r.gross - r.disc) / r.units : 0; r.chg = r.prevNet ? (r.net - r.prevNet) / r.prevNet : 0; r.name = r.p.name; });
+  rows.sort((a, b) => (typeof a[state.sort] === "string" ? a[state.sort].localeCompare(b[state.sort]) : a[state.sort] - b[state.sort]) * state.dir);
+  const T = (f) => sum(rows, f), tPrev = T((r) => r.prevNet);
+  const monthNet = MONTHS.map((mm) => sum(agg(mm.from, mm.to, state.sregion).filter((_, i) => !state.cat || P[i].cat === state.cat), (x) => x.net));
+  const monthUnits = MONTHS.map((mm) => sum(agg(mm.from, mm.to, state.sregion).filter((_, i) => !state.cat || P[i].cat === state.cat), (x) => x.units));
+  const catRows = cats.map((c) => [c, sum(cur.filter((_, i) => P[i].cat === c), (x) => x.net)]).sort((a, b) => b[1] - a[1]);
+  const cols = [["name", "Product"], ["units", "Units"], ["orders", "Orders"], ["gross", "Gross"], ["disc", "Discounts"], ["refund", "Refunds"], ["net", "Net sales"], ["returns", "Returned"], ["asp", "Avg price"], ["share", "Share"], ["chg", "vs " + (pm ? pm.short : "prev")], ["stock", "In stock"], ["cover", "Days of cover"]];
+  const chg = (v, has) => !has ? "—" : `<span class="delta ${v >= 0 ? "up" : "down"}">${v >= 0 ? "▲" : "▼"} ${Math.abs(v * 100).toFixed(1)}%</span>`;
+  const coverCell = (d) => !isFinite(d) ? "—" : d < 10 ? `<span class="pill crit">${d} days</span>` : d < 21 ? `<span class="pill warn">${d} days</span>` : d + " days";
+  const body = rows.map((r) => { const open = state.open.has(r.i);
+    return `<tr><td><button class="exp" data-exp="${r.i}" aria-expanded="${open}" aria-label="Show pack sizes for ${esc(r.name)}">${open ? "▾" : "▸"}</button><span class="name">${esc(r.name)}</span></td>
+      <td>${num.format(r.units)}</td><td>${num.format(r.orders)}</td><td>${money(r.gross)}</td><td>${money(r.disc)}</td><td>${money(r.refund)}</td><td><b>${money(r.net)}</b></td><td>${r.returns}</td><td>${money(r.asp)}</td><td>${pct(r.share)}</td><td>${chg(r.chg, !!r.prevNet)}</td><td>${num.format(r.stock)}</td><td>${coverCell(r.cover)}</td></tr>` +
+      (open ? r.p.v.map((v, k) => `<tr class="var"><td>${v[0]}</td><td>${num.format(r.u[k])}</td><td>${num.format(Math.ceil(r.u[k] / 1.5))}</td><td>${money(r.g[k])}</td><td colspan="3"></td><td>${r.ret[k]}</td><td colspan="3"></td><td>${num.format(STOCK[r.i][k])}</td><td></td></tr>`).join("") : ""); }).join("");
+  main.innerHTML = `
+    <div class="head"><div><h1>Sales tracker</h1><p>What each product sold in a month. Tap a month bar to switch, tap a column to sort, open a product to see its pack sizes.</p></div>
+      <div class="tools"><button class="btn" data-preview>Export to Excel</button><button class="btn" data-preview>Email me this monthly</button></div></div>
+    ${sampleBar}
+    <div class="tools">
+      <label class="sub" for="smonth">Month</label><select id="smonth">${MONTHS.map((mm, i) => `<option value="${i}" ${i === state.month ? "selected" : ""}>${mm.label}${mm.partial ? " (so far)" : ""}</option>`).join("")}</select>
+      ${regionSelect("sregion", state.sregion)}
+      <label class="sub" for="scat" style="position:absolute;left:-9999px">Category</label><select id="scat"><option value="">All categories</option>${cats.map((c) => `<option ${c === state.cat ? "selected" : ""}>${c}</option>`).join("")}</select>
+    </div>
+    <section class="kpis" aria-label="Month totals">
+      <div class="kpi"><span>Net sales · ${m.label}</span><b>${short(T((r) => r.net))}</b>${delta(T((r) => r.net), tPrev, true, pm ? "vs " + pm.short + (m.partial ? " (same days)" : "") : "")}</div>
+      <div class="kpi"><span>Units sold</span><b>${num.format(T((r) => r.units))}</b><span class="sub">${rows.length} products</span></div>
+      <div class="kpi"><span>Discounts given</span><b>${short(T((r) => r.disc))}</b><span class="sub">${pct(T((r) => r.disc) / (T((r) => r.gross) || 1))} of gross</span></div>
+      <div class="kpi"><span>Refunds</span><b>${short(T((r) => r.refund))}</b><span class="sub">${T((r) => r.returns)} units returned</span></div>
+    </section>
+    <div class="grid2">
+      <section class="panel"><header><h2>Net sales by month</h2><small>last 12 months · selected month in solid green</small></header><div class="chart" id="mbars"></div></section>
+      <section class="panel"><header><h2>By category</h2><small>${m.label}</small></header>${hbars(catRows, short)}</section>
+    </div>
+    <div class="scroll"><table>
+      <thead><tr>${cols.map(([k, l]) => `<th ${k === "name" ? "" : ""} aria-sort="${state.sort === k ? (state.dir > 0 ? "ascending" : "descending") : "none"}"><button data-sort="${k}">${l}${state.sort === k ? (state.dir > 0 ? " ↑" : " ↓") : ""}</button></th>`).join("")}</tr></thead>
+      <tbody>${body}</tbody>
+      <tfoot><tr><td>Total</td><td>${num.format(T((r) => r.units))}</td><td>${num.format(T((r) => r.orders))}</td><td>${money(T((r) => r.gross))}</td><td>${money(T((r) => r.disc))}</td><td>${money(T((r) => r.refund))}</td><td>${money(T((r) => r.net))}</td><td>${T((r) => r.returns)}</td><td>${money((T((r) => r.gross) - T((r) => r.disc)) / (T((r) => r.units) || 1))}</td><td>100%</td><td>${chg((T((r) => r.net) - tPrev) / (tPrev || 1), !!tPrev)}</td><td>${num.format(T((r) => r.stock))}</td><td></td></tr></tfoot>
+    </table></div>
+    <p class="sub">Net sales = gross − discounts − refunds. Shipping and duties are left out. Days of cover = stock ÷ average units sold per day over the last 30 days.</p>`;
+  monthBars($("#mbars"), monthNet, monthUnits, state.month, (i) => { state.month = i; render(); });
+  $("#smonth").onchange = (e) => { state.month = +e.target.value; render(); };
+  $("#sregion").onchange = (e) => { state.sregion = +e.target.value; render(); };
+  $("#scat").onchange = (e) => { state.cat = e.target.value; render(); };
+  $$("[data-sort]").forEach((b) => b.onclick = () => { const k = b.dataset.sort; if (state.sort === k) state.dir *= -1; else { state.sort = k; state.dir = k === "name" ? 1 : -1; } render(); });
+  $$("[data-exp]").forEach((b) => b.onclick = () => { const i = +b.dataset.exp; state.open.has(i) ? state.open.delete(i) : state.open.add(i); render(); });
+}
+
+function orders(main) {
+  const views = { All: () => true, "Needs action": (o) => o.pay === "Paid" && o.ful === "Unfulfilled", "Awaiting payment": (o) => o.pay === "Awaiting payment" || o.pay === "COD pending", International: (o) => o.c.r > 0, Returns: (o) => o.ful === "Return requested", "Failed payments": (o) => o.pay === "Failed" };
+  const list = ORDERS.filter(views[state.oview]);
+  main.innerHTML = `
+    <div class="head"><div><h1>Orders</h1><p>Every order from the website. Tap an order to see its items, payment and shipping.</p></div><div class="tools"><button class="btn" data-preview>Print labels</button><button class="btn" data-preview>Export</button></div></div>
+    ${sampleBar}
+    <div class="chips" role="group" aria-label="Saved views">${Object.keys(views).map((v) => `<button class="chip" data-view="${v}" aria-pressed="${v === state.oview}">${v} · ${ORDERS.filter(views[v]).length}</button>`).join("")}</div>
+    <div class="scroll"><table><thead><tr><th>Order</th><th class="l">Placed</th><th class="l">Customer</th><th class="l">Region</th><th>Items</th><th>Total</th><th>In rupees</th><th class="l">Payment</th><th class="l">Delivery</th><th class="l">Courier</th></tr></thead>
+      <tbody>${list.map((o) => `<tr class="click" data-order="${o.no}" tabindex="0"><td><span class="name">${o.no}</span></td><td class="l">${agoTxt(o.ago)}</td><td class="l">${esc(o.c.name)}</td><td class="l">${REG[o.c.r]}</td><td>${sum(o.lines, (l) => l.qty)}</td><td>${fx(o)}</td><td>${money(o.total)}</td><td class="l"><span class="pill ${PAY[o.pay]}">${o.pay}</span></td><td class="l">${o.ful === "—" ? "—" : `<span class="pill ${FUL[o.ful]}">${o.ful}</span>`}</td><td class="l">${o.courier}</td></tr>`).join("") || `<tr><td colspan="10" class="l">No orders in this view.</td></tr>`}</tbody></table></div>`;
+  $$("[data-view]").forEach((b) => b.onclick = () => { state.oview = b.dataset.view; render(); });
+  $$("[data-order]").forEach((tr) => { const go = () => orderDrawer(ORDERS.find((o) => o.no === tr.dataset.order)); tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; });
+}
+function orderDrawer(o) {
+  const steps = [["Order placed", o.ago], o.pay === "Failed" ? ["Payment failed · " + o.method, o.ago] : o.pay === "Paid" || o.pay === "Refunded" ? ["Paid · " + o.method, o.ago] : ["Waiting for payment · " + o.method, o.ago]];
+  if (["Packed", "Shipped", "Delivered"].includes(o.ful)) steps.push(["Packed at Koramangala store", Math.max(1, o.ago - 6)]);
+  if (["Shipped", "Delivered"].includes(o.ful)) steps.push(["Handed to " + o.courier, Math.max(1, o.ago - 20)]);
+  if (o.ful === "Delivered") steps.push(["Delivered", Math.max(1, o.ago - 70)]);
+  if (o.ful === "Return requested") steps.push(["Customer asked for a return", Math.max(1, o.ago - 30)]);
+  drawer(`<header><div><h2>${o.no}</h2><p class="sub">${agoTxt(o.ago)} · ${REG[o.c.r]}</p></div><button class="x" data-close aria-label="Close">×</button></header>
+    <div class="tools"><span class="pill ${PAY[o.pay]}">${o.pay}</span>${o.ful === "—" ? "" : `<span class="pill ${FUL[o.ful]}">${o.ful}</span>`}</div>
+    <div class="sec"><h3>Items</h3><dl class="kv">${o.lines.map((l) => `<dt>${l.qty} × ${esc(l.name)} · ${l.pack}</dt><dd>${money(l.qty * l.price)}</dd>`).join("")}<dt><b>Total</b></dt><dd><b>${fx(o)}</b>${o.c.r ? ` · ${money(o.total)}` : ""}</dd></dl></div>
+    <div class="sec"><h3>Customer</h3><dl class="kv"><dt>Name</dt><dd>${esc(o.c.name)}</dd><dt>City</dt><dd>${esc(o.c.city)}</dd><dt>Orders so far</dt><dd>${o.c.orders}</dd></dl></div>
+    <div class="sec"><h3>Timeline</h3><ul class="tl">${steps.map(([t, a]) => `<li><time>${agoTxt(a)}</time><span>${esc(t)}</span></li>`).join("")}</ul></div>
+    <div class="sec"><h3>Actions</h3><div class="tools"><button class="btn primary" data-preview>Create shipment</button><button class="btn" data-preview>Download invoice</button><button class="btn" data-preview>Refund</button></div></div>`);
+}
+
+function customers(main) {
+  const q = state.q.toLowerCase(), list = CUST.filter((c) => (state.cseg === "All" || c.seg === state.cseg) && (!q || (c.name + c.city + c.email).toLowerCase().includes(q))).sort((a, b) => b.ltv - a.ltv);
+  main.innerHTML = `
+    <div class="head"><div><h1>Customers</h1><p>Everyone who has ordered, sorted into groups automatically by how recently and how often they buy.</p></div><div class="tools"><input type="search" id="cq" placeholder="Search name, city, email" value="${esc(state.q)}" aria-label="Search customers"><button class="btn" data-preview>Export</button></div></div>
+    ${sampleBar}
+    <div class="chips" role="group" aria-label="Customer groups">${["All", ...SEGS].map((s) => `<button class="chip" data-seg="${s}" aria-pressed="${s === state.cseg}">${s} · ${s === "All" ? CUST.length : CUST.filter((c) => c.seg === s).length}</button>`).join("")}</div>
+    <div class="scroll"><table><thead><tr><th>Customer</th><th class="l">City</th><th class="l">Region</th><th class="l">Group</th><th>Orders</th><th>Total spent</th><th>Avg order</th><th>Last order</th><th class="l">Emails</th></tr></thead>
+      <tbody>${list.map((c) => `<tr class="click" data-cust="${c.id}" tabindex="0"><td><span class="name">${esc(c.name)}</span></td><td class="l">${esc(c.city)}</td><td class="l">${REG[c.r]}</td><td class="l"><span class="pill ${SEGC[c.seg]}">${c.seg}</span></td><td>${c.orders}</td><td>${money(c.ltv)}</td><td>${money(c.aov)}</td><td>${c.last} d ago</td><td class="l">${c.optin ? "Subscribed" : "No"}</td></tr>`).join("") || `<tr><td colspan="9" class="l">No customers match.</td></tr>`}</tbody></table></div>
+    <p class="sub">Champions buy often and recently · Loyal buy regularly · New made one recent order · At risk have gone quiet for 8 weeks · Lost have not ordered in 16 weeks.</p>`;
+  $$("[data-seg]").forEach((b) => b.onclick = () => { state.cseg = b.dataset.seg; render(); });
+  const cq = $("#cq"); cq.oninput = () => { state.q = cq.value; const pos = cq.selectionStart; render(); const n = $("#cq"); n.focus(); n.setSelectionRange(pos, pos); };
+  $$("[data-cust]").forEach((tr) => { const go = () => custDrawer(CUST[+tr.dataset.cust]); tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; });
+}
+function custDrawer(c) {
+  const os = ORDERS.filter((o) => o.c === c);
+  drawer(`<header><div><h2>${esc(c.name)}</h2><p class="sub">${esc(c.city)} · ${REG[c.r]} · ${esc(c.email)}</p></div><button class="x" data-close aria-label="Close">×</button></header>
+    <div class="tools"><span class="pill ${SEGC[c.seg]}">${c.seg}</span><span class="pill">${c.optin ? "Subscribed to emails" : "No marketing emails"}</span></div>
+    <div class="stats"><div><span>Total spent</span><b>${short(c.ltv)}</b></div><div><span>Orders</span><b>${c.orders}</b></div><div><span>Avg order</span><b>${money(c.aov)}</b></div></div>
+    <div class="sec"><h3>Recent orders</h3><ul class="tl">${os.map((o) => `<li><time>${agoTxt(o.ago)}</time><span>${o.no} · ${fx(o)} · ${o.pay}</span></li>`).join("") || `<li><time>${c.last} d ago</time><span>Last order · ${money(c.aov)}</span></li>`}</ul></div>
+    <div class="sec"><h3>Notes</h3><p class="sub">Team notes, tags and follow-up tasks for this customer appear here.</p><div class="tools"><button class="btn" data-preview>Add note</button><button class="btn" data-preview>Add tag</button></div></div>`);
+}
+
+function leads(main) {
+  const open = LEADS.filter((l) => l.stage < 6);
+  main.innerHTML = `
+    <div class="head"><div><h1>B2B leads</h1><p>Business enquiries from the B2B page move left to right until they are won. Tap a card to open it and move it forward.</p></div><div class="tools"><button class="btn primary" data-preview>Add lead</button></div></div>
+    ${sampleBar}
+    <section class="kpis" aria-label="Pipeline totals">
+      <div class="kpi"><span>Open leads</span><b>${open.length}</b><span class="sub">across 6 stages</span></div>
+      <div class="kpi"><span>Open pipeline value</span><b>${short(sum(open, (l) => l.value))}</b><span class="sub">per month if all close</span></div>
+      <div class="kpi"><span>Won this month</span><b>${short(sum(LEADS.filter((l) => l.stage === 6), (l) => l.value))}</b><span class="sub">${LEADS.filter((l) => l.stage === 6).length} deals</span></div>
+      <div class="kpi"><span>Waiting over 1 day</span><b>${LEADS.filter((l) => l.stage === 0 && l.days > 1).length}</b><span class="sub">new leads nobody has answered</span></div>
+    </section>
+    <div class="board">${STAGES.map((s, i) => { const ls = LEADS.filter((l) => l.stage === i);
+      return `<section class="col"><header><span>${s}</span><span>${ls.length}</span></header>${ls.map((l) => `<button class="card" data-lead="${l.id}"><b>${esc(l.co)}</b><small>${esc(l.country)} · ${l.need}</small><span class="row"><span>${esc(l.products)}</span></span><span class="row"><span>${short(l.value)} / mo</span><span class="${l.stage === 0 && l.days > 1 ? "late" : ""}">${l.days} d here</span></span></button>`).join("") || `<p class="sub" style="padding:4px">Nothing here</p>`}</section>`; }).join("")}</div>`;
+  $$("[data-lead]").forEach((b) => b.onclick = () => leadDrawer(LEADS[+b.dataset.lead]));
+}
+function leadDrawer(l) {
+  drawer(`<header><div><h2>${esc(l.co)}</h2><p class="sub">${esc(l.country)} · came from ${esc(l.source)}</p></div><button class="x" data-close aria-label="Close">×</button></header>
+    <div class="tools"><span class="pill ${l.stage === 6 ? "good" : "info"}">${STAGES[l.stage]}</span><span class="pill">${l.need}</span></div>
+    <dl class="kv"><dt>Wants</dt><dd>${esc(l.products)}</dd><dt>Volume</dt><dd>${l.vol}</dd><dt>Estimated value</dt><dd>${money(l.value)} per month</dd><dt>Owner</dt><dd>${l.owner}</dd><dt>In this stage</dt><dd>${l.days} days</dd></dl>
+    <div class="sec"><h3>Activity</h3><ul class="tl"><li><time>${l.days} d ago</time><span>Moved to ${STAGES[l.stage]}</span></li><li><time>${l.days + 2} d ago</time><span>Enquiry received · ${esc(l.source)}</span></li></ul></div>
+    <div class="sec"><h3>Next step</h3><div class="tools">${l.stage < 6 ? `<button class="btn primary" id="adv">Move to ${STAGES[l.stage + 1]}</button>` : `<button class="btn primary" data-preview>Create order from quote</button>`}<button class="btn" data-preview>Build quote</button><button class="btn" data-preview>Log a call</button></div></div>`);
+  const adv = $("#adv"); if (adv) adv.onclick = () => { l.stage++; l.days = 0; closeDrawer(); render(); toast(`${l.co} moved to ${STAGES[l.stage]}`); };
+}
+
+function invRows() {
+  const s30 = agg(N - 30, N - 1, -1), out = [];
+  P.forEach((p, i) => p.v.forEach((v, k) => { const on = STOCK[i][k], res = Math.min(on, Math.round(s30[i].u[k] / 30 * 1.2)), avail = on - res, sold = s30[i].u[k], cover = sold ? Math.round(avail / (sold / 30)) : 999;
+    out.push({ name: p.name, pack: v[0], on, res, avail, sold, cover, status: avail === 0 ? "Out of stock" : cover < 10 ? "Low" : cover < 21 ? "Reorder soon" : "OK" }); }));
+  return out;
+}
+function inventory(main) {
+  const all = invRows(), list = (state.low ? all.filter((r) => r.status !== "OK") : all).sort((a, b) => a.cover - b.cover);
+  const cls = { "Out of stock": "crit", Low: "serious", "Reorder soon": "warn", OK: "good" };
+  main.innerHTML = `
+    <div class="head"><div><h1>Inventory</h1><p>Stock for every pack size, and how many days it will last at the current selling speed.</p></div><div class="tools"><button class="chip" id="lowBtn" aria-pressed="${state.low}">Needs attention · ${all.filter((r) => r.status !== "OK").length}</button><button class="btn" data-preview>Adjust stock</button></div></div>
+    ${sampleBar}
+    <div class="scroll"><table><thead><tr><th>Product</th><th class="l">Pack</th><th>On hand</th><th>Reserved</th><th>Available</th><th>Sold in 30 days</th><th>Days of cover</th><th class="l">Status</th></tr></thead>
+      <tbody>${list.map((r) => `<tr><td><span class="name">${esc(r.name)}</span></td><td class="l">${r.pack}</td><td>${num.format(r.on)}</td><td>${r.res}</td><td>${num.format(r.avail)}</td><td>${num.format(r.sold)}</td><td>${r.cover > 365 ? "—" : r.cover + " days"}</td><td class="l"><span class="pill ${cls[r.status]}">${r.status}</span></td></tr>`).join("")}</tbody></table></div>
+    <p class="sub">Reserved = sitting in carts at checkout or in paid orders not yet packed.</p>`;
+  $("#lowBtn").onclick = () => { state.low = !state.low; render(); };
+}
+
+/* ---------- drawer, nav, router ---------- */
+let lastFocus;
+function drawer(html) { lastFocus = document.activeElement; $("#drawerHost").innerHTML = `<div class="overlay" data-close></div><aside class="drawer" role="dialog" aria-modal="true" tabindex="-1">${html}</aside>`; $(".drawer").focus(); $$("[data-close]", $("#drawerHost")).forEach((b) => b.onclick = closeDrawer); wirePreview($("#drawerHost")); }
+function closeDrawer() { $("#drawerHost").innerHTML = ""; if (lastFocus && lastFocus.isConnected) lastFocus.focus(); }
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+const wirePreview = (root) => $$("[data-preview]", root).forEach((b) => b.onclick = () => toast(PREVIEW));
+const ico = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const PAGES = [
+  ["dashboard", "Dashboard", dashboard, ico('<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>')],
+  ["sales", "Sales tracker", sales, ico('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>')],
+  ["orders", "Orders", orders, ico('<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>')],
+  ["customers", "Customers", customers, ico('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.500-5.500s5.900 1.900 6.500 5.500"/><path d="M16 4.800a3.500 3.500 0 010 6.400M18.500 14.800c1.700.800 2.700 2.500 3 5.200"/>')],
+  ["leads", "B2B leads", leads, ico('<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="10" rx="1.5"/><rect x="17" y="4" width="4" height="13" rx="1.5"/>')],
+  ["inventory", "Inventory", inventory, ico('<path d="M4 8h16v12H4z"/><path d="M2 4h20v4H2zM9 12h6"/>')],
+];
+function current() { const h = location.hash.slice(1); return PAGES.find((p) => p[0] === h) || PAGES[0]; }
+function render() {
+  const pg = current(); hideTip();
+  $("#nav").innerHTML = PAGES.map(([id, label, , svg]) => `<a href="#${id}" ${id === pg[0] ? 'aria-current="page"' : ""}>${svg}${label}</a>`).join("");
+  pg[2]($("#main")); wirePreview($("#main"));
+  const cur = $('#nav a[aria-current="page"]'); if (cur && cur.scrollIntoView && innerWidth <= 820) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+addEventListener("hashchange", () => { closeDrawer(); render(); scrollTo(0, 0); });
+let rz, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (innerWidth !== lastW && !$("#drawerHost").firstChild) { lastW = innerWidth; render(); } }, 150); });
+render();
+})();
+</script>
+
+</body></html>
